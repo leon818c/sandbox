@@ -1,0 +1,27 @@
+<div class="admin-container">
+  <button class="home-btn" routerLink="/">← Back to Home</button>
+  <h1>Admin Dashboard</h1>
+  <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
+  <table class="user-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Points</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (user of users; track user.name; let i = $index) {
+        <tr>
+          <td>{{ user.name }}</td>
+          <td>{{ user.points }}</td>
+          <td class="actions-cell">
+            <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
+            <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
+            <button class="add-btn" (click)="addPoints(i)">+</button>
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>
