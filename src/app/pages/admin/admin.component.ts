@@ -11,16 +11,32 @@ import { SupabaseService } from '../../services/supabase.service';
   styleUrl: './admin.component.scss'
 })
 export class AdminComponent {
+  isAuthenticated = false;
+  passwordInput = '';
+  private adminPassword = 'admin123'; // Change this to your desired password
 
   constructor(private supabase: SupabaseService) {}
-
 
   users: any[] = [];
   servers: any[] = [];
 
   ngOnInit(): void {
-    this.loadLeaderboard();
-    this.loadServers();
+    // Only load data if authenticated
+    if (this.isAuthenticated) {
+      this.loadLeaderboard();
+      this.loadServers();
+    }
+  }
+
+  checkPassword(): void {
+    if (this.passwordInput === this.adminPassword) {
+      this.isAuthenticated = true;
+      this.loadLeaderboard();
+      this.loadServers();
+    } else {
+      alert('Incorrect password');
+      this.passwordInput = '';
+    }
   }
 
   loadLeaderboard(): void {

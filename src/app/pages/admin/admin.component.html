@@ -1,51 +1,77 @@
 <div class="admin-container">
   <button class="home-btn" routerLink="/">← Back to Home</button>
-  <h1>Admin Dashboard</h1>
-  <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
   
-  <h2>All Servers</h2>
-  <table class="servers-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Grade</th>
-        <th>Email</th>
-        <th>Phone</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (server of servers; track server.id) {
+  @if (!isAuthenticated) {
+    <div class="password-form">
+      <h1>Admin Access</h1>
+      <div class="password-input">
+        <input 
+          type="password" 
+          [(ngModel)]="passwordInput" 
+          placeholder="Enter admin password"
+          (keyup.enter)="checkPassword()"
+        >
+        <button (click)="checkPassword()">Login</button>
+      </div>
+    </div>
+  } @else {
+    <h1>Admin Dashboard</h1>
+    <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
+  
+  <h2>All Servers ({{ servers.length }})</h2>
+  <div class="table-container">
+    <table class="servers-table">
+      <thead>
         <tr>
-          <td>{{ server.full_name }}</td>
-          <td>{{ server.grade }}</td>
-          <td>{{ server.email || 'N/A' }}</td>
-          <td>{{ server.phone_number || 'N/A' }}</td>
+          <th>ID</th>
+          <th>Full Name</th>
+          <th>Grade</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Status</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (server of servers; track server.id; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ server.full_name }}</td>
+            <td>{{ server.grade }}</td>
+            <td>{{ server.email || 'N/A' }}</td>
+            <td>{{ server.phone_number || 'N/A' }}</td>
+            <td><span class="status-active">Active</span></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
 
-  <h2>Leaderboard Management</h2>
-  <table class="user-table">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>Points</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      @for (user of users; track user.name; let i = $index) {
+  <h2>Leaderboard Management ({{ users.length }})</h2>
+  <div class="table-container">
+    <table class="user-table">
+      <thead>
         <tr>
-          <td>{{ user.name }}</td>
-          <td>{{ user.points }}</td>
-          <td class="actions-cell">
-            <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
-            <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
-            <button class="add-btn" (click)="addPoints(i)">+</button>
-          </td>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Points</th>
+          <th>Actions</th>
         </tr>
-      }
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        @for (user of users; track user.name; let i = $index) {
+          <tr>
+            <td>{{ i + 1 }}</td>
+            <td>{{ user.name }}</td>
+            <td>{{ user.points }}</td>
+            <td class="actions-cell">
+              <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
+              <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
+              <button class="add-btn" (click)="addPoints(i)">+</button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  }
 </div>

@@ -1,1 +1,90 @@
 /* You can add global styles to this file, and also import other style files */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background-color: white;
+  color: black;
+}
+
+.header, .nav {
+  background-color: white !important;
+  color: black !important;
+  border-bottom: 1px solid #007bff;
+}
+
+.nav-links a {
+  color: #007bff !important;
+}
+
+.logo {
+  color: black !important;
+}
+
+.hero {
+  background-color: white !important;
+  position: relative;
+  height: 80vh;
+  display: block;
+}
+
+.hero-content {
+  position: relative;
+  height: 100%;
+  display: block;
+  text-align: left;
+}
+
+.top-left {
+  position: absolute;
+  top: 40px;
+  left: 0;
+  font-size: 2rem;
+  font-weight: bold;
+  color: black !important;
+  margin: 0;
+  padding: 0;
+}
+
+.bottom-right {
+  position: absolute;
+  bottom: 40px;
+  right: 40px;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #007bff !important;
+  margin: 0;
+  padding: 0;
+}
+
+.features {
+  background-color: white !important;
+}
+
+.feature-card {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #007bff;
+}
+
+table {
+  background-color: white !important;
+  color: black !important;
+}
+
+th, td {
+  border-color: #007bff !important;
+}
+
+input, button {
+  background-color: white !important;
+  color: black !important;
+  border: 1px solid #007bff !important;
+}
