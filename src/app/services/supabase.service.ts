@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
+import { environment } from '../../environment';
+
 @Injectable({
   providedIn: 'root',
 })
@@ -8,8 +10,8 @@ export class SupabaseService {
 
   constructor() {
     this.supabase = createClient(
-      'https://sudefkjvakmdgcvyzjao.supabase.co', // replace with your Project URL
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN1ZGVma2p2YWttZGdjdnl6amFvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5NDU4OTMsImV4cCI6MjA2NzUyMTg5M30.jfRS38VFOHAM7bXts8ZVSYebEiNTmdyPaRYmAMnAZTc' // replace with your anon key
+      environment.supabaseUrl,
+      environment.supabaseKey
     );
   }
 
@@ -18,13 +20,19 @@ export class SupabaseService {
     grade: number;
     email?: string;
     phone_number?: string;
-    server_since?: string; // e.g., '2025-07-08'
+    // server_since?: string; // e.g., '2025-07-08'
   }) {
     return this.supabase
       .from('servers')
-      .insert([server]);
+      .insert([server])
+      .select();
   }
-  
+
+  getServers() {
+    return this.supabase
+      .from('servers')
+      .select('*');
+  }
 
   getLeaderboard() {
     return this.supabase

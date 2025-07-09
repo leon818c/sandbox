@@ -16,8 +16,14 @@ export class AdminComponent {
 
 
   users: any[] = [];
+  servers: any[] = [];
 
   ngOnInit(): void {
+    this.loadLeaderboard();
+    this.loadServers();
+  }
+
+  loadLeaderboard(): void {
     this.supabase.getLeaderboard().then(({ data }) => {
       if (data) {
         // Attach inputValue field for UI input
@@ -27,6 +33,14 @@ export class AdminComponent {
           points: entry.points,
           inputValue: 10
         }));
+      }
+    });
+  }
+
+  loadServers(): void {
+    this.supabase.getServers().then(({ data }) => {
+      if (data) {
+        this.servers = data;
       }
     });
   }

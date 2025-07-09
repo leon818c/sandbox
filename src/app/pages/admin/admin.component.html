@@ -2,6 +2,30 @@
   <button class="home-btn" routerLink="/">← Back to Home</button>
   <h1>Admin Dashboard</h1>
   <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
+  
+  <h2>All Servers</h2>
+  <table class="servers-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Grade</th>
+        <th>Email</th>
+        <th>Phone</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (server of servers; track server.id) {
+        <tr>
+          <td>{{ server.full_name }}</td>
+          <td>{{ server.grade }}</td>
+          <td>{{ server.email || 'N/A' }}</td>
+          <td>{{ server.phone_number || 'N/A' }}</td>
+        </tr>
+      }
+    </tbody>
+  </table>
+
+  <h2>Leaderboard Management</h2>
   <table class="user-table">
     <thead>
       <tr>

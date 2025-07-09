@@ -26,7 +26,7 @@ export class AddServerComponent {
       grade: this.grade,
       email: this.email,
       phone_number: this.phone_number,
-      server_since: this.server_since || undefined,
+      // server_since: this.server_since || undefined,
     });
 
     if (error) {
