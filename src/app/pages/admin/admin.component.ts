@@ -22,7 +22,7 @@ export class AdminComponent {
   selectAll = false;
 
   ngOnInit(): void {
-    // Only load data if authenticated
+    this.checkStoredAuth();
     if (this.isAuthenticated) {
       this.loadLeaderboard();
       this.loadServers();
@@ -32,11 +32,29 @@ export class AdminComponent {
   checkPassword(): void {
     if (this.passwordInput === this.adminPassword) {
       this.isAuthenticated = true;
+      this.storeAuth();
       this.loadLeaderboard();
       this.loadServers();
     } else {
       alert('Incorrect password');
       this.passwordInput = '';
+    }
+  }
+
+  private storeAuth(): void {
+    const expiry = new Date().getTime() + (10 * 60 * 1000); // 10 minutes
+    localStorage.setItem('adminAuth', expiry.toString());
+  }
+
+  private checkStoredAuth(): void {
+    const stored = localStorage.getItem('adminAuth');
+    if (stored) {
+      const expiry = parseInt(stored);
+      if (new Date().getTime() < expiry) {
+        this.isAuthenticated = true;
+      } else {
+        localStorage.removeItem('adminAuth');
+      }
     }
   }
 
