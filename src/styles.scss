@@ -31,7 +31,7 @@ body, html {
 }
 
 .hero {
-  background-color: white !important;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
   position: relative;
   height: 80vh;
   display: block;
@@ -67,7 +67,7 @@ body, html {
 }
 
 .features {
-  background-color: white !important;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%) !important;
 }
 
 .feature-card {
