@@ -1,81 +1,80 @@
 <div class="admin-container">
-  <button class="home-btn" routerLink="/">← Back to Home</button>
+ 
   
   @if (!isAuthenticated) {
-    <div class="password-form">
-      <h1>Admin Access</h1>
-      <div class="password-input">
+    <div class="login-card">
+      <h2>Admin Access Required</h2>
+      <div class="login-form">
         <input 
           type="password" 
           [(ngModel)]="passwordInput" 
           placeholder="Enter admin password"
           (keyup.enter)="checkPassword()"
+          class="password-input"
         >
-        <button (click)="checkPassword()">Login</button>
+        <button (click)="checkPassword()" class="login-btn">Login</button>
       </div>
     </div>
   } @else {
-    <h1>Admin Dashboard</h1>
-    <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
-  
-  <h2>All Servers ({{ servers.length }})</h2>
-  <div class="table-container" style="overflow-x: auto;">
-    <table class="servers-table">
-      <thead>
-        <tr>
-          <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></th>
-          <th>ID</th>
-          <th>Full Name</th>
-          <th>Grade</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (server of servers; track server.id; let i = $index) {
-          <tr>
-            <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-            <td>{{ i + 1 }}</td>
-            <td>{{ server.full_name }}</td>
-            <td>{{ server.grade }}</td>
-            <td>{{ server.email || 'N/A' }}</td>
-            <td>{{ server.phone_number || 'N/A' }}</td>
-            <td><span class="status-active">Active</span></td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <button class="delete-btn" (click)="deleteSelectedServers()">Delete Selected</button>
+    <div class="dashboard-grid">
+      <div class="card quick-actions">
+        <h3>Quick Actions</h3>
+        <button routerLink="/admin/add-server" class="action-btn primary">Add New Server</button>
+        <button (click)="saveAllPoints()" class="action-btn secondary">Save All Changes</button>
+      </div>
 
-  <h2>Leaderboard Management ({{ users.length }})</h2>
-  <div class="table-container">
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Name</th>
-          <th>Points</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of users; track user.name; let i = $index) {
-          <tr>
-            <td>{{ i + 1 }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.points }}</td>
-            <td class="actions-cell">
-              <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
-              <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
-              <button class="add-btn" (click)="addPoints(i)">+</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <button class="save-btn" (click)="saveAllPoints()">Save All Points</button>
+      <div class="card stats">
+        <h3>Statistics</h3>
+        <div class="stat-item">
+          <span class="stat-number">{{ servers.length }}</span>
+          <span class="stat-label">Total Servers</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number">{{ users.length }}</span>
+          <span class="stat-label">Active Users</span>
+        </div>
+      </div>
+
+      <div class="card image-upload">
+        <h3>Homepage Image</h3>
+        <input type="file" (change)="onImageSelect($event)" accept="image/*" class="file-input">
+        <button (click)="uploadImage()" [disabled]="!selectedFile" class="upload-btn">Upload</button>
+      </div>
+    </div>
+
+    <div class="card data-table">
+      <div class="table-header">
+        <h3>Server Management</h3>
+        <button class="delete-btn" (click)="deleteSelectedServers()">Delete Selected</button>
+      </div>
+      <div class="table-wrapper">
+        <table class="modern-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></th>
+              <th>Name</th>
+              <th>Grade</th>
+              <th>Points</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (server of servers; track server.id; let i = $index) {
+              <tr>
+                <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                <td>{{ server.full_name }}</td>
+                <td>{{ server.grade }}</td>
+                <td class="points-cell">{{ users[i]?.points || 0 }}</td>
+                <td class="actions-cell">
+                  <button class="btn-sm subtract" (click)="subtractPoints(i)">-</button>
+                  <input type="number" [(ngModel)]="users[i].inputValue" class="points-input" min="1">
+                  <button class="btn-sm add" (click)="addPoints(i)">+</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
   }
 </div>

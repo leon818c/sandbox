@@ -1,22 +1,40 @@
-<header class="header">
-  <div class="nav-container">
-    <div class="logo">Discord Leaderboard</div>
-    <nav class="nav">
-      <a routerLink="/" class="nav-link">Home</a>
-      <a routerLink="/leaderboard" class="nav-link">Leaderboard</a>
-      <a routerLink="/schedule" class="nav-link">Schedule</a>
-      <a routerLink="/admin" class="nav-link">Admin</a>
-    </nav>
-  </div>
-</header>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>St. Alphonsa Altar Servers</title>
+  <link rel="stylesheet" href="homepage.component.scss" />
+</head>
+<body>
 
-<main class="main-content">
+
   <section class="hero">
-    <h1>Welcome to Discord Server Leaderboard</h1>
-    <p>Track server activity and compete with other Discord servers</p>
-    <div class="cta-buttons">
-      <button routerLink="/leaderboard" class="btn primary">View Leaderboard</button>
-      <button routerLink="/admin" class="btn secondary">Admin Panel</button>
+    <img [src]="heroImageUrl" alt="Hero Image" class="hero-image"/>
+    <div class="hero-overlay">
+      <h2>Serve with Purpose</h2>
+      <p>Grow in faith, honor, and community</p>
     </div>
   </section>
-</main>
+
+  <section class="features">
+    <h2>What You Can Do</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>View Schedule</h3>
+        <p>Stay on top of your serving dates and upcoming Masses.</p>
+      </div>
+      <div class="card">
+        <h3>Track Your Progress</h3>
+        <p>Earn points and rise up the leaderboard for your dedication.</p>
+      </div>
+      <div class="card">
+        <h3>Learn & Grow</h3>
+        <p>Resources and guides for both new and experienced servers.</p>
+      </div>
+    </div>
+  </section>
+
+
+</body>
+</html>

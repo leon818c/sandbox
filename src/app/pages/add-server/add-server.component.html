@@ -1,15 +1,76 @@
-<button routerLink="/admin" style="background: #007bff; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-bottom: 1rem;">← Back to Admin</button>
-<h2>Add New Server</h2>
+<div class="add-server-container">
+  <nav>
+   
+      <link rel="stylesheet" href="add-server.component.scss" />
+  </nav>
+  
+  <div class="form-card">
+    <div class="form-header">
+      <h2>Server Information</h2>
+      <p>Fill in the details to add a new altar server</p>
+    </div>
+    
+    <form (ngSubmit)="addServer()" class="modern-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input 
+            type="text" 
+            id="name"
+            [(ngModel)]="full_name" 
+            name="name" 
+            required 
+            class="form-input"
+            placeholder="Enter full name">
+        </div>
 
-<form (ngSubmit)="addServer()">
-  <label>Name: <input type="text" [(ngModel)]="full_name" name="name" required /></label><br />
-  <label>Grade: <input type="number" [(ngModel)]="grade" name="grade" min="1" required /></label><br />
-  <label>Email: <input type="email" [(ngModel)]="email" name="email" /></label><br />
-  <label>Phone Number: <input type="tel" [(ngModel)]="phone_number" name="phone" /></label><br />
-  <!-- <label>Server Since: <input type="date" [(ngModel)]="server_since" name="since" /></label><br /><br /> -->
+        <div class="form-group">
+          <label for="grade">Grade</label>
+          <input 
+            type="number" 
+            id="grade"
+            [(ngModel)]="grade" 
+            name="grade" 
+            min="1" 
+            required 
+            class="form-input"
+            placeholder="Enter grade">
+        </div>
+      </div>
 
-  <button type="submit">Add Server</button>
-</form>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email (Optional)</label>
+          <input 
+            type="email" 
+            id="email"
+            [(ngModel)]="email" 
+            name="email" 
+            class="form-input"
+            placeholder="Enter email address">
+        </div>
 
-<p *ngIf="successMessage" style="color:green">{{ successMessage }}</p>
-<p *ngIf="errorMessage" style="color:red">{{ errorMessage }}</p>
+        <div class="form-group">
+          <label for="phone">Phone Number (Optional)</label>
+          <input 
+            type="tel" 
+            id="phone"
+            [(ngModel)]="phone_number" 
+            name="phone" 
+            class="form-input"
+            placeholder="Enter phone number">
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button type="button" (click)="resetForm()" class="btn secondary">Reset Form</button>
+        <button type="submit" class="btn primary">Add Server</button>
+      </div>
+    </form>
+
+    <div class="messages">
+      <p *ngIf="successMessage" class="success-message">{{ successMessage }}</p>
+      <p *ngIf="errorMessage" class="error-message">{{ errorMessage }}</p>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,9 @@
 <div class="leaderboard-container">
-  <button class="home-btn" routerLink="/">← Back to Home</button>
-  <h1>Leaderboard</h1>
+  <div class="leaderboard-header">
+    <h1>Leaderboard</h1>
+    <p>Top performing altar servers</p>
+  </div>
+  
   <div class="leaderboard-table">
     <table>
       <thead>
@@ -11,14 +14,34 @@
         </tr>
       </thead>
       <tbody>
-        @for (server of leaderboard; track server.name; let i = $index) {
-          <tr [class]="i < 3 ? 'top-three' : ''">
-            <td class="rank">{{ i + 1 }}</td>
+        @for (server of paginatedLeaderboard; track server.name; let i = $index) {
+          <tr [ngClass]="{
+            'gold': (currentPage - 1) * itemsPerPage + i === 0,
+            'silver': (currentPage - 1) * itemsPerPage + i === 1,
+            'bronze': (currentPage - 1) * itemsPerPage + i === 2
+          }">
+            <td class="rank">
+              @if ((currentPage - 1) * itemsPerPage + i === 0) {
+                🥇
+              } @else if ((currentPage - 1) * itemsPerPage + i === 1) {
+                🥈
+              } @else if ((currentPage - 1) * itemsPerPage + i === 2) {
+                🥉
+              } @else {
+                {{ (currentPage - 1) * itemsPerPage + i + 1 }}
+              }
+            </td>
             <td class="name">{{ server.name }}</td>
             <td class="points">{{ server.points }}</td>
           </tr>
         }
       </tbody>
     </table>
+  </div>
+  
+  <div class="pagination">
+    <button (click)="prevPage()" [disabled]="currentPage === 1" class="page-btn">Previous</button>
+    <span class="page-info">Page {{ currentPage }} of {{ totalPages }}</span>
+    <button (click)="nextPage()" [disabled]="currentPage === totalPages" class="page-btn">Next</button>
   </div>
 </div>

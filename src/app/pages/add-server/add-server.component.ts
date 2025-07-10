@@ -44,4 +44,14 @@ export class AddServerComponent {
       this.server_since = '';
     }
   }
+
+  resetForm() {
+    this.full_name = '';
+    this.grade = 1;
+    this.email = '';
+    this.phone_number = '';
+    this.server_since = '';
+    this.successMessage = '';
+    this.errorMessage = '';
+  }
 }

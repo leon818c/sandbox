@@ -20,18 +20,35 @@ export class AdminComponent {
   users: any[] = [];
   servers: any[] = [];
   selectAll = false;
+  selectedFile: File | null = null;
 
   ngOnInit(): void {
-    // Only load data if authenticated
+    this.checkStoredAuth();
     if (this.isAuthenticated) {
       this.loadLeaderboard();
       this.loadServers();
     }
   }
 
+  checkStoredAuth(): void {
+    const authData = localStorage.getItem('adminAuth');
+    if (authData) {
+      const { timestamp } = JSON.parse(authData);
+      const now = Date.now();
+      const tenMinutes = 10 * 60 * 1000;
+      
+      if (now - timestamp < tenMinutes) {
+        this.isAuthenticated = true;
+      } else {
+        localStorage.removeItem('adminAuth');
+      }
+    }
+  }
+
   checkPassword(): void {
     if (this.passwordInput === this.adminPassword) {
       this.isAuthenticated = true;
+      localStorage.setItem('adminAuth', JSON.stringify({ timestamp: Date.now() }));
       this.loadLeaderboard();
       this.loadServers();
     } else {
@@ -120,6 +137,29 @@ export class AdminComponent {
         console.error('Error deleting servers:', error);
         alert('Error deleting servers. Please try again.');
       });
+    }
+  }
+
+  onImageSelect(event: any) {
+    const file = event.target.files[0];
+    if (file) {
+      this.selectedFile = file;
+    }
+  }
+
+  async uploadImage() {
+    if (!this.selectedFile) return;
+    
+    try {
+      await this.supabase.uploadHeroImage(this.selectedFile);
+      alert('Image uploaded successfully!');
+      this.selectedFile = null;
+      // Reset file input
+      const fileInput = document.querySelector('.file-input') as HTMLInputElement;
+      if (fileInput) fileInput.value = '';
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      alert('Error uploading image. Please try again.');
     }
   }
 }

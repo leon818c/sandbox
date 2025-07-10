@@ -1,56 +1,123 @@
 .leaderboard-container {
-  padding: 20px;
+  padding: 0;
   max-width: 800px;
   margin: 0 auto;
 }
 
-.home-btn {
-  background: #555;
+.leaderboard-header {
+  background: #2c3e50;
   color: white;
-  border: none;
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-bottom: 20px;
+  padding: 3rem 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+  border-radius: 20px 20px 0 0;
 }
 
-h1 {
-  text-align: center;
-  margin-bottom: 30px;
-  color: white;
+.leaderboard-header h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 2.5rem;
+}
+
+.leaderboard-header p {
+  margin: 0;
+  opacity: 0.9;
+  font-size: 1.1rem;
 }
 
 .leaderboard-table {
-  background: #2d2d2d;
+  background: white;
   border-radius: 10px;
   overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  margin: 0 2rem;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
 }
-
+                                                                                      
 th, td {
-  padding: 15px;
+  padding: 2rem 1rem;
   text-align: left;
-  border-bottom: 1px solid #444;
+  border-bottom: 3px solid #f1f5f9;
 }
 
+
+
 th {
-  background: #333;
+  background: #f8f9fa;
   font-weight: bold;
+  color: #2d3748;
 }
 
 .rank {
   font-weight: bold;
-  font-size: 1.2em;
+  font-size: 1.5em;
+  text-align: center;
+  width: 80px;
 }
 
-.top-three {
-  background: #3a3a3a;
+.gold {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #000000;
 }
 
-.top-three .rank {
-  color: #ffd700;
+.silver {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+  color: #000000;
+}
+
+.bronze {
+  background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+  color: rgb(0, 0, 0);
+}
+
+.gold, .silver, .bronze {
+  font-weight: bold;
+}
+
+.name {
+  font-weight: 600;
+}
+
+.points {
+  font-weight: bold;
+  color: #2c3e50;
+  text-align: right;
+}
+
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin: 9rem;
+  padding: 0rem;
+}
+
+.page-btn {
+  background: #233ba5;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: all 0.3s;
+}
+
+.page-btn:hover:not(:disabled) {
+  background: #5a67d8;
+  transform: translateY(-2px);
+}
+
+.page-btn:disabled {
+  background: #a0aec0;
+  cursor: not-allowed;
+}
+
+.page-info {
+  font-weight: 600;
+  color: #2d3748;
 }

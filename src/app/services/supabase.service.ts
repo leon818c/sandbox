@@ -81,4 +81,47 @@ export class SupabaseService {
       )
       .subscribe();
   }
+
+  async uploadHeroImage(file: File) {
+    try {
+      // Convert file to base64 and store in localStorage as fallback
+      const reader = new FileReader();
+      const base64Promise = new Promise<string>((resolve) => {
+        reader.onload = () => resolve(reader.result as string);
+        reader.readAsDataURL(file);
+      });
+      
+      const base64Data = await base64Promise;
+      localStorage.setItem('heroImage', base64Data);
+      
+      return base64Data;
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      throw new Error('Failed to upload image. Please check your file and try again.');
+    }
+  }
+
+  async saveHeroImageUrl(imageUrl: string) {
+    const { error } = await this.supabase
+      .from('settings')
+      .upsert({ key: 'hero_image', value: imageUrl });
+
+    if (error) {
+      throw error;
+    }
+  }
+
+  async getHeroImage() {
+    try {
+      // Try to get from localStorage first
+      const localImage = localStorage.getItem('heroImage');
+      if (localImage) {
+        return localImage;
+      }
+      return null;
+    } catch (error) {
+      console.error('Error getting hero image:', error);
+      return null;
+    }
+  }
 }
