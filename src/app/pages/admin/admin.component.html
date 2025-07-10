@@ -19,10 +19,11 @@
     <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
   
   <h2>All Servers ({{ servers.length }})</h2>
-  <div class="table-container">
+  <div class="table-container" style="overflow-x: auto;">
     <table class="servers-table">
       <thead>
         <tr>
+          <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></th>
           <th>ID</th>
           <th>Full Name</th>
           <th>Grade</th>
@@ -34,6 +35,7 @@
       <tbody>
         @for (server of servers; track server.id; let i = $index) {
           <tr>
+            <td><input type="checkbox" [(ngModel)]="server.selected"></td>
             <td>{{ i + 1 }}</td>
             <td>{{ server.full_name }}</td>
             <td>{{ server.grade }}</td>
@@ -45,6 +47,7 @@
       </tbody>
     </table>
   </div>
+  <button class="delete-btn" (click)="deleteSelectedServers()">Delete Selected</button>
 
   <h2>Leaderboard Management ({{ users.length }})</h2>
   <div class="table-container">
@@ -73,5 +76,6 @@
       </tbody>
     </table>
   </div>
+  <button class="save-btn" (click)="saveAllPoints()">Save All Points</button>
   }
 </div>

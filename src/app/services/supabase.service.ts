@@ -34,6 +34,13 @@ export class SupabaseService {
       .select('*');
   }
 
+  deleteServer(serverId: string) {
+    return this.supabase
+      .from('servers')
+      .delete()
+      .eq('id', serverId);
+  }
+
   getLeaderboard() {
     return this.supabase
       .from('leaderboard')
@@ -42,18 +49,33 @@ export class SupabaseService {
 
   updatePoints(serverId: string, points: number) {
     return this.supabase
-      .from('leaderboard')
+      .from('servers')
       .update({ points })
-      .eq('server_id', serverId);
+      .eq('id', serverId);
   }
 
   listenToLeaderboard(callback: Function) {
-    this.supabase
+    return this.supabase
       .channel('custom-leaderboard')
       .on(
         'postgres_changes',
         { event: '*', schema: 'public', table: 'leaderboard' },
         (payload) => {
+          console.log('Leaderboard change detected:', payload);
+          callback(payload);
+        }
+      )
+      .subscribe();
+  }
+
+  listenToServers(callback: Function) {
+    return this.supabase
+      .channel('custom-servers')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'servers' },
+        (payload) => {
+          console.log('Servers change detected:', payload);
           callback(payload);
         }
       )
