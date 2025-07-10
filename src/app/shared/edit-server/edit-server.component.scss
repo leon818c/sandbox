@@ -29,13 +29,13 @@
   border-bottom: 1px solid #e9ecef;
   background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
   border-radius: 16px 16px 0 0;
-}
-
-.modal-header h2 {
-  margin: 0;
-  color: #2c3e50;
-  font-size: 1.5rem;
-  font-weight: 600;
+  
+  h2 {
+    margin: 0;
+    color: #2c3e50;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
 }
 
 .close-btn {
@@ -52,11 +52,11 @@
   justify-content: center;
   border-radius: 50%;
   transition: all 0.3s ease;
-}
-
-.close-btn:hover {
-  background: rgba(0, 0, 0, 0.1);
-  color: #495057;
+  
+  &:hover {
+    background: rgba(0, 0, 0, 0.1);
+    color: #495057;
+  }
 }
 
 .modal-body {
@@ -65,34 +65,34 @@
 
 .form-group {
   margin-bottom: 1.5rem;
-}
-
-.form-group label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: #495057;
-  font-weight: 600;
-  font-size: 0.9rem;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
-.form-group input {
-  width: 100%;
-  padding: 0.8rem 1rem;
-  border: 2px solid #e9ecef;
-  border-radius: 8px;
-  font-size: 1rem;
-  color: #495057;
-  background: white;
-  transition: all 0.3s ease;
-  box-sizing: border-box;
-}
-
-.form-group input:focus {
-  outline: none;
-  border-color: #667eea;
-  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+  
+  label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #495057;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  input {
+    width: 100%;
+    padding: 0.8rem 1rem;
+    border: 2px solid #e9ecef;
+    border-radius: 8px;
+    font-size: 1rem;
+    color: #495057;
+    background: white;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    
+    &:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+  }
 }
 
 .modal-actions {
@@ -104,37 +104,33 @@
   border-top: 1px solid #e9ecef;
 }
 
-.cancel-btn {
-  background: #6c757d;
-  color: white;
+.cancel-btn, .save-btn {
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
+  color: white;
 }
 
-.cancel-btn:hover {
-  background: #5a6268;
-  transform: translateY(-1px);
+.cancel-btn {
+  background: #6c757d;
+  
+  &:hover {
+    background: #5a6268;
+    transform: translateY(-1px);
+  }
 }
 
 .save-btn {
   background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-  color: white;
-  border: none;
-  padding: 0.8rem 1.5rem;
-  border-radius: 8px;
-  cursor: pointer;
-  font-weight: 600;
-  transition: all 0.3s ease;
   box-shadow: 0 2px 10px rgba(40, 167, 69, 0.3);
-}
-
-.save-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
+  }
 }
 
 @media (max-width: 768px) {

@@ -19,11 +19,11 @@
   cursor: pointer;
   transition: all 0.3s ease;
   font-weight: 500;
-}
-
-.home-btn:hover {
-  background: rgba(255,255,255,0.2);
-  transform: translateY(-1px);
+  
+  &:hover {
+    background: rgba(255,255,255,0.2);
+    transform: translateY(-1px);
+  }
 }
 
 .auth-section {
@@ -42,6 +42,16 @@
   text-align: center;
   max-width: 400px;
   width: 100%;
+  
+  h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  p {
+    color: #7f8c8d;
+    margin-bottom: 2rem;
+  }
 }
 
 .dashboard-header {
@@ -51,6 +61,12 @@
   margin: 0 2rem 2rem;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  
+  p {
+    color: #7f8c8d;
+    font-size: 1.1rem;
+    margin: 0;
+  }
 }
 
 .action-bar {
@@ -70,16 +86,16 @@
   font-size: 1rem;
   font-weight: 600;
   box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-}
-
-.add-server-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-}
-
-.add-server-btn span {
-  font-size: 1.2rem;
-  margin-right: 0.5rem;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
+  }
+  
+  span {
+    font-size: 1.2rem;
+    margin-right: 0.5rem;
+  }
 }
 
 h1 {
@@ -87,12 +103,6 @@ h1 {
   margin-bottom: 1rem;
   font-size: 2.5rem;
   font-weight: 700;
-}
-
-.dashboard-header p {
-  color: #7f8c8d;
-  font-size: 1.1rem;
-  margin: 0;
 }
 
 .section-card {
@@ -246,15 +256,7 @@ h2 {
   border-color: #667eea;
 }
 
-.auth-card h1 {
-  font-size: 2rem;
-  margin-bottom: 0.5rem;
-}
 
-.auth-card p {
-  color: #7f8c8d;
-  margin-bottom: 2rem;
-}
 
 .password-input {
   display: flex;
