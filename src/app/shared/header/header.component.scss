@@ -22,6 +22,23 @@
   color: #2c3e50;
 }
 
+.mobile-menu-btn {
+  display: none;
+  flex-direction: column;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.mobile-menu-btn span {
+  width: 25px;
+  height: 3px;
+  background: #2c3e50;
+  margin: 3px 0;
+  transition: 0.3s;
+}
+
 .nav-links {
   display: flex;
   list-style: none;
@@ -37,4 +54,38 @@
 
 .nav-links a:hover {
   color: #4a56e2;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-btn {
+    display: flex;
+  }
+
+  .nav-links {
+    position: fixed;
+    top: 70px;
+    right: -100%;
+    width: 100%;
+    height: calc(100vh - 70px);
+    background: #ffffff;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding-top: 2rem;
+    transition: right 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  .nav-links.active {
+    right: 0;
+  }
+
+  .nav-links li {
+    margin: 1rem 0;
+  }
+
+  .nav-links a {
+    font-size: 1.2rem;
+    padding: 1rem;
+  }
 }

@@ -1,11 +1,16 @@
 <header class="header">
   <nav class="nav">
     <div class="logo">St. Alphonsa Altar Servers</div>
-    <ul class="nav-links">
-      <li><a routerLink="/">Home</a></li>
-      <li><a routerLink="/leaderboard">Leaderboard</a></li>
-      <li><a routerLink="/schedule">Schedule</a></li>
-      <li><a routerLink="/admin">Admin</a></li>
+    <button class="mobile-menu-btn" (click)="toggleMobileMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <ul class="nav-links" [class.active]="isMobileMenuOpen">
+      <li><a routerLink="/" (click)="closeMobileMenu()">Home</a></li>
+      <li><a routerLink="/leaderboard" (click)="closeMobileMenu()">Leaderboard</a></li>
+      <li><a routerLink="/schedule" (click)="closeMobileMenu()">Schedule</a></li>
+      <li><a routerLink="/admin" (click)="closeMobileMenu()">Admin</a></li>
     </ul>
   </nav>
 </header>

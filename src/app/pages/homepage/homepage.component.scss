@@ -110,3 +110,38 @@
   font-size: 0.95rem;
   opacity: 0.85;
 }
+
+@media (max-width: 768px) {
+  .nav {
+    padding: 1rem;
+  }
+
+  .logo {
+    font-size: 1.2rem;
+  }
+
+  .hero h1 {
+    font-size: 2.5rem;
+  }
+
+  .hero p {
+    font-size: 1rem;
+  }
+
+  .hero-overlay {
+    padding: 2rem;
+  }
+
+  .features {
+    padding: 2rem 1rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .footer {
+    padding: 1.5rem 1rem;
+  }
+}
