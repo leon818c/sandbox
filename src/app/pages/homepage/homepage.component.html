@@ -1,49 +1,22 @@
-<!-- Updated Homepage HTML -->
 <header class="header">
-  <nav class="nav">
-    <div class="logo">St. Alphonsa Altar Servers</div>
-    <ul class="nav-links">
-      <li><a routerLink="/">Home</a></li>
-      <li><a routerLink="/leaderboard">Leaderboard</a></li>
-      <li><a routerLink="/schedule">Schedule</a></li>
-      <li><a routerLink="/admin">Admin</a></li>
-    </ul>
-  </nav>
+  <div class="nav-container">
+    <div class="logo">Discord Leaderboard</div>
+    <nav class="nav">
+      <a routerLink="/" class="nav-link">Home</a>
+      <a routerLink="/leaderboard" class="nav-link">Leaderboard</a>
+      <a routerLink="/schedule" class="nav-link">Schedule</a>
+      <a routerLink="/admin" class="nav-link">Admin</a>
+    </nav>
+  </div>
 </header>
 
-<main>
+<main class="main-content">
   <section class="hero">
-    <div class="hero-overlay">
-      <h1>Serve with Purpose</h1>
-      <p>Grow in faith, honor, and community at St. Alphonsa Parish</p>
-      <button class="cta-button">Join Now</button>
-    </div>
-  </section>
-
-  <section class="features">
-    <div class="container">
-      <h2>What You Can Do</h2>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <h3>View Schedule</h3>
-          <p>Stay on top of your serving dates and upcoming Masses.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Track Your Progress</h3>
-          <p>Earn points and rise up the leaderboard for your dedication.</p>
-        </div>
-        <div class="feature-card">
-          <h3>Learn & Grow</h3>
-          <p>Resources and guides for both new and experienced servers.</p>
-        </div>
-      </div>
+    <h1>Welcome to Discord Server Leaderboard</h1>
+    <p>Track server activity and compete with other Discord servers</p>
+    <div class="cta-buttons">
+      <button routerLink="/leaderboard" class="btn primary">View Leaderboard</button>
+      <button routerLink="/admin" class="btn secondary">Admin Panel</button>
     </div>
   </section>
 </main>
-
-<footer class="footer">
-  <div class="container">
-    <p>&copy; 2025 St. Alphonsa Parish. All rights reserved.</p>
-    <p>"The greatest among you must be your servant." — Matthew 23:11</p>
-  </div>
-</footer>
