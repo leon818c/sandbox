@@ -7,12 +7,17 @@ import { SupabaseService } from '../../services/supabase.service';
   standalone: true,
   imports: [FormsModule, RouterLink],
   templateUrl: './add-server.component.html',
+  styleUrl: './add-server.component.scss'
 })
 export class AddServerComponent {
   full_name = '';
   grade: number = 1;
   email = '';
   phone_number = '';
+  parent_email_1 = '';
+  parent_email_2 = '';
+  parent_number_1 = '';
+  parent_number_2 = '';
   server_since = ''; // optional
 
   successMessage = '';
@@ -26,6 +31,10 @@ export class AddServerComponent {
       grade: this.grade,
       email: this.email,
       phone_number: this.phone_number,
+      parent_email_1: this.parent_email_1,
+      parent_email_2: this.parent_email_2,
+      parent_number_1: this.parent_number_1,
+      parent_number_2: this.parent_number_2,
       // server_since: this.server_since || undefined,
     });
 
@@ -41,6 +50,8 @@ export class AddServerComponent {
       this.grade = 1;
       this.email = '';
       this.phone_number = '';
+      this.parent_email_1 = '';
+      this.parent_email_2 = '';
       this.server_since = '';
     }
   }

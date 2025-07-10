@@ -1,81 +1,147 @@
 <div class="admin-container">
-  <button class="home-btn" routerLink="/">← Back to Home</button>
+  <header class="admin-header">
+    <button class="home-btn" routerLink="/">← Back to Home</button>
+  </header>
   
   @if (!isAuthenticated) {
-    <div class="password-form">
-      <h1>Admin Access</h1>
-      <div class="password-input">
-        <input 
-          type="password" 
-          [(ngModel)]="passwordInput" 
-          placeholder="Enter admin password"
-          (keyup.enter)="checkPassword()"
-        >
-        <button (click)="checkPassword()">Login</button>
+    <div class="auth-section">
+      <div class="auth-card">
+        <h1>Admin Access</h1>
+        <p>Please enter your admin password to continue</p>
+        <div class="password-input">
+          <input 
+            type="password" 
+            [(ngModel)]="passwordInput" 
+            placeholder="Enter admin password"
+            (keyup.enter)="checkPassword()"
+          >
+          <button (click)="checkPassword()">Login</button>
+        </div>
       </div>
     </div>
   } @else {
-    <h1>Admin Dashboard</h1>
-    <button class="add-server-btn" routerLink="/admin/add-server">Add Server</button>
-  
-  <h2>All Servers ({{ servers.length }})</h2>
-  <div class="table-container" style="overflow-x: auto;">
-    <table class="servers-table">
-      <thead>
-        <tr>
-          <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></th>
-          <th>ID</th>
-          <th>Full Name</th>
-          <th>Grade</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (server of servers; track server.id; let i = $index) {
-          <tr>
-            <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-            <td>{{ i + 1 }}</td>
-            <td>{{ server.full_name }}</td>
-            <td>{{ server.grade }}</td>
-            <td>{{ server.email || 'N/A' }}</td>
-            <td>{{ server.phone_number || 'N/A' }}</td>
-            <td><span class="status-active">Active</span></td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <button class="delete-btn" (click)="deleteSelectedServers()">Delete Selected</button>
+    <div class="dashboard-header">
+      <h1>Admin Dashboard</h1>
+      <p>Manage servers and leaderboard points</p>
+    </div>
+    
+    <div class="action-bar">
+      <button class="add-server-btn" routerLink="/admin/add-server">
+        <span>+</span> Add New Server
+      </button>
+    </div>
+    
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Server Management</h2>
+        <span class="count-badge">{{ servers.length }} servers</span>
+      </div>
+      
+      <div class="table-container">
+        <table class="servers-table">
+          <thead>
+            <tr>
+              <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></th>
+              <th>ID</th>
+              <th>Full Name</th>
+              <th>Grade</th>
+              <th>Email</th>
+              <th>Phone Number</th>
+              <th>Parent Email 1</th>
+              <th>Parent Email 2</th>
+              <th>Parent Number 1</th>
+              <th>Parent Number 2</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (server of servers; track server.id; let i = $index) {
+              <tr>
+                <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ server.full_name }}</td>
+                <td>{{ server.grade }}</td>
+                <td>{{ server.email || 'N/A' }}</td>
+                <td>{{ server.phone_number || 'N/A' }}</td>
+                <td>{{ server.parent_email_1 || 'N/A' }}</td>
+                <td>{{ server.parent_email_2 || 'N/A' }}</td>
+                <td>{{ server.parent_number_1 || 'N/A' }}</td>
+                <td>{{ server.parent_number_2 || 'N/A' }}</td>
+                <td><span class="status-active">Active</span></td>
+                <td>
+                  <button class="edit-btn" (click)="editServer(server)">
+                    ✏️ Edit
+                  </button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="section-actions">
+        <button class="delete-btn" (click)="deleteSelectedServers()">
+          🗑️ Delete Selected
+        </button>
+      </div>
+    </div>
 
-  <h2>Leaderboard Management ({{ users.length }})</h2>
-  <div class="table-container" style="overflow-x: auto;">
-    <table class="user-table">
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Name</th>
-          <th>Points</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (user of users; track user.name; let i = $index) {
-          <tr>
-            <td>{{ i + 1 }}</td>
-            <td>{{ user.name }}</td>
-            <td>{{ user.points }}</td>
-            <td class="actions-cell">
-              <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
-              <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
-              <button class="add-btn" (click)="addPoints(i)">+</button>
-            </td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
-  <button class="save-btn" (click)="saveAllPoints()">Save All Points</button>
+    <div class="section-card">
+      <div class="section-header">
+        <h2>Leaderboard Management</h2>
+        <span class="count-badge">{{ users.length }} users</span>
+      </div>
+      
+      <div class="table-container">
+        <table class="user-table">
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Name</th>
+              <th>Points</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (user of users; track user.name; let i = $index) {
+              <tr [class]="i < 3 ? 'top-rank' : ''">
+                <td class="rank-cell">
+                  @if (i === 0) {
+                    🥇
+                  } @else if (i === 1) {
+                    🥈
+                  } @else if (i === 2) {
+                    🥉
+                  } @else {
+                    {{ i + 1 }}
+                  }
+                </td>
+                <td>{{ user.name }}</td>
+                <td class="points-cell">{{ user.points }}</td>
+                <td class="actions-cell">
+                  <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
+                  <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
+                  <button class="add-btn" (click)="addPoints(i)">+</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="section-actions">
+        <button class="save-btn" (click)="saveAllPoints()">
+          💾 Save All Changes
+        </button>
+      </div>
+    </div>
   }
+  
+  <app-edit-server 
+    [server]="selectedServer" 
+    [isVisible]="showEditModal" 
+    (save)="onSaveServer($event)" 
+    (cancel)="onCancelEdit()">
+  </app-edit-server>
 </div>

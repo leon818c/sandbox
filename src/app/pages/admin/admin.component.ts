@@ -1,16 +1,17 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../../services/supabase.service';
+import { EditServerComponent } from '../../shared/edit-server/edit-server.component';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, EditServerComponent],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss'
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
   isAuthenticated = false;
   passwordInput = '';
   private adminPassword = 'admin123'; // Change this to your desired password
@@ -20,6 +21,8 @@ export class AdminComponent {
   users: any[] = [];
   servers: any[] = [];
   selectAll = false;
+  showEditModal = false;
+  selectedServer: any = null;
 
   ngOnInit(): void {
     this.checkStoredAuth();
@@ -139,5 +142,25 @@ export class AdminComponent {
         alert('Error deleting servers. Please try again.');
       });
     }
+  }
+
+  editServer(server: any) {
+    this.selectedServer = server;
+    this.showEditModal = true;
+  }
+
+  onSaveServer(event: any) {
+    this.supabase.updateServer(event.id, event.data).then(() => {
+      alert('Server updated successfully!');
+      this.loadServers();
+      this.loadLeaderboard();
+      this.showEditModal = false;
+      this.selectedServer = null;
+    })
+  }
+
+  onCancelEdit() {
+    this.showEditModal = false;
+    this.selectedServer = null;
   }
 }

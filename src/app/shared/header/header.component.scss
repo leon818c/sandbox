@@ -1,5 +1,5 @@
 .header {
-  background: #ffffff;
+  background: #2c3e50;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   position: fixed;
   width: 100%;
@@ -19,7 +19,7 @@
 .logo {
   font-size: 1.6rem;
   font-weight: bold;
-  color: #2c3e50;
+  color: #ffffff;
 }
 
 .mobile-menu-btn {
@@ -34,7 +34,7 @@
 .mobile-menu-btn span {
   width: 25px;
   height: 3px;
-  background: #2c3e50;
+  background: #ffffff;
   margin: 3px 0;
   transition: 0.3s;
 }
@@ -47,7 +47,7 @@
 
 .nav-links a {
   text-decoration: none;
-  color: #555;
+  color: #ffffff;
   font-weight: 500;
   transition: color 0.3s;
 }

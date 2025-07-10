@@ -20,6 +20,10 @@ export class SupabaseService {
     grade: number;
     email?: string;
     phone_number?: string;
+    parent_email_1?: string;
+    parent_email_2?: string;
+    parent_number_1?: string;
+    parent_number_2?: string;
     // server_since?: string; // e.g., '2025-07-08'
   }) {
     return this.supabase
@@ -38,6 +42,22 @@ export class SupabaseService {
     return this.supabase
       .from('servers')
       .delete()
+      .eq('id', serverId);
+  }
+
+  updateServer(serverId: string, server: {
+    full_name?: string;
+    grade?: number;
+    email?: string;
+    phone_number?: string;
+    parent_email_1?: string;
+    parent_email_2?: string;
+    parent_number_1?: string;
+    parent_number_2?: string;
+  }) {
+    return this.supabase
+      .from('servers')
+      .update(server)
       .eq('id', serverId);
   }
 

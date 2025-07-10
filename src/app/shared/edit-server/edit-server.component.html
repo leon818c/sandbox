@@ -1,0 +1,103 @@
+@if (isVisible) {
+  <div class="modal-backdrop" (click)="onBackdropClick($event)">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Edit Server</h2>
+        <button class="close-btn" (click)="onCancel()">&times;</button>
+      </div>
+      
+      <div class="modal-body">
+        <form (ngSubmit)="onSave()">
+          <div class="form-group">
+            <label for="full_name">Full Name *</label>
+            <input 
+              id="full_name"
+              type="text" 
+              [(ngModel)]="editedServer.full_name" 
+              name="full_name" 
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="grade">Grade *</label>
+            <input 
+              id="grade"
+              type="number" 
+              [(ngModel)]="editedServer.grade" 
+              name="grade" 
+              min="1" 
+              max="12"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input 
+              id="email"
+              type="email" 
+              [(ngModel)]="editedServer.email" 
+              name="email" 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="phone_number">Phone Number</label>
+            <input 
+              id="phone_number"
+              type="tel" 
+              [(ngModel)]="editedServer.phone_number" 
+              name="phone_number" 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="parent_email_1">Parent Email 1</label>
+            <input 
+              id="parent_email_1"
+              type="email" 
+              [(ngModel)]="editedServer.parent_email_1" 
+              name="parent_email_1" 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="parent_email_2">Parent Email 2</label>
+            <input 
+              id="parent_email_2"
+              type="email" 
+              [(ngModel)]="editedServer.parent_email_2" 
+              name="parent_email_2" 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="parent_number_1">Parent Number 1</label>
+            <input 
+              id="parent_number_1"
+              type="tel" 
+              [(ngModel)]="editedServer.parent_number_1" 
+              name="parent_number_1" 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="parent_number_2">Parent Number 2</label>
+            <input 
+              id="parent_number_2"
+              type="tel" 
+              [(ngModel)]="editedServer.parent_number_2" 
+              name="parent_number_2" 
+            />
+          </div>
+
+          <div class="modal-actions">
+            <button type="button" class="cancel-btn" (click)="onCancel()">Cancel</button>
+            <button type="submit" class="save-btn">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+}

@@ -1,15 +1,129 @@
-<button routerLink="/admin" style="background: #007bff; color: white; border: none; padding: 0.5rem 1rem; border-radius: 5px; cursor: pointer; margin-bottom: 1rem;">← Back to Admin</button>
-<h2>Add New Server</h2>
+<div class="add-server-container">
+  <header class="page-header">
+    <button class="back-btn" routerLink="/admin">← Back to Admin</button>
+  </header>
 
-<form (ngSubmit)="addServer()">
-  <label>Name: <input type="text" [(ngModel)]="full_name" name="name" required /></label><br />
-  <label>Grade: <input type="number" [(ngModel)]="grade" name="grade" min="1" required /></label><br />
-  <label>Email: <input type="email" [(ngModel)]="email" name="email" /></label><br />
-  <label>Phone Number: <input type="tel" [(ngModel)]="phone_number" name="phone" /></label><br />
-  <!-- <label>Server Since: <input type="date" [(ngModel)]="server_since" name="since" /></label><br /><br /> -->
+  <div class="form-section">
+    <div class="form-card">
+      <div class="card-header">
+        <h1>Add New Server</h1>
+        <p>Enter the details for the new altar server</p>
+      </div>
 
-  <button type="submit">Add Server</button>
-</form>
+      <form (ngSubmit)="addServer()" class="server-form">
+        <div class="form-group">
+          <label for="name">Full Name *</label>
+          <input 
+            id="name"
+            type="text" 
+            [(ngModel)]="full_name" 
+            name="name" 
+            placeholder="Enter full name"
+            required 
+          />
+        </div>
 
-<p *ngIf="successMessage" style="color:green">{{ successMessage }}</p>
-<p *ngIf="errorMessage" style="color:red">{{ errorMessage }}</p>
+        <div class="form-group">
+          <label for="grade">Grade *</label>
+          <input 
+            id="grade"
+            type="number" 
+            [(ngModel)]="grade" 
+            name="grade" 
+            placeholder="Enter grade level"
+            min="1" 
+            max="12"
+            required 
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input 
+            id="email"
+            type="email" 
+            [(ngModel)]="email" 
+            name="email" 
+            placeholder="Enter email address (optional)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input 
+            id="phone"
+            type="tel" 
+            [(ngModel)]="phone_number" 
+            name="phone" 
+            placeholder="Enter phone number (optional)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="parent_email_1">Parent Email 1</label>
+          <input 
+            id="parent_email_1"
+            type="email" 
+            [(ngModel)]="parent_email_1" 
+            name="parent_email_1" 
+            placeholder="Enter first parent email (optional)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="parent_email_2">Parent Email 2</label>
+          <input 
+            id="parent_email_2"
+            type="email" 
+            [(ngModel)]="parent_email_2" 
+            name="parent_email_2" 
+            placeholder="Enter second parent email (optional)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="parent_number_1">Parent Number 1</label>
+          <input 
+            id="parent_number_1"
+            type="email" 
+            [(ngModel)]="parent_number_1" 
+            name="parent_number_1" 
+            placeholder="Enter first parent number (optional)"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="parent_number_2">Parent Number 2</label>
+          <input 
+            id="parent_number_2"
+            type="email" 
+            [(ngModel)]="parent_number_2" 
+            name="parent_number_2" 
+            placeholder="Enter second parent number (optional)"
+          />
+        </div>
+
+        <div class="form-actions">
+          <button type="submit" class="submit-btn">
+            ✨ Add Server
+          </button>
+        </div>
+      </form>
+
+      @if (successMessage || errorMessage) {
+        <div class="messages">
+          @if (successMessage) {
+            <div class="success-message">
+              ✅ {{ successMessage }}
+            </div>
+          }
+          @if (errorMessage) {
+            <div class="error-message">
+              ❌ {{ errorMessage }}
+            </div>
+          }
+        </div>
+      }
+    </div>
+  </div>
+</div>
