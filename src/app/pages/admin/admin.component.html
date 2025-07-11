@@ -56,25 +56,117 @@
             </tr>
           </thead>
           <tbody>
-            @for (server of servers; track server.id; let i = $index) {
-              <tr>
-                <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-                <td>{{ i + 1 }}</td>
-                <td>{{ server.full_name }}</td>
-                <td>{{ server.grade }}</td>
-                <td>{{ server.email || 'N/A' }}</td>
-                <td>{{ server.phone_number || 'N/A' }}</td>
-                <td>{{ server.parent_email_1 || 'N/A' }}</td>
-                <td>{{ server.parent_email_2 || 'N/A' }}</td>
-                <td>{{ server.parent_number_1 || 'N/A' }}</td>
-                <td>{{ server.parent_number_2 || 'N/A' }}</td>
-                <td><span class="status-active">Active</span></td>
-                <td>
-                  <button class="edit-btn" (click)="editServer(server)">
-                    ✏️ Edit
-                  </button>
-                </td>
-              </tr>
+            <tr class="category-row accordion-header" (click)="toggleWorking()">
+              <td colspan="12">
+                <span class="accordion-icon">{{ showWorking ? '▼' : '▶' }}</span>
+                Working ({{ getWorkingServers().length }})
+              </td>
+            </tr>
+            @if (showWorking) {
+              @for (server of getWorkingServers(); track server.id; let i = $index) {
+                <tr class="accordion-row">
+                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ server.full_name }}</td>
+                  <td>{{ server.grade }}</td>
+                  <td>{{ server.email || 'N/A' }}</td>
+                  <td>{{ server.phone_number || 'N/A' }}</td>
+                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
+                  <td><span class="status-active">Active</span></td>
+                  <td>
+                    <button class="edit-btn" (click)="editServer(server)">
+                      ✏️ Edit
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+            <tr class="category-row accordion-header" (click)="toggleCollege()">
+              <td colspan="12">
+                <span class="accordion-icon">{{ showCollege ? '▼' : '▶' }}</span>
+                College ({{ getCollegeServers().length }})
+              </td>
+            </tr>
+            @if (showCollege) {
+              @for (server of getCollegeServers(); track server.id; let i = $index) {
+                <tr class="accordion-row">
+                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ server.full_name }}</td>
+                  <td>{{ server.grade }}</td>
+                  <td>{{ server.email || 'N/A' }}</td>
+                  <td>{{ server.phone_number || 'N/A' }}</td>
+                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
+                  <td><span class="status-active">Active</span></td>
+                  <td>
+                    <button class="edit-btn" (click)="editServer(server)">
+                      ✏️ Edit
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+            <tr class="category-row accordion-header" (click)="toggleHighSchool()">
+              <td colspan="12">
+                <span class="accordion-icon">{{ showHighSchool ? '▼' : '▶' }}</span>
+                Highschool ({{ getHighSchoolServers().length }})
+              </td>
+            </tr>
+            @if (showHighSchool) {
+              @for (server of getHighSchoolServers(); track server.id; let i = $index) {
+                <tr class="accordion-row">
+                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ server.full_name }}</td>
+                  <td>{{ server.grade }}</td>
+                  <td>{{ server.email || 'N/A' }}</td>
+                  <td>{{ server.phone_number || 'N/A' }}</td>
+                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
+                  <td><span class="status-active">Active</span></td>
+                  <td>
+                    <button class="edit-btn" (click)="editServer(server)">
+                      ✏️ Edit
+                    </button>
+                  </td>
+                </tr>
+              }
+            }
+            <tr class="category-row accordion-header" (click)="toggleMiddleSchool()">
+              <td colspan="12">
+                <span class="accordion-icon">{{ showMiddleSchool ? '▼' : '▶' }}</span>
+                Middle School ({{ getMiddleSchoolServers().length }})
+              </td>
+            </tr>
+            @if (showMiddleSchool) {
+              @for (server of getMiddleSchoolServers(); track server.id; let i = $index) {
+                <tr class="accordion-row">
+                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                  <td>{{ i + 1 }}</td>
+                  <td>{{ server.full_name }}</td>
+                  <td>{{ server.grade }}</td>
+                  <td>{{ server.email || 'N/A' }}</td>
+                  <td>{{ server.phone_number || 'N/A' }}</td>
+                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
+                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
+                  <td><span class="status-active">Active</span></td>
+                  <td>
+                    <button class="edit-btn" (click)="editServer(server)">
+                      ✏️ Edit
+                    </button>
+                  </td>
+                </tr>
+              }
             }
           </tbody>
         </table>

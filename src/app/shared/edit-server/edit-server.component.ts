@@ -25,7 +25,7 @@ export class EditServerComponent {
   onSave() {
     const updatedServer = {
       full_name: this.editedServer.full_name,
-      grade: parseInt(this.editedServer.grade) || 1,
+      grade: this.editedServer.grade,
       email: this.editedServer.email || undefined,
       phone_number: this.editedServer.phone_number || undefined,
       parent_email_1: this.editedServer.parent_email_1 || undefined,

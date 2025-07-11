@@ -49,10 +49,21 @@ th {
   font-size: 1.2em;
 }
 
-.top-three {
-  background: #3a3a3a;
+.top-three:nth-child(1) {
+  background: linear-gradient(135deg, #ffd700 0%, #ffed4e 100%);
+  color: #333;
+}
+
+.top-three:nth-child(2) {
+  background: linear-gradient(135deg, #c0c0c0 0%, #e8e8e8 100%);
+  color: #333;
+}
+
+.top-three:nth-child(3) {
+  background: linear-gradient(135deg, #cd7f32 0%, #daa520 100%);
+  color: #333;
 }
 
 .top-three .rank {
-  color: #ffd700;
+  font-weight: bold;
 }

@@ -17,7 +17,7 @@ export class SupabaseService {
 
   addServer(server: {
     full_name: string;
-    grade: number;
+    grade: string;
     email?: string;
     phone_number?: string;
     parent_email_1?: string;
@@ -47,7 +47,7 @@ export class SupabaseService {
 
   updateServer(serverId: string, server: {
     full_name?: string;
-    grade?: number;
+    grade?: string;
     email?: string;
     phone_number?: string;
     parent_email_1?: string;

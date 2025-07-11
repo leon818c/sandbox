@@ -11,7 +11,7 @@ import { SupabaseService } from '../../services/supabase.service';
 })
 export class AddServerComponent {
   full_name = '';
-  grade: number = 1;
+  grade = '';
   email = '';
   phone_number = '';
   parent_email_1 = '';
@@ -47,7 +47,7 @@ export class AddServerComponent {
 
       // clear the form
       this.full_name = '';
-      this.grade = 1;
+      this.grade = '';
       this.email = '';
       this.phone_number = '';
       this.parent_email_1 = '';

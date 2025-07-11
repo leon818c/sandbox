@@ -23,6 +23,10 @@ export class AdminComponent implements OnInit {
   selectAll = false;
   showEditModal = false;
   selectedServer: any = null;
+  showHighSchool = true;
+  showMiddleSchool = true;
+  showCollege = true;
+  showWorking = true;
 
   ngOnInit(): void {
     this.checkStoredAuth();
@@ -69,7 +73,7 @@ export class AdminComponent implements OnInit {
           name: server.full_name,
           points: server.points || 0,
           inputValue: 10
-        }));
+        })).sort((a, b) => b.points - a.points);
       }
     });
   }
@@ -162,5 +166,45 @@ export class AdminComponent implements OnInit {
   onCancelEdit() {
     this.showEditModal = false;
     this.selectedServer = null;
+  }
+
+  toggleHighSchool() {
+    this.showHighSchool = !this.showHighSchool;
+  }
+
+  toggleMiddleSchool() {
+    this.showMiddleSchool = !this.showMiddleSchool;
+  }
+
+  toggleCollege() {
+    this.showCollege = !this.showCollege;
+  }
+
+  toggleWorking() {
+    this.showWorking = !this.showWorking;
+  }
+
+  getHighSchoolServers() {
+    return this.servers.filter(server => 
+      ['9', '10', '11', '12'].includes(server.grade?.toString())
+    );
+  }
+
+  getMiddleSchoolServers() {
+    return this.servers.filter(server => 
+      ['6', '7', '8'].includes(server.grade?.toString())
+    );
+  }
+
+  getCollegeServers() {
+    return this.servers.filter(server => 
+      server.grade?.toLowerCase() === 'college'
+    );
+  }
+
+  getWorkingServers() {
+    return this.servers.filter(server => 
+      server.grade?.toLowerCase() === 'working'
+    );
   }
 }

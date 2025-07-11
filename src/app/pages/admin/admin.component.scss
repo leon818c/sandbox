@@ -383,6 +383,50 @@ h2 {
   box-shadow: 0 4px 15px rgba(23, 162, 184, 0.4);
 }
 
+.category-row {
+  background: linear-gradient(135deg, #e9ecef 0%, #f8f9fa 100%) !important;
+}
+
+.category-row td {
+  text-align: center !important;
+  font-weight: 600 !important;
+  color: #495057 !important;
+  font-size: 0.9rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 1px !important;
+  padding: 0.8rem !important;
+}
+
+.accordion-header {
+  cursor: pointer !important;
+  transition: all 0.3s ease !important;
+}
+
+.accordion-header:hover {
+  background: linear-gradient(135deg, #dee2e6 0%, #e9ecef 100%) !important;
+}
+
+.accordion-icon {
+  margin-right: 0.5rem !important;
+  font-size: 0.8rem !important;
+  transition: transform 0.3s ease !important;
+}
+
+.accordion-row {
+  animation: fadeIn 0.3s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @media (max-width: 768px) {
   .section-header {
     flex-direction: column;
