@@ -37,144 +37,9 @@
         <span class="count-badge">{{ servers.length }} servers</span>
       </div>
       
-      <div class="table-container">
-        <table class="servers-table">
-          <thead>
-            <tr>
-              <th><input type="checkbox" [(ngModel)]="selectAll" (change)="toggleSelectAll()"></th>
-              <th>ID</th>
-              <th>Full Name</th>
-              <th>Grade</th>
-              <th>Email</th>
-              <th>Phone Number</th>
-              <th>Parent Email 1</th>
-              <th>Parent Email 2</th>
-              <th>Parent Number 1</th>
-              <th>Parent Number 2</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="category-row accordion-header" (click)="toggleWorking()">
-              <td colspan="12">
-                <span class="accordion-icon">{{ showWorking ? '▼' : '▶' }}</span>
-                Working ({{ getWorkingServers().length }})
-              </td>
-            </tr>
-            @if (showWorking) {
-              @for (server of getWorkingServers(); track server.id; let i = $index) {
-                <tr class="accordion-row">
-                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ server.full_name }}</td>
-                  <td>{{ server.grade }}</td>
-                  <td>{{ server.email || 'N/A' }}</td>
-                  <td>{{ server.phone_number || 'N/A' }}</td>
-                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
-                  <td><span class="status-active">Active</span></td>
-                  <td>
-                    <button class="edit-btn" (click)="editServer(server)">
-                      ✏️ Edit
-                    </button>
-                  </td>
-                </tr>
-              }
-            }
-            <tr class="category-row accordion-header" (click)="toggleCollege()">
-              <td colspan="12">
-                <span class="accordion-icon">{{ showCollege ? '▼' : '▶' }}</span>
-                College ({{ getCollegeServers().length }})
-              </td>
-            </tr>
-            @if (showCollege) {
-              @for (server of getCollegeServers(); track server.id; let i = $index) {
-                <tr class="accordion-row">
-                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ server.full_name }}</td>
-                  <td>{{ server.grade }}</td>
-                  <td>{{ server.email || 'N/A' }}</td>
-                  <td>{{ server.phone_number || 'N/A' }}</td>
-                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
-                  <td><span class="status-active">Active</span></td>
-                  <td>
-                    <button class="edit-btn" (click)="editServer(server)">
-                      ✏️ Edit
-                    </button>
-                  </td>
-                </tr>
-              }
-            }
-            <tr class="category-row accordion-header" (click)="toggleHighSchool()">
-              <td colspan="12">
-                <span class="accordion-icon">{{ showHighSchool ? '▼' : '▶' }}</span>
-                Highschool ({{ getHighSchoolServers().length }})
-              </td>
-            </tr>
-            @if (showHighSchool) {
-              @for (server of getHighSchoolServers(); track server.id; let i = $index) {
-                <tr class="accordion-row">
-                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ server.full_name }}</td>
-                  <td>{{ server.grade }}</td>
-                  <td>{{ server.email || 'N/A' }}</td>
-                  <td>{{ server.phone_number || 'N/A' }}</td>
-                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
-                  <td><span class="status-active">Active</span></td>
-                  <td>
-                    <button class="edit-btn" (click)="editServer(server)">
-                      ✏️ Edit
-                    </button>
-                  </td>
-                </tr>
-              }
-            }
-            <tr class="category-row accordion-header" (click)="toggleMiddleSchool()">
-              <td colspan="12">
-                <span class="accordion-icon">{{ showMiddleSchool ? '▼' : '▶' }}</span>
-                Middle School ({{ getMiddleSchoolServers().length }})
-              </td>
-            </tr>
-            @if (showMiddleSchool) {
-              @for (server of getMiddleSchoolServers(); track server.id; let i = $index) {
-                <tr class="accordion-row">
-                  <td><input type="checkbox" [(ngModel)]="server.selected"></td>
-                  <td>{{ i + 1 }}</td>
-                  <td>{{ server.full_name }}</td>
-                  <td>{{ server.grade }}</td>
-                  <td>{{ server.email || 'N/A' }}</td>
-                  <td>{{ server.phone_number || 'N/A' }}</td>
-                  <td>{{ server.parent_email_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_email_2 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_1 || 'N/A' }}</td>
-                  <td>{{ server.parent_number_2 || 'N/A' }}</td>
-                  <td><span class="status-active">Active</span></td>
-                  <td>
-                    <button class="edit-btn" (click)="editServer(server)">
-                      ✏️ Edit
-                    </button>
-                  </td>
-                </tr>
-              }
-            }
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="section-actions">
-        <button class="delete-btn" (click)="deleteSelectedServers()">
-          🗑️ Delete Selected
+      <div class="management-links">
+        <button class="management-btn" routerLink="/admin/servers">
+          👥 Manage Servers
         </button>
       </div>
     </div>
@@ -185,46 +50,9 @@
         <span class="count-badge">{{ users.length }} users</span>
       </div>
       
-      <div class="table-container">
-        <table class="user-table">
-          <thead>
-            <tr>
-              <th>Rank</th>
-              <th>Name</th>
-              <th>Points</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            @for (user of users; track user.name; let i = $index) {
-              <tr [class]="i < 3 ? 'top-rank' : ''">
-                <td class="rank-cell">
-                  @if (i === 0) {
-                    🥇
-                  } @else if (i === 1) {
-                    🥈
-                  } @else if (i === 2) {
-                    🥉
-                  } @else {
-                    {{ i + 1 }}
-                  }
-                </td>
-                <td>{{ user.name }}</td>
-                <td class="points-cell">{{ user.points }}</td>
-                <td class="actions-cell">
-                  <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
-                  <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
-                  <button class="add-btn" (click)="addPoints(i)">+</button>
-                </td>
-              </tr>
-            }
-          </tbody>
-        </table>
-      </div>
-      
-      <div class="section-actions">
-        <button class="save-btn" (click)="saveAllPoints()">
-          💾 Save All Changes
+      <div class="management-links">
+        <button class="management-btn" routerLink="/admin/leaderboard">
+          🏆 Manage Leaderboard
         </button>
       </div>
     </div>

@@ -1,0 +1,60 @@
+<div class="leaderboard-container">
+  <header class="page-header">
+    <button class="back-btn" routerLink="/admin">← Back to Admin</button>
+  </header>
+
+  <div class="dashboard-header">
+    <h1>Leaderboard Management</h1>
+    <p>Manage altar server points and rankings</p>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">
+      <h2>Leaderboard Management</h2>
+      <span class="count-badge">{{ users.length }} users</span>
+    </div>
+    
+    <div class="table-container">
+      <table class="user-table">
+        <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Points</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (user of users; track user.name; let i = $index) {
+            <tr [class]="i < 3 ? 'top-rank' : ''">
+              <td class="rank-cell">
+                @if (i === 0) {
+                  🥇
+                } @else if (i === 1) {
+                  🥈
+                } @else if (i === 2) {
+                  🥉
+                } @else {
+                  {{ i + 1 }}
+                }
+              </td>
+              <td>{{ user.name }}</td>
+              <td class="points-cell">{{ user.points }}</td>
+              <td class="actions-cell">
+                <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
+                <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
+                <button class="add-btn" (click)="addPoints(i)">+</button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="section-actions">
+      <button class="save-btn" (click)="saveAllPoints()">
+        💾 Save All Changes
+      </button>
+    </div>
+  </div>
+</div>
