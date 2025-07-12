@@ -26,12 +26,12 @@ export class EditServerComponent {
     const updatedServer = {
       full_name: this.editedServer.full_name,
       grade: this.editedServer.grade,
-      email: this.editedServer.email || undefined,
-      phone_number: this.editedServer.phone_number || undefined,
-      parent_email_1: this.editedServer.parent_email_1 || undefined,
-      parent_email_2: this.editedServer.parent_email_2 || undefined,
-      parent_number_1: this.editedServer.parent_number_1 || undefined,
-      parent_number_2: this.editedServer.parent_number_2 || undefined
+      email: this.editedServer.email || null,
+      phone_number: this.editedServer.phone_number || null,
+      parent_email_1: this.editedServer.parent_email_1 || null,
+      parent_email_2: this.editedServer.parent_email_2 || null,
+      parent_number_1: this.editedServer.parent_number_1 || null,
+      parent_number_2: this.editedServer.parent_number_2 || null
     };
     this.save.emit({ id: this.server.id, data: updatedServer });
   }
