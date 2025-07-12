@@ -98,18 +98,7 @@
   color: #666;
 }
 
-.footer {
-  background: #2c3e50;
-  color: white;
-  padding: 2rem 1rem;
-  text-align: center;
-}
 
-.footer p {
-  margin: 0.5rem 0;
-  font-size: 0.95rem;
-  opacity: 0.85;
-}
 
 @media (max-width: 768px) {
   .nav {
@@ -141,7 +130,5 @@
     gap: 1.5rem;
   }
 
-  .footer {
-    padding: 1.5rem 1rem;
-  }
+
 }

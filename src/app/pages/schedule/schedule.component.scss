@@ -1,13 +1,52 @@
-.schedule-container {
-  margin-top: 80px;
-  padding: 2rem;
-  max-width: 1200px;
-  margin-left: auto;
-  margin-right: auto;
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
-.schedule-container h1 {
-  color: #2c3e50;
-  margin-bottom: 2rem;
+.content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.empty-state {
   text-align: center;
+  max-width: 500px;
+}
+
+.empty-icon {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+}
+
+.empty-state h2 {
+  font-size: 2rem;
+  color: #2c3e50;
+  margin-bottom: 1rem;
+}
+
+.empty-state p {
+  font-size: 1.1rem;
+  color: #666;
+  margin-bottom: 2rem;
+  line-height: 1.6;
+}
+
+.view-calendar-btn {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.view-calendar-btn:hover {
+  transform: translateY(-2px);
 }
