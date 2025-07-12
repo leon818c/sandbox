@@ -1,0 +1,100 @@
+<div class="group-container">
+  <header class="page-header">
+    <button class="back-btn" routerLink="/admin">← Back to Admin</button>
+  </header>
+
+  <div class="dashboard-header">
+    <h1>Group Management</h1>
+    <p>Manage altar server groups and their information</p>
+  </div>
+
+  <div class="action-bar">
+    <button class="add-group-btn" (click)="showAddGroupModal = true">
+      <span>✨</span> Add New Group
+    </button>
+  </div>
+
+  <div class="section-card">
+    <div class="section-header">
+      <h2>Group Management</h2>
+      <span class="count-badge">{{ groups.length }} groups</span>
+    </div>
+    
+    @if (groups.length === 0) {
+      <div class="management-links">
+        <p>No groups created yet. Click "Add New Group" to get started!</p>
+      </div>
+    } @else {
+      <div class="table-container">
+        <table class="groups-table">
+          <thead>
+            <tr>
+              <th>Group Name</th>
+              <th>Members</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (group of groups; track group.name) {
+              <tr>
+                <td>{{ group.name }}</td>
+                <td>{{ group.members.length }} members</td>
+                <td>
+                  <button class="edit-btn">Edit</button>
+                  <button class="delete-btn">Delete</button>
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </div>
+
+  <!-- Add Group Modal -->
+  @if (showAddGroupModal) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Add New Group</h2>
+          <button class="close-btn" (click)="closeModal()">×</button>
+        </div>
+        
+        <form (ngSubmit)="addGroup()" class="group-form">
+          <div class="form-group">
+            <label for="groupName">Group Name *</label>
+            <input 
+              id="groupName"
+              type="text" 
+              [(ngModel)]="newGroupName" 
+              name="groupName" 
+              placeholder="Enter group name"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="memberSelect">Select Members</label>
+            <select 
+              id="memberSelect"
+              multiple
+              [(ngModel)]="selectedMemberIds"
+              name="memberSelect"
+              class="members-dropdown"
+            >
+              @for (server of availableServers; track server.id) {
+                <option [value]="server.id">{{ server.full_name }} ({{ server.grade }})</option>
+              }
+            </select>
+            <small class="help-text">Hold Ctrl/Cmd to select multiple members</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="submit-btn">✨ Create Group</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

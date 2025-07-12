@@ -25,29 +25,44 @@
       <p>Manage servers and leaderboard points</p>
     </div>
     
-    <div class="section-card">
-      <div class="section-header">
-        <h2>Server Management</h2>
-        <span class="count-badge">{{ servers.length }} servers</span>
+    <div class="management-grid">
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Server Management</h2>
+          <span class="count-badge">{{ servers.length }} servers</span>
+        </div>
+        
+        <div class="management-links">
+          <button class="management-btn" routerLink="/admin/servers">
+            👥 Manage Servers
+          </button>
+        </div>
       </div>
-      
-      <div class="management-links">
-        <button class="management-btn" routerLink="/admin/servers">
-          👥 Manage Servers
-        </button>
-      </div>
-    </div>
 
-    <div class="section-card">
-      <div class="section-header">
-        <h2>Leaderboard Management</h2>
-        <span class="count-badge">{{ users.length }} users</span>
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Leaderboard Management</h2>
+          <span class="count-badge">{{ users.length }} users</span>
+        </div>
+        
+        <div class="management-links">
+          <button class="management-btn" routerLink="/admin/leaderboard">
+            🏆 Manage Leaderboard
+          </button>
+        </div>
       </div>
-      
-      <div class="management-links">
-        <button class="management-btn" routerLink="/admin/leaderboard">
-          🏆 Manage Leaderboard
-        </button>
+
+      <div class="section-card">
+        <div class="section-header">
+          <h2>Group Management</h2>
+          <span class="count-badge">0 groups</span>
+        </div>
+        
+        <div class="management-links">
+          <button class="management-btn" routerLink="/admin/groups">
+            👥 Manage Groups
+          </button>
+        </div>
       </div>
     </div>
   }

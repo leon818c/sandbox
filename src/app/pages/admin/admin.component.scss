@@ -105,9 +105,15 @@ h1 {
   font-weight: 700;
 }
 
+.management-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin: 0 2rem 2rem;
+}
+
 .section-card {
   background: white;
-  margin: 0 2rem 2rem;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.08);
   overflow: hidden;
@@ -453,6 +459,11 @@ h2 {
 }
 
 @media (max-width: 768px) {
+  .management-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
   .section-header {
     flex-direction: column;
     text-align: center;
