@@ -31,6 +31,9 @@
             <tr>
               <th>Group Name</th>
               <th>Members</th>
+              <th>Member Points</th>
+              <th>Group Points</th>
+              <th>Total Points</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -38,10 +41,34 @@
             @for (group of groups; track group.name) {
               <tr>
                 <td>{{ group.name }}</td>
-                <td>{{ group.members.length }} members</td>
                 <td>
-                  <button class="edit-btn">Edit</button>
-                  <button class="delete-btn">Delete</button>
+                  @if (group.members.length === 0) {
+                    No members
+                  } @else {
+                    @for (member of group.members; track member.id; let last = $last) {
+                      {{ member.full_name }}@if (!last) {, }
+                    }
+                  }
+                </td>
+                <td>{{ group.memberPoints || 0 }}</td>
+                <td>
+                  <div class="points-controls">
+                    <button class="points-btn minus" (click)="subtractGroupPoints(group)">-</button>
+                    <input 
+                      type="number" 
+                      [(ngModel)]="group.inputValue" 
+                      class="points-input"
+                      min="1"
+                      max="100"
+                    >
+                    <button class="points-btn plus" (click)="addGroupPoints(group)">+</button>
+                    <span class="current-points">Current: {{ group.groupPoints || 0 }}</span>
+                  </div>
+                </td>
+                <td class="total-points">{{ group.totalPoints || 0 }}</td>
+                <td>
+                  <button class="edit-btn" (click)="editGroup(group)">Edit</button>
+                  <button class="delete-btn" (click)="deleteGroup(group)">Delete</button>
                 </td>
               </tr>
             }
@@ -92,6 +119,53 @@
           <div class="form-actions">
             <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
             <button type="submit" class="submit-btn">✨ Create Group</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+
+  <!-- Edit Group Modal -->
+  @if (showEditGroupModal) {
+    <div class="modal-overlay" (click)="closeModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Edit Group</h2>
+          <button class="close-btn" (click)="closeModal()">×</button>
+        </div>
+        
+        <form (ngSubmit)="updateGroup()" class="group-form">
+          <div class="form-group">
+            <label for="editGroupName">Group Name *</label>
+            <input 
+              id="editGroupName"
+              type="text" 
+              [(ngModel)]="editGroupName" 
+              name="editGroupName" 
+              placeholder="Enter group name"
+              required 
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="editMemberSelect">Select Members</label>
+            <select 
+              id="editMemberSelect"
+              multiple
+              [(ngModel)]="editSelectedMemberIds"
+              name="editMemberSelect"
+              class="members-dropdown"
+            >
+              @for (server of availableServers; track server.id) {
+                <option [value]="server.id">{{ server.full_name }} ({{ server.grade }})</option>
+              }
+            </select>
+            <small class="help-text">Hold Ctrl/Cmd to select multiple members</small>
+          </div>
+
+          <div class="form-actions">
+            <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="submit-btn">✨ Update Group</button>
           </div>
         </form>
       </div>

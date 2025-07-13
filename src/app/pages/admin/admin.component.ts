@@ -20,6 +20,7 @@ export class AdminComponent implements OnInit {
 
   users: any[] = [];
   servers: any[] = [];
+  groups: any[] = [];
   selectAll = false;
   showEditModal = false;
   selectedServer: any = null;
@@ -33,6 +34,7 @@ export class AdminComponent implements OnInit {
     if (this.isAuthenticated) {
       this.loadLeaderboard();
       this.loadServers();
+      this.loadGroups();
     }
   }
 
@@ -42,6 +44,7 @@ export class AdminComponent implements OnInit {
       this.storeAuth();
       this.loadLeaderboard();
       this.loadServers();
+      this.loadGroups();
     } else {
       alert('Incorrect password');
       this.passwordInput = '';
@@ -206,5 +209,13 @@ export class AdminComponent implements OnInit {
     return this.servers.filter(server => 
       server.grade?.toLowerCase() === 'working'
     );
+  }
+
+  loadGroups(): void {
+    this.supabase.getGroups().then(({ data }) => {
+      if (data) {
+        this.groups = data;
+      }
+    });
   }
 }

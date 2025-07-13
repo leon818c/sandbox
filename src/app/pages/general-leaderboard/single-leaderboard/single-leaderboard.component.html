@@ -1,54 +1,58 @@
-<app-header></app-header>
-
-<div class="leaderboard-container">
-  <h1>Leaderboard</h1>
+<div class="page-container">
+  <app-header></app-header>
   
-  <div class="points-key">
-    <h3>Points System</h3>
-    <div class="key-grid">
-      <div class="key-item">
-        <span class="points">2</span>
-        <span class="description">Base points for serving</span>
+  <main class="content">
+    <div class="leaderboard-container">
+      <h1>Single Leaderboard</h1>
+      
+      <div class="points-key">
+        <h3>Points System</h3>
+        <div class="key-grid">
+          <div class="key-item">
+            <span class="points">2</span>
+            <span class="description">Base points for serving</span>
+          </div>
+          <div class="key-item">
+            <span class="points">+1</span>
+            <span class="description">Reading during Mass</span>
+          </div>
+          <div class="key-item">
+            <span class="points">+4</span>
+            <span class="description">Incensing during Mass</span>
+          </div>
+          <div class="key-item">
+            <span class="points">×2</span>
+            <span class="description">Perfect Mass (double points)</span>
+          </div>
+          <div class="key-item">
+            <span class="points">×2</span>
+            <span class="description">Weekday Mass (double points) (summer only)</span>
+          </div>
+        </div>
       </div>
-      <div class="key-item">
-        <span class="points">+1</span>
-        <span class="description">Reading during Mass</span>
-      </div>
-      <div class="key-item">
-        <span class="points">+4</span>
-        <span class="description">Incensing during Mass</span>
-      </div>
-      <div class="key-item">
-        <span class="points">×2</span>
-        <span class="description">Perfect Mass (double points)</span>
-      </div>
-      <div class="key-item">
-        <span class="points">×2</span>
-        <span class="description">Weekday Mass (double points) (summer only)</span>
+      
+      <div class="leaderboard-table">
+        <table>
+          <thead>
+            <tr>
+              <th>Rank</th>
+              <th>Server Name</th>
+              <th>Points</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (server of leaderboard; track server.name; let i = $index) {
+              <tr [class]="i < 3 ? 'top-three' : ''">
+                <td class="rank">{{ i + 1 }}</td>
+                <td class="name">{{ server.name }}</td>
+                <td class="points">{{ server.points }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
       </div>
     </div>
-  </div>
+  </main>
   
-  <div class="leaderboard-table">
-    <table>
-      <thead>
-        <tr>
-          <th>Rank</th>
-          <th>Server Name</th>
-          <th>Points</th>
-        </tr>
-      </thead>
-      <tbody>
-        @for (server of leaderboard; track server.name; let i = $index) {
-          <tr [class]="i < 3 ? 'top-three' : ''">
-            <td class="rank">{{ i + 1 }}</td>
-            <td class="name">{{ server.name }}</td>
-            <td class="points">{{ server.points }}</td>
-          </tr>
-        }
-      </tbody>
-    </table>
-  </div>
+  <app-footer></app-footer>
 </div>
-
-<app-footer></app-footer>

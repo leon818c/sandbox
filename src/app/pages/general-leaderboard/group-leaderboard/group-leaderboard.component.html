@@ -2,12 +2,59 @@
   <app-header></app-header>
   
   <main class="content">
-    <div class="empty-state">
-      <div class="empty-icon">👥</div>
-      <h2>No Groups Yet</h2>
-      <p>Groups will be created soon!</p>
-      <!-- <button class="add-group-btn">Add Your First Group</button> -->
-    </div>
+    @if (groupLeaderboard.length === 0) {
+      <div class="empty-state">
+        <div class="empty-icon">👥</div>
+        <h2>No Groups Yet</h2>
+        <p>Groups will be created soon!</p>
+      </div>
+    } @else {
+      <div class="leaderboard-container">
+        <h1>Group Leaderboard</h1>
+        <div class="leaderboard-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Group Name</th>
+                <th>Points</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (group of groupLeaderboard; track group.id) {
+                <tr>
+                  <td class="rank">{{ group.rank }}</td>
+                  <td class="group-name-cell">
+                    <span 
+                      class="group-name" 
+                      (mouseenter)="showTooltip(group)"
+                      (mouseleave)="hideTooltip()"
+                    >
+                      {{ group.name }}
+                    </span>
+                  </td>
+                  <td class="points">{{ group.points }}</td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Global Tooltip -->
+      @if (hoveredGroup) {
+        <div class="member-tooltip">
+          <div class="tooltip-header">{{ hoveredGroup.name }} Members</div>
+          @if (hoveredGroup.members.length === 0) {
+            <div class="no-members">No members</div>
+          } @else {
+            @for (member of hoveredGroup.members; track member.id) {
+              <div class="member-item">{{ member.name }} ({{ member.grade }})</div>
+            }
+          }
+        </div>
+      }
+    }
   </main>
   
   <app-footer></app-footer>

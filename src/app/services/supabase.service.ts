@@ -101,4 +101,38 @@ export class SupabaseService {
       )
       .subscribe();
   }
+
+  addGroup(group: { name: string; member_ids: string[]; points?: number }) {
+    return this.supabase
+      .from('groups')
+      .insert([{ ...group, points: group.points || 0 }])
+      .select();
+  }
+
+  getGroups() {
+    return this.supabase
+      .from('groups')
+      .select('*');
+  }
+
+  updateGroup(groupId: number, group: { name?: string; member_ids?: string[]; points?: number }) {
+    return this.supabase
+      .from('groups')
+      .update(group)
+      .eq('id', groupId);
+  }
+
+  deleteGroup(groupId: number) {
+    return this.supabase
+      .from('groups')
+      .delete()
+      .eq('id', groupId);
+  }
+
+  updateGroupPoints(groupId: number, points: number) {
+    return this.supabase
+      .from('groups')
+      .update({ points })
+      .eq('id', groupId);
+  }
 }
