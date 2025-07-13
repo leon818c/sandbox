@@ -117,20 +117,17 @@
         </div>
       </form>
 
-      @if (successMessage || errorMessage) {
+      @if (errorMessage) {
         <div class="messages">
-          @if (successMessage) {
-            <div class="success-message">
-              ✅ {{ successMessage }}
-            </div>
-          }
-          @if (errorMessage) {
-            <div class="error-message">
-              ❌ {{ errorMessage }}
-            </div>
-          }
+          <div class="error-message">
+            ❌ {{ errorMessage }}
+          </div>
         </div>
       }
     </div>
   </div>
+  
+  @if (showAddedToast) {
+    <div class="toast" [class.closing]="isToastClosing">✨ Server Added</div>
+  }
 </div>

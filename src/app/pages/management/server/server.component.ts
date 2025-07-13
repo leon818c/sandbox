@@ -20,6 +20,12 @@ export class ServerComponent implements OnInit {
   showMiddleSchool = true;
   showCollege = true;
   showWorking = true;
+  showDeletedToast = false;
+  isToastClosing = false;
+  showDeleteConfirm = false;
+  serversToDelete: any[] = [];
+  showSavedToast = false;
+  isSavedToastClosing = false;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -46,16 +52,35 @@ export class ServerComponent implements OnInit {
       return;
     }
     
-    if (confirm(`Delete ${selectedServers.length} selected server(s)?`)) {
-      const deletePromises = selectedServers.map(server => 
-        this.supabase.deleteServer(server.id)
-      );
-      
-      Promise.all(deletePromises).then(() => {
-        alert('Selected servers deleted successfully!');
-        this.loadServers();
-      });
-    }
+    this.serversToDelete = selectedServers;
+    this.showDeleteConfirm = true;
+  }
+
+  confirmDelete() {
+    const deletePromises = this.serversToDelete.map(server => 
+      this.supabase.deleteServer(server.id)
+    );
+    
+    Promise.all(deletePromises).then(() => {
+      this.showDeletedToast = true;
+      this.isToastClosing = false;
+      setTimeout(() => {
+        this.isToastClosing = true;
+        setTimeout(() => {
+          this.showDeletedToast = false;
+          this.isToastClosing = false;
+        }, 300);
+      }, 2700);
+      this.loadServers();
+    });
+    
+    this.showDeleteConfirm = false;
+    this.serversToDelete = [];
+  }
+
+  cancelDelete() {
+    this.showDeleteConfirm = false;
+    this.serversToDelete = [];
   }
 
   editServer(server: any) {
@@ -65,7 +90,15 @@ export class ServerComponent implements OnInit {
 
   onSaveServer(event: any) {
     this.supabase.updateServer(event.id, event.data).then(() => {
-      alert('Server updated successfully!');
+      this.showSavedToast = true;
+      this.isSavedToastClosing = false;
+      setTimeout(() => {
+        this.isSavedToastClosing = true;
+        setTimeout(() => {
+          this.showSavedToast = false;
+          this.isSavedToastClosing = false;
+        }, 300);
+      }, 2700);
       this.loadServers();
       this.showEditModal = false;
       this.selectedServer = null;

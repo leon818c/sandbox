@@ -14,6 +14,8 @@
             [(ngModel)]="passwordInput" 
             placeholder="Enter admin password"
             (keyup.enter)="checkPassword()"
+            [class.error]="hasPasswordError"
+            (input)="hasPasswordError = false"
           >
           <button (click)="checkPassword()">Login</button>
         </div>

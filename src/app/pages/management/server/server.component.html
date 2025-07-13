@@ -168,4 +168,25 @@
     (save)="onSaveServer($event)" 
     (cancel)="onCancelEdit()">
   </app-edit-server>
+  
+  @if (showDeleteConfirm) {
+    <div class="modal-overlay">
+      <div class="confirm-modal">
+        <h3>⚠️ Confirm Deletion</h3>
+        <p>Are you sure you want to delete {{ serversToDelete.length }} selected server(s)?</p>
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="cancelDelete()">Cancel</button>
+          <button class="confirm-btn" (click)="confirmDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+  
+  @if (showDeletedToast) {
+    <div class="toast" [class.closing]="isToastClosing">🗑️ Deleted</div>
+  }
+  
+  @if (showSavedToast) {
+    <div class="toast saved" [class.closing]="isSavedToastClosing">✅ Saved!</div>
+  }
 </div>

@@ -22,6 +22,8 @@ export class AddServerComponent {
 
   successMessage = '';
   errorMessage = '';
+  showAddedToast = false;
+  isToastClosing = false;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -42,7 +44,15 @@ export class AddServerComponent {
       this.errorMessage = error.message;
       this.successMessage = '';
     } else {
-      this.successMessage = 'Server added!';
+      this.showAddedToast = true;
+      this.isToastClosing = false;
+      setTimeout(() => {
+        this.isToastClosing = true;
+        setTimeout(() => {
+          this.showAddedToast = false;
+          this.isToastClosing = false;
+        }, 300);
+      }, 2700);
       this.errorMessage = '';
 
       // clear the form

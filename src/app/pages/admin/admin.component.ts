@@ -14,6 +14,7 @@ import { EditServerComponent } from '../../shared/edit-server/edit-server.compon
 export class AdminComponent implements OnInit {
   isAuthenticated = false;
   passwordInput = '';
+  hasPasswordError = false;
   private adminPassword = 'admin123'; // Change this to your desired password
 
   constructor(private supabase: SupabaseService) {}
@@ -41,13 +42,16 @@ export class AdminComponent implements OnInit {
   checkPassword(): void {
     if (this.passwordInput === this.adminPassword) {
       this.isAuthenticated = true;
+      this.hasPasswordError = false;
       this.storeAuth();
       this.loadLeaderboard();
       this.loadServers();
       this.loadGroups();
     } else {
-      alert('Incorrect password');
       this.passwordInput = '';
+      setTimeout(() => {
+        this.hasPasswordError = true;
+      }, 0);
     }
   }
 

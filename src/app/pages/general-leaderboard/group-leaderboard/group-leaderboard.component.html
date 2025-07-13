@@ -1,4 +1,4 @@
-<div class="page-container">
+<div class="page-container" (click)="closeTooltip()">
   <app-header></app-header>
   
   <main class="content">
@@ -29,6 +29,7 @@
                       class="group-name" 
                       (mouseenter)="showTooltip(group)"
                       (mouseleave)="hideTooltip()"
+                      (click)="toggleTooltip(group); $event.stopPropagation()"
                     >
                       {{ group.name }}
                     </span>

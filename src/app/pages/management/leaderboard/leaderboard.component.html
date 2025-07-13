@@ -83,4 +83,8 @@
       </button>
     </div>
   </div>
+  
+  @if (showSavedToast) {
+    <div class="toast" [class.closing]="isToastClosing">✅ Saved</div>
+  }
 </div>

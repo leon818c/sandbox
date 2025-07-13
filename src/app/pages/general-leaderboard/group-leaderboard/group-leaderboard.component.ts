@@ -22,6 +22,7 @@ interface GroupLeaderboard {
 export class GroupLeaderboardComponent implements OnInit {
   groupLeaderboard: GroupLeaderboard[] = [];
   hoveredGroup: GroupLeaderboard | null = null;
+  clickedGroup: GroupLeaderboard | null = null;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -71,10 +72,29 @@ export class GroupLeaderboardComponent implements OnInit {
   }
 
   showTooltip(group: GroupLeaderboard) {
-    this.hoveredGroup = group;
+    if (!this.clickedGroup) {
+      this.hoveredGroup = group;
+    }
   }
 
   hideTooltip() {
+    if (!this.clickedGroup) {
+      this.hoveredGroup = null;
+    }
+  }
+
+  toggleTooltip(group: GroupLeaderboard) {
+    if (this.clickedGroup === group) {
+      this.clickedGroup = null;
+      this.hoveredGroup = null;
+    } else {
+      this.clickedGroup = group;
+      this.hoveredGroup = group;
+    }
+  }
+
+  closeTooltip() {
+    this.clickedGroup = null;
     this.hoveredGroup = null;
   }
 }

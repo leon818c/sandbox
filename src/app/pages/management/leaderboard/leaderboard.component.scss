@@ -273,6 +273,48 @@ h2 {
   box-shadow: 0 4px 20px rgba(40, 167, 69, 0.4);
 }
 
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #28a745;
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  box-shadow: 0 8px 30px rgba(40, 167, 69, 0.5);
+  z-index: 1000;
+  animation: popIn 0.3s ease-out;
+}
+
+.toast.closing {
+  animation: popOut 0.3s ease-in;
+}
+
+@keyframes popIn {
+  from {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popOut {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .section-header {
     flex-direction: column;

@@ -10,6 +10,7 @@ import { LeaderboardComponent as LeaderboardManagementComponent } from './pages/
 import { SingleLeaderboardComponent } from './pages/general-leaderboard/single-leaderboard/single-leaderboard.component';
 import { GroupLeaderboardComponent } from './pages/general-leaderboard/group-leaderboard/group-leaderboard.component';
 import { GroupComponent } from './pages/management/group/group.component';
+import { EuchMinComponent } from './pages/euch-min/euch-min.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -22,5 +23,6 @@ export const routes: Routes = [
   { path: 'admin/add-server', component: AddServerComponent },
   { path: 'admin/servers', component: ServerComponent },
   { path: 'admin/leaderboard', component: LeaderboardManagementComponent },
-  { path: 'admin/groups', component: GroupComponent }
+  { path: 'admin/groups', component: GroupComponent },
+  { path: 'euch-min', component: EuchMinComponent }
 ];

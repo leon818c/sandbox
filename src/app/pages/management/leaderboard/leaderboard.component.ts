@@ -12,6 +12,8 @@ import { SupabaseService } from '../../../services/supabase.service';
 })
 export class LeaderboardComponent implements OnInit {
   users: any[] = [];
+  showSavedToast = false;
+  isToastClosing = false;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -54,7 +56,15 @@ export class LeaderboardComponent implements OnInit {
     );
     
     Promise.all(updates).then(() => {
-      alert('All points saved successfully!');
+      this.showSavedToast = true;
+      this.isToastClosing = false;
+      setTimeout(() => {
+        this.isToastClosing = true;
+        setTimeout(() => {
+          this.showSavedToast = false;
+          this.isToastClosing = false;
+        }, 300);
+      }, 2700);
     });
   }
 }
