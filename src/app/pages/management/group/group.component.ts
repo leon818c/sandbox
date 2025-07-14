@@ -37,6 +37,19 @@ export class GroupComponent implements OnInit {
   editGroupName = '';
   selectedMemberIds: string[] = [];
   editSelectedMemberIds: string[] = [];
+  searchQuery = '';
+  editSearchQuery = '';
+  filteredServers: Server[] = [];
+  editFilteredServers: Server[] = [];
+  showSavedToast = false;
+  isSavedToastClosing = false;
+  showDeletedToast = false;
+  isDeletedToastClosing = false;
+  showDeleteConfirm = false;
+  groupToDelete: Group | null = null;
+  validationError = '';
+  isValidationErrorClosing = false;
+  isModalClosing = false;
   groups: Group[] = [];
   availableServers: Server[] = [];
   editingGroup: Group | null = null;
@@ -90,17 +103,100 @@ export class GroupComponent implements OnInit {
   }
 
   closeModal() {
-    this.showAddGroupModal = false;
-    this.showEditGroupModal = false;
-    this.newGroupName = '';
-    this.editGroupName = '';
-    this.selectedMemberIds = [];
-    this.editSelectedMemberIds = [];
-    this.editingGroup = null;
+    this.isModalClosing = true;
+    setTimeout(() => {
+      this.showAddGroupModal = false;
+      this.showEditGroupModal = false;
+      this.newGroupName = '';
+      this.editGroupName = '';
+      this.selectedMemberIds = [];
+      this.editSelectedMemberIds = [];
+      this.editingGroup = null;
+      this.searchQuery = '';
+      this.editSearchQuery = '';
+      this.filteredServers = [];
+      this.editFilteredServers = [];
+      this.validationError = '';
+      this.isValidationErrorClosing = false;
+      this.isModalClosing = false;
+    }, 300);
+  }
+
+  filterServers() {
+    if (!this.searchQuery.trim()) {
+      this.filteredServers = [];
+      return;
+    }
+    this.filteredServers = this.availableServers.filter(server => 
+      server.full_name.toLowerCase().includes(this.searchQuery.toLowerCase()) &&
+      !this.selectedMemberIds.includes(server.id)
+    ).slice(0, 5);
+  }
+
+  filterEditServers() {
+    if (!this.editSearchQuery.trim()) {
+      this.editFilteredServers = [];
+      return;
+    }
+    this.editFilteredServers = this.availableServers.filter(server => 
+      server.full_name.toLowerCase().includes(this.editSearchQuery.toLowerCase()) &&
+      !this.editSelectedMemberIds.includes(server.id)
+    ).slice(0, 5);
+  }
+
+  addMember(serverId: string) {
+    this.selectedMemberIds.push(serverId);
+    this.searchQuery = '';
+    this.filteredServers = [];
+  }
+
+  removeMember(serverId: string) {
+    this.selectedMemberIds = this.selectedMemberIds.filter(id => id !== serverId);
+  }
+
+  addEditMember(serverId: string) {
+    this.editSelectedMemberIds.push(serverId);
+    this.editSearchQuery = '';
+    this.editFilteredServers = [];
+  }
+
+  removeEditMember(serverId: string) {
+    this.editSelectedMemberIds = this.editSelectedMemberIds.filter(id => id !== serverId);
+  }
+
+  getServerName(serverId: string): string {
+    const server = this.availableServers.find(s => s.id === serverId);
+    return server ? server.full_name : 'Unknown';
   }
 
   addGroup() {
-    if (!this.newGroupName.trim()) return;
+    this.validationError = '';
+    
+    if (!this.newGroupName.trim()) {
+      this.validationError = 'Please enter a group name.';
+      this.isValidationErrorClosing = false;
+      setTimeout(() => {
+        this.isValidationErrorClosing = true;
+        setTimeout(() => {
+          this.validationError = '';
+          this.isValidationErrorClosing = false;
+        }, 300);
+      }, 2700);
+      return;
+    }
+    
+    if (this.selectedMemberIds.length < 2) {
+      this.validationError = 'Please add at least 2 members';
+      this.isValidationErrorClosing = false;
+      setTimeout(() => {
+        this.isValidationErrorClosing = true;
+        setTimeout(() => {
+          this.validationError = '';
+          this.isValidationErrorClosing = false;
+        }, 300);
+      }, 2700);
+      return;
+    }
     
     console.log('Adding group with data:', {
       name: this.newGroupName,
@@ -145,6 +241,15 @@ export class GroupComponent implements OnInit {
         alert('Error updating group: ' + response.error.message);
         return;
       }
+      this.showSavedToast = true;
+      this.isSavedToastClosing = false;
+      setTimeout(() => {
+        this.isSavedToastClosing = true;
+        setTimeout(() => {
+          this.showSavedToast = false;
+          this.isSavedToastClosing = false;
+        }, 300);
+      }, 2700);
       this.loadGroups();
       this.closeModal();
     });
@@ -152,16 +257,37 @@ export class GroupComponent implements OnInit {
 
   deleteGroup(group: Group) {
     if (!group.id) return;
+    this.groupToDelete = group;
+    this.showDeleteConfirm = true;
+  }
+
+  confirmDelete() {
+    if (!this.groupToDelete?.id) return;
     
-    if (confirm(`Delete group "${group.name}"?`)) {
-      this.supabase.deleteGroup(group.id).then((response: any) => {
-        if (response.error) {
-          alert('Error deleting group: ' + response.error.message);
-          return;
-        }
-        this.loadGroups();
-      });
-    }
+    this.supabase.deleteGroup(this.groupToDelete.id).then((response: any) => {
+      if (response.error) {
+        alert('Error deleting group: ' + response.error.message);
+        return;
+      }
+      this.showDeletedToast = true;
+      this.isDeletedToastClosing = false;
+      setTimeout(() => {
+        this.isDeletedToastClosing = true;
+        setTimeout(() => {
+          this.showDeletedToast = false;
+          this.isDeletedToastClosing = false;
+        }, 300);
+      }, 2700);
+      this.loadGroups();
+    });
+    
+    this.showDeleteConfirm = false;
+    this.groupToDelete = null;
+  }
+
+  cancelDelete() {
+    this.showDeleteConfirm = false;
+    this.groupToDelete = null;
   }
 
   addGroupPoints(group: Group) {

@@ -81,7 +81,7 @@
   <!-- Add Group Modal -->
   @if (showAddGroupModal) {
     <div class="modal-overlay" (click)="closeModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-content" [class.closing]="isModalClosing" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2>Add New Group</h2>
           <button class="close-btn" (click)="closeModal()">×</button>
@@ -101,22 +101,46 @@
           </div>
 
           <div class="form-group">
-            <label for="memberSelect">Select Members</label>
-            <select 
-              id="memberSelect"
-              multiple
-              [(ngModel)]="selectedMemberIds"
-              name="memberSelect"
-              class="members-dropdown"
-            >
-              @for (server of availableServers; track server.id) {
-                <option [value]="server.id">{{ server.full_name }} ({{ server.grade }})</option>
-              }
-            </select>
-            <small class="help-text">Hold Ctrl/Cmd to select multiple members</small>
+            <label for="memberSearch">Add Members</label>
+            <input 
+              id="memberSearch"
+              type="text" 
+              [(ngModel)]="searchQuery" 
+              (input)="filterServers()"
+              name="memberSearch" 
+              placeholder="Type to search for members..."
+              class="search-input"
+            />
+            
+            @if (filteredServers.length > 0) {
+              <div class="search-results">
+                @for (server of filteredServers; track server.id) {
+                  <div class="search-result" (click)="addMember(server.id)">
+                    {{ server.full_name }} ({{ server.grade }})
+                  </div>
+                }
+              </div>
+            }
+            
+            @if (selectedMemberIds.length > 0) {
+              <div class="selected-members">
+                <h4>Selected Members:</h4>
+                <div class="member-tags">
+                  @for (memberId of selectedMemberIds; track memberId) {
+                    <div class="member-tag">
+                      {{ getServerName(memberId) }}
+                      <button type="button" class="remove-btn" (click)="removeMember(memberId)">×</button>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
           </div>
 
           <div class="form-actions">
+            @if (validationError) {
+              <div class="validation-error" [class.closing]="isValidationErrorClosing">{{ validationError }}</div>
+            }
             <button type="button" class="cancel-btn" (click)="closeModal()">Cancel</button>
             <button type="submit" class="submit-btn">✨ Create Group</button>
           </div>
@@ -128,7 +152,7 @@
   <!-- Edit Group Modal -->
   @if (showEditGroupModal) {
     <div class="modal-overlay" (click)="closeModal()">
-      <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-content" [class.closing]="isModalClosing" (click)="$event.stopPropagation()">
         <div class="modal-header">
           <h2>Edit Group</h2>
           <button class="close-btn" (click)="closeModal()">×</button>
@@ -148,19 +172,40 @@
           </div>
 
           <div class="form-group">
-            <label for="editMemberSelect">Select Members</label>
-            <select 
-              id="editMemberSelect"
-              multiple
-              [(ngModel)]="editSelectedMemberIds"
-              name="editMemberSelect"
-              class="members-dropdown"
-            >
-              @for (server of availableServers; track server.id) {
-                <option [value]="server.id">{{ server.full_name }} ({{ server.grade }})</option>
-              }
-            </select>
-            <small class="help-text">Hold Ctrl/Cmd to select multiple members</small>
+            <label for="editMemberSearch">Add Members</label>
+            <input 
+              id="editMemberSearch"
+              type="text" 
+              [(ngModel)]="editSearchQuery" 
+              (input)="filterEditServers()"
+              name="editMemberSearch" 
+              placeholder="Type to search for members..."
+              class="search-input"
+            />
+            
+            @if (editFilteredServers.length > 0) {
+              <div class="search-results">
+                @for (server of editFilteredServers; track server.id) {
+                  <div class="search-result" (click)="addEditMember(server.id)">
+                    {{ server.full_name }} ({{ server.grade }})
+                  </div>
+                }
+              </div>
+            }
+            
+            @if (editSelectedMemberIds.length > 0) {
+              <div class="selected-members">
+                <h4>Selected Members:</h4>
+                <div class="member-tags">
+                  @for (memberId of editSelectedMemberIds; track memberId) {
+                    <div class="member-tag">
+                      {{ getServerName(memberId) }}
+                      <button type="button" class="remove-btn" (click)="removeEditMember(memberId)">×</button>
+                    </div>
+                  }
+                </div>
+              </div>
+            }
           </div>
 
           <div class="form-actions">
@@ -170,5 +215,27 @@
         </form>
       </div>
     </div>
+  }
+  
+  <!-- Delete Confirmation Modal -->
+  @if (showDeleteConfirm) {
+    <div class="modal-overlay">
+      <div class="confirm-modal">
+        <h3>⚠️ Confirm Deletion</h3>
+        <p>Are you sure you want to delete the group "{{ groupToDelete?.name }}"?</p>
+        <div class="modal-actions">
+          <button class="cancel-btn" (click)="cancelDelete()">Cancel</button>
+          <button class="confirm-btn" (click)="confirmDelete()">Delete</button>
+        </div>
+      </div>
+    </div>
+  }
+  
+  @if (showSavedToast) {
+    <div class="toast saved" [class.closing]="isSavedToastClosing">✅ Group Saved!</div>
+  }
+  
+  @if (showDeletedToast) {
+    <div class="toast deleted" [class.closing]="isDeletedToastClosing">🗑️ Group Deleted</div>
   }
 </div>

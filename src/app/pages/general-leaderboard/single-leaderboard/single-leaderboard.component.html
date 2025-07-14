@@ -2,7 +2,12 @@
   <app-header></app-header>
   
   <main class="content">
-    <div class="leaderboard-container">
+    @if (isLoading) {
+      <div class="loading-state">
+        <div class="saas-logo">SAAS</div>
+      </div>
+    } @else {
+      <div class="leaderboard-container">
       <h1>Single Leaderboard</h1>
       
       <div class="points-key">
@@ -51,7 +56,8 @@
           </tbody>
         </table>
       </div>
-    </div>
+      </div>
+    }
   </main>
   
   <app-footer></app-footer>

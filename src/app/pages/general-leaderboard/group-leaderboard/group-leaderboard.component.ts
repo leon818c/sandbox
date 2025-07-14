@@ -23,6 +23,7 @@ export class GroupLeaderboardComponent implements OnInit {
   groupLeaderboard: GroupLeaderboard[] = [];
   hoveredGroup: GroupLeaderboard | null = null;
   clickedGroup: GroupLeaderboard | null = null;
+  isLoading = true;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -45,6 +46,9 @@ export class GroupLeaderboardComponent implements OnInit {
           return total + (server?.points || 0);
         }, 0) || 0;
         
+        const groupPoints = group.points || 0;
+        const totalPoints = memberPoints + groupPoints;
+        
         const members = group.member_ids?.map((memberId: string) => {
           const server = servers.find(s => s.id === memberId);
           return server ? {
@@ -57,7 +61,7 @@ export class GroupLeaderboardComponent implements OnInit {
         return {
           id: group.id,
           name: group.name,
-          points: memberPoints,
+          points: totalPoints,
           members: members
         };
       });
@@ -69,6 +73,9 @@ export class GroupLeaderboardComponent implements OnInit {
           rank: index + 1
         }));
     }
+    setTimeout(() => {
+      this.isLoading = false;
+    }, 1000);
   }
 
   showTooltip(group: GroupLeaderboard) {

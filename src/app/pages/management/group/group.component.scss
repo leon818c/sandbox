@@ -181,9 +181,36 @@ h2 {
   background: white;
   border-radius: 12px;
   width: 90%;
-  max-width: 500px;
+  max-width: 600px;
   max-height: 80vh;
   overflow-y: auto;
+  animation: slideDown 0.4s ease-out;
+}
+
+.modal-content.closing {
+  animation: slideUp 0.3s ease-in;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideUp {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-100px);
+    opacity: 0;
+  }
 }
 
 .modal-header {
@@ -261,7 +288,38 @@ h2 {
   display: flex;
   gap: 1rem;
   justify-content: flex-end;
+  align-items: center;
   margin-top: 2rem;
+}
+
+.validation-error {
+  color: #dc3545;
+  font-size: 0.9rem;
+  font-weight: 500;
+  margin-right: auto;
+  animation: fadeIn 0.3s ease-in;
+}
+
+.validation-error.closing {
+  animation: fadeOut 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 .cancel-btn {
@@ -341,6 +399,185 @@ h2 {
   font-size: 1.1rem;
 }
 
+.search-input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.search-results {
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  background: white;
+  max-height: 200px;
+  overflow-y: auto;
+  margin-bottom: 1rem;
+}
+
+.search-result {
+  padding: 0.8rem;
+  cursor: pointer;
+  border-bottom: 1px solid #f1f3f4;
+  transition: background-color 0.2s ease;
+}
+
+.search-result:hover {
+  background: #f8f9fa;
+}
+
+.search-result:last-child {
+  border-bottom: none;
+}
+
+.selected-members {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.selected-members h4 {
+  margin: 0 0 0.8rem 0;
+  color: #2c3e50;
+  font-size: 0.9rem;
+}
+
+.member-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.member-tag {
+  display: flex;
+  align-items: center;
+  background: #667eea;
+  color: white;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  gap: 0.5rem;
+}
+
+.member-tag .remove-btn {
+  background: #dc3545 !important;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: bold;
+  padding: 0;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.member-tag .remove-btn:hover {
+  background: #c82333 !important;
+}
+
+.confirm-modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  max-width: 400px;
+  width: 90%;
+  text-align: center;
+}
+
+.confirm-modal h3 {
+  color: #dc3545;
+  margin-bottom: 1rem;
+  font-size: 1.3rem;
+}
+
+.confirm-modal p {
+  color: #495057;
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.confirm-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.confirm-btn:hover {
+  background: #c82333;
+  transform: translateY(-1px);
+}
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 1.2rem;
+  z-index: 1000;
+  animation: popIn 0.3s ease-out;
+}
+
+.toast.closing {
+  animation: popOut 0.3s ease-in;
+}
+
+.toast.saved {
+  background: #28a745;
+  box-shadow: 0 8px 30px rgba(40, 167, 69, 0.5);
+}
+
+.toast.deleted {
+  background: #dc3545;
+  box-shadow: 0 8px 30px rgba(220, 53, 69, 0.5);
+}
+
+@keyframes popIn {
+  from {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes popOut {
+  from {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 0;
+  }
+}
+
 @media (max-width: 768px) {
   .points-controls {
     flex-direction: column;
@@ -349,5 +586,9 @@ h2 {
   
   .current-points {
     font-size: 0.7rem;
+  }
+  
+  .member-tags {
+    flex-direction: column;
   }
 }

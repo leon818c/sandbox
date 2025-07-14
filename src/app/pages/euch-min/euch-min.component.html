@@ -1,1 +1,21 @@
-<p>euch-min works!</p>
+<div class="euch-min-container">
+  <app-header></app-header>
+  
+  <main class="content">
+    <div class="container">
+      <h1>Eucharistic Ministers</h1>
+      <p class="intro">Meet our dedicated Eucharistic Ministers who serve our parish community with devotion and grace.</p>
+      
+      <div class="ministers-grid">
+        @for (minister of ministers; track minister.name) {
+          <div class="minister-card">
+            <img [src]="minister.image" [alt]="minister.name" class="minister-image">
+            <h3 class="minister-name">{{ minister.name }}</h3>
+          </div>
+        }
+      </div>
+    </div>
+  </main>
+  
+  <app-footer></app-footer>
+</div>

@@ -172,6 +172,57 @@ td {
   font-weight: bold;
 }
 
+.loading-state {
+  text-align: center;
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 4rem 2rem;
+}
+
+.saas-logo {
+  font-size: 4rem;
+  font-weight: 900;
+  font-family: 'Arial Black', Arial, sans-serif;
+  letter-spacing: 0.2em;
+  color: transparent;
+  -webkit-text-stroke: 3px #667eea;
+  text-stroke: 3px #667eea;
+  position: relative;
+}
+
+.saas-logo::before {
+  content: 'SAAS';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  clip-path: polygon(0% 100%, 5% 95%, 10% 98%, 15% 92%, 20% 96%, 25% 90%, 30% 94%, 35% 88%, 40% 92%, 45% 86%, 50% 90%, 55% 84%, 60% 88%, 65% 82%, 70% 86%, 75% 80%, 80% 84%, 85% 78%, 90% 82%, 95% 76%, 100% 80%, 100% 100%, 0% 100%);
+  animation: waterFill 1.2s ease-out 0.2s forwards;
+}
+
+@keyframes waterFill {
+  0% {
+    clip-path: polygon(0% 100%, 5% 95%, 10% 98%, 15% 92%, 20% 96%, 25% 90%, 30% 94%, 35% 88%, 40% 92%, 45% 86%, 50% 90%, 55% 84%, 60% 88%, 65% 82%, 70% 86%, 75% 80%, 80% 84%, 85% 78%, 90% 82%, 95% 76%, 100% 80%, 100% 100%, 0% 100%);
+  }
+  25% {
+    clip-path: polygon(0% 75%, 5% 70%, 10% 73%, 15% 67%, 20% 71%, 25% 65%, 30% 69%, 35% 63%, 40% 67%, 45% 61%, 50% 65%, 55% 59%, 60% 63%, 65% 57%, 70% 61%, 75% 55%, 80% 59%, 85% 53%, 90% 57%, 95% 51%, 100% 55%, 100% 100%, 0% 100%);
+  }
+  50% {
+    clip-path: polygon(0% 50%, 5% 45%, 10% 48%, 15% 42%, 20% 46%, 25% 40%, 30% 44%, 35% 38%, 40% 42%, 45% 36%, 50% 40%, 55% 34%, 60% 38%, 65% 32%, 70% 36%, 75% 30%, 80% 34%, 85% 28%, 90% 32%, 95% 26%, 100% 30%, 100% 100%, 0% 100%);
+  }
+  75% {
+    clip-path: polygon(0% 25%, 5% 20%, 10% 23%, 15% 17%, 20% 21%, 25% 15%, 30% 19%, 35% 13%, 40% 17%, 45% 11%, 50% 15%, 55% 9%, 60% 13%, 65% 7%, 70% 11%, 75% 5%, 80% 9%, 85% 3%, 90% 7%, 95% 1%, 100% 5%, 100% 100%, 0% 100%);
+  }
+  100% {
+    clip-path: polygon(0% 0%, 5% 3%, 10% 1%, 15% 4%, 20% 2%, 25% 5%, 30% 3%, 35% 6%, 40% 4%, 45% 7%, 50% 5%, 55% 8%, 60% 6%, 65% 9%, 70% 7%, 75% 10%, 80% 8%, 85% 11%, 90% 9%, 95% 12%, 100% 10%, 100% 100%, 0% 100%);
+  }
+}
+
 @media (max-width: 768px) {
   .content {
     padding: 1rem;
