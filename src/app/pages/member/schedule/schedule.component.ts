@@ -1,18 +1,20 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../shared/header/header.component';
-import { FooterComponent } from '../../shared/footer/footer.component';
+import { HeaderComponent } from '../../../shared/header/header.component';
+import { FooterComponent } from '../../../shared/footer/footer.component';
 
 interface CalendarDate {
   day: number;
   isCurrentMonth: boolean;
   isToday: boolean;
   events: CalendarEvent[];
+  actualDate: Date;
 }
 
 interface CalendarEvent {
   title: string;
   type: 'sunday-mass' | 'weekday-mass' | 'malayalam-mass' | 'special';
+  time?: string;
 }
 
 @Component({
@@ -27,6 +29,8 @@ export class ScheduleComponent implements OnInit {
   currentMonthYear = '';
   dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   calendarDates: CalendarDate[] = [];
+  showEventModal = false;
+  selectedDate: CalendarDate | null = null;
 
   ngOnInit() {
     this.generateCalendar();
@@ -60,7 +64,8 @@ export class ScheduleComponent implements OnInit {
         day: date.getDate(),
         isCurrentMonth,
         isToday,
-        events: this.getEventsForDate(date)
+        events: this.getEventsForDate(date),
+        actualDate: new Date(date)
       });
     }
   }
@@ -114,5 +119,21 @@ export class ScheduleComponent implements OnInit {
   nextMonth() {
     this.currentDate.setMonth(this.currentDate.getMonth() + 1);
     this.generateCalendar();
+  }
+
+  openEventModal(date: CalendarDate) {
+    this.selectedDate = date;
+    this.showEventModal = true;
+  }
+
+  getSelectedDateString(): string {
+    if (!this.selectedDate) return '';
+    const monthName = this.selectedDate.actualDate.toLocaleDateString('en-US', { month: 'long' });
+    return `${monthName} ${this.selectedDate.day}`;
+  }
+
+  closeEventModal() {
+    this.showEventModal = false;
+    this.selectedDate = null;
   }
 }

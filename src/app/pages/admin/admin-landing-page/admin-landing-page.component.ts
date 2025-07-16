@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { SupabaseService } from '../../services/supabase.service';
-import { EditServerComponent } from '../../shared/edit-server/edit-server.component';
+import { SupabaseService } from '../../../services/supabase.service';
+import { EditServerComponent } from '../../../shared/edit-server/edit-server.component';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-admin-landing-page',
   standalone: true,
   imports: [RouterLink, FormsModule, EditServerComponent],
-  templateUrl: './admin.component.html',
-  styleUrl: './admin.component.scss'
+  templateUrl: './admin-landing-page.component.html',
+  styleUrl: './admin-landing-page.component.scss'
 })
-export class AdminComponent implements OnInit {
+export class AdminLandingPageComponent implements OnInit {
   isAuthenticated = false;
   passwordInput = '';
   hasPasswordError = false;
@@ -216,7 +216,7 @@ export class AdminComponent implements OnInit {
   }
 
   loadGroups(): void {
-    this.supabase.getGroups().then(({ data }) => {
+    this.supabase.getGroups().then(({ data }: { data: any }) => {
       if (data) {
         this.groups = data;
       }

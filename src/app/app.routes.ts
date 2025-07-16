@@ -1,20 +1,20 @@
 import { Routes } from '@angular/router';
-import { HomepageComponent } from './pages/homepage/homepage.component';
-import { AdminComponent } from './pages/admin/admin.component';
+import { HomepageComponent } from './pages/member/homepage/homepage.component';
+import { AdminLandingPageComponent } from './pages/admin/admin-landing-page/admin-landing-page.component';
 import { AddServerComponent } from './shared/add-server/add-server.component';
-import { LeaderboardComponent } from './pages/general-leaderboard/leaderboard/leaderboard.component';
-import { ScheduleComponent } from './pages/schedule/schedule.component';
-import { InformationComponent } from './pages/information/information.component';
-import { ServerComponent } from './pages/management/server/server.component';
-import { LeaderboardComponent as LeaderboardManagementComponent } from './pages/management/leaderboard/leaderboard.component';
-import { SingleLeaderboardComponent } from './pages/general-leaderboard/single-leaderboard/single-leaderboard.component';
-import { GroupLeaderboardComponent } from './pages/general-leaderboard/group-leaderboard/group-leaderboard.component';
-import { GroupComponent } from './pages/management/group/group.component';
-import { EuchMinComponent } from './pages/euch-min/euch-min.component';
+import { LeaderboardComponent } from './pages/member/general-leaderboard/leaderboard/leaderboard.component';
+import { ScheduleComponent } from './pages/member/schedule/schedule.component';
+import { InformationComponent } from './pages/member/information/information.component';
+import { ServerComponent } from './pages/admin/server/server.component';
+import { LeaderboardComponent as LeaderboardManagementComponent } from './pages/admin/leaderboard/leaderboard.component';
+import { SingleLeaderboardComponent } from './pages/member/general-leaderboard/single-leaderboard/single-leaderboard.component';
+import { GroupLeaderboardComponent } from './pages/member/general-leaderboard/group-leaderboard/group-leaderboard.component';
+import { GroupComponent } from './pages/admin/group/group.component';
+import { EuchMinComponent } from './pages/member/euch-min/euch-min.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
-  { path: 'admin', component: AdminComponent },
+  { path: 'admin', component: AdminLandingPageComponent },
   { path: 'leaderboard', component:LeaderboardComponent},
   { path: 'single-leaderboard', component: SingleLeaderboardComponent },
   { path: 'group-leaderboard', component: GroupLeaderboardComponent },

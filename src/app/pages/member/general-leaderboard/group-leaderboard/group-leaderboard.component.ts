@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from '../../../shared/header/header.component';
-import { FooterComponent } from '../../../shared/footer/footer.component';
-import { SupabaseService } from '../../../services/supabase.service';
+import { HeaderComponent } from '../../../../shared/header/header.component';
+import { FooterComponent } from '../../../../shared/footer/footer.component';
+import { SupabaseService } from '../../../../services/supabase.service';
 
 interface GroupLeaderboard {
   id: number;

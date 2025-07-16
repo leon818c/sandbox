@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AdminComponent } from './admin.component';
+import { AdminLandingPageComponent } from './admin-landing-page.component';
 
-describe('AdminComponent', () => {
-  let component: AdminComponent;
+describe('AdminLandingPageComponent', () => {
+  let component: AdminLandingPageComponent;
   let fixture: ComponentFixture<AdminComponent>;
 
   beforeEach(async () => {

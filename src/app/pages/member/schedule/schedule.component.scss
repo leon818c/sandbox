@@ -72,6 +72,7 @@
   font-weight: 600;
   color: #2c3e50;
   border-bottom: 1px solid #e9ecef;
+  font-size: 0.9rem;
 }
 
 .date-cell {
@@ -147,32 +148,181 @@
   background: #e74c3c;
 }
 
+.mobile-events {
+  display: none;
+}
+
+.event-dots {
+  display: flex;
+  gap: 3px;
+  flex-wrap: wrap;
+  margin-top: 4px;
+}
+
+.event-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: block;
+}
+
+.event-dot.sunday-mass {
+  background: #667eea;
+}
+
+.event-dot.weekday-mass {
+  background: #1abc9c;
+}
+
+.event-dot.malayalam-mass {
+  background: #9b59b6;
+}
+
+.event-dot.special {
+  background: #e74c3c;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.event-modal {
+  background: white;
+  border-radius: 12px;
+  max-width: 400px;
+  width: 100%;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e9ecef;
+}
+
+.modal-header h3 {
+  margin: 0;
+  color: #2c3e50;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #6c757d;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  padding: 1.5rem;
+}
+
+.modal-event {
+  padding: 0.75rem;
+  margin-bottom: 0.5rem;
+  border-radius: 8px;
+  color: white;
+}
+
+.modal-event.sunday-mass {
+  background: #667eea;
+}
+
+.modal-event.weekday-mass {
+  background: #1abc9c;
+}
+
+.modal-event.malayalam-mass {
+  background: #9b59b6;
+}
+
+.modal-event.special {
+  background: #e74c3c;
+}
+
+.event-title {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.event-time {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
 @media (max-width: 768px) {
   .content {
-    padding: 1rem;
+    padding: 0.5rem;
     padding-top: 6rem;
   }
   
   .calendar-header {
-    padding: 1.5rem;
+    padding: 1rem;
   }
   
   .month-year {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
   
   .nav-btn {
-    width: 40px;
-    height: 40px;
+    width: 35px;
+    height: 35px;
+  }
+  
+  .day-header {
+    padding: 0.5rem 0.25rem;
+    font-size: 0.8rem;
   }
   
   .date-cell {
-    min-height: 80px;
-    padding: 0.25rem;
+    min-height: 45px;
+    padding: 0.2rem;
+    cursor: pointer;
   }
   
-  .event {
-    font-size: 0.65rem;
-    padding: 1px 4px;
+  .date-cell.has-events:hover {
+    background: #f0f8ff;
+  }
+  
+  .date-number {
+    font-size: 0.9rem;
+    margin-bottom: 0.2rem;
+  }
+  
+  .desktop-events {
+    display: none;
+  }
+  
+  .mobile-events {
+    display: block;
+  }
+  
+  .event-dots {
+    gap: 2px;
+    margin-top: 2px;
+  }
+  
+  .event-dot {
+    width: 6px;
+    height: 6px;
   }
 }
