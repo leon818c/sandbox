@@ -151,6 +151,34 @@
               </tr>
             }
           }
+          @if (getOtherServers().length > 0) {
+            <tr class="category-row accordion-header">
+              <td colspan="12">
+                <span class="accordion-icon">▼</span>
+                Other ({{ getOtherServers().length }})
+              </td>
+            </tr>
+            @for (server of getOtherServers(); track server.id; let i = $index) {
+              <tr class="accordion-row">
+                <td><input type="checkbox" [(ngModel)]="server.selected"></td>
+                <td>{{ i + 1 }}</td>
+                <td>{{ server.full_name }}</td>
+                <td>{{ server.grade || 'N/A' }}</td>
+                <td>{{ server.email || 'N/A' }}</td>
+                <td>{{ server.phone_number || 'N/A' }}</td>
+                <td>{{ server.parent_email_1 || 'N/A' }}</td>
+                <td>{{ server.parent_email_2 || 'N/A' }}</td>
+                <td>{{ server.parent_number_1 || 'N/A' }}</td>
+                <td>{{ server.parent_number_2 || 'N/A' }}</td>
+                <td><span class="status-active">Active</span></td>
+                <td>
+                  <button class="edit-btn" (click)="editServer(server)">
+                    ✏️ Edit
+                  </button>
+                </td>
+              </tr>
+            }
+          }
         </tbody>
       </table>
     </div>

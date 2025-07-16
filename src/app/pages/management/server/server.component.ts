@@ -149,4 +149,12 @@ export class ServerComponent implements OnInit {
       server.grade?.toLowerCase() === 'working'
     );
   }
+
+  getOtherServers() {
+    return this.servers.filter(server => {
+      const grade = server.grade?.toString().toLowerCase();
+      return !['9', '10', '11', '12', '6', '7', '8'].includes(server.grade?.toString()) &&
+             grade !== 'college' && grade !== 'working';
+    });
+  }
 }

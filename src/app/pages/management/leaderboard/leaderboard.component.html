@@ -8,6 +8,43 @@
     <p>Manage altar server points and rankings</p>
   </div>
 
+  <div class="quick-update-section">
+    <h3>Quick Points Update</h3>
+    <div class="quick-update-form">
+      <div class="search-container">
+        <input 
+          type="text" 
+          class="search-input"
+          placeholder="Start typing server name..."
+          [(ngModel)]="searchQuery"
+          (input)="filterServers()"
+          (focus)="showDropdown = true"
+        >
+        @if (showDropdown && filteredServers.length > 0) {
+          <div class="dropdown">
+            @for (server of filteredServers; track server.id) {
+              <div class="dropdown-item" (click)="selectServer(server)">
+                {{ server.name }}
+              </div>
+            }
+          </div>
+        }
+      </div>
+      
+      <div class="points-controls">
+        <button class="subtract-btn" (click)="quickSubtractPoints()" [disabled]="!selectedServer">-</button>
+        <input type="number" class="points-input-quick" [(ngModel)]="quickInputValue" min="1" value="2">
+        <button class="add-btn" (click)="quickAddPoints()" [disabled]="!selectedServer">+</button>
+      </div>
+    </div>
+    
+    @if (selectedServer) {
+      <div class="selected-info">
+        Selected: <strong>{{ selectedServer.name }}</strong> (Current: {{ selectedServer.points }} points)
+      </div>
+    }
+  </div>
+
   <div class="points-key">
     <h3>Points System</h3>
     <div class="key-grid">
@@ -47,7 +84,6 @@
             <th>Rank</th>
             <th>Name</th>
             <th>Points</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -66,25 +102,20 @@
               </td>
               <td>{{ user.name }}</td>
               <td class="points-cell">{{ user.points }}</td>
-              <td class="actions-cell">
-                <button class="subtract-btn" (click)="subtractPoints(i)">-</button>
-                <input type="number" class="points-input" [(ngModel)]="user.inputValue" min="1">
-                <button class="add-btn" (click)="addPoints(i)">+</button>
-              </td>
             </tr>
           }
         </tbody>
       </table>
     </div>
     
-    <div class="section-actions">
-      <button class="save-btn" (click)="saveAllPoints()">
-        💾 Save All Changes
-      </button>
-    </div>
+
   </div>
   
   @if (showSavedToast) {
     <div class="toast" [class.closing]="isToastClosing">✅ Saved</div>
+  }
+  
+  @if (showQuickToast) {
+    <div class="toast" [class.closing]="isQuickToastClosing">✅ Points Updated</div>
   }
 </div>
