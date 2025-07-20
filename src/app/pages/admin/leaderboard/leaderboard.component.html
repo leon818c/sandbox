@@ -6,6 +6,18 @@
   <div class="dashboard-header">
     <h1>Leaderboard Management</h1>
     <p>Manage altar server points and rankings</p>
+    
+    <div class="last-updated-banner">
+      <div class="update-icon">🔄</div>
+      <div class="update-text">
+        @if (lastUpdated) {
+          <span>Last updated: <strong>{{ lastUpdated | date:'medium' }}</strong></span>
+        } @else {
+          <span>Leaderboard has not been updated yet</span>
+        }
+      </div>
+      <button class="refresh-btn" (click)="refreshTimestamp()">Update Timestamp</button>
+    </div>
   </div>
 
   <div class="quick-update-section">
@@ -71,10 +83,14 @@
     </div>
   </div>
 
+
+
   <div class="section-card">
     <div class="section-header">
       <h2>Leaderboard Management</h2>
-      <span class="count-badge">{{ users.length }} users</span>
+      <div class="header-info">
+        <span class="count-badge">{{ users.length }} users</span>
+      </div>
     </div>
     
     <div class="table-container">

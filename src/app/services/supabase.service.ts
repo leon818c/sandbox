@@ -15,6 +15,10 @@ export class SupabaseService {
     );
   }
 
+  getClient() {
+    return this.supabase;
+  }
+
   addServer(server: {
     full_name: string;
     grade: string;
@@ -72,6 +76,25 @@ export class SupabaseService {
       .from('servers')
       .update({ points })
       .eq('id', serverId);
+  }
+  
+  updateLeaderboardTimestamp() {
+    console.log('Updating leaderboard timestamp to:', new Date().toISOString());
+    return this.supabase
+      .from('leaderboard_updates')
+      .upsert({ id: 1, updated_at: new Date().toISOString() })
+      .select()
+      .then(result => {
+        console.log('Timestamp update result:', result);
+        return result;
+      });
+  }
+  
+  getLastLeaderboardUpdate() {
+    return this.supabase
+      .from('leaderboard_updates')
+      .select('updated_at')
+      .eq('id', 1);
   }
 
   listenToLeaderboard(callback: Function) {

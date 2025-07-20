@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { DatePipe, NgIf, CommonModule } from '@angular/common';
 import { SupabaseService } from '../../../services/supabase.service';
 
 @Component({
   selector: 'app-leaderboard',
   standalone: true,
-  imports: [RouterLink, FormsModule],
+  imports: [RouterLink, FormsModule, DatePipe, NgIf, CommonModule],
   templateUrl: './leaderboard.component.html',
   styleUrl: './leaderboard.component.scss'
 })
@@ -14,6 +15,7 @@ export class LeaderboardComponent implements OnInit {
   users: any[] = [];
   showSavedToast = false;
   isToastClosing = false;
+  lastUpdated: Date | null = null;
   
   // Quick update properties
   searchQuery = '';
@@ -31,6 +33,18 @@ export class LeaderboardComponent implements OnInit {
   }
 
   loadLeaderboard(): void {
+    // First get the last update timestamp
+    this.supabase.getLastLeaderboardUpdate().then(({ data: updateData }) => {
+      if (updateData && updateData.length > 0) {
+        this.lastUpdated = new Date(updateData[0].updated_at);
+        console.log('Retrieved timestamp from database:', this.lastUpdated);
+      } else {
+        this.lastUpdated = null;
+        console.log('No timestamp found in database');
+      }
+    });
+    
+    // Then load the server data
     this.supabase.getServers().then(({ data }) => {
       if (data) {
         this.users = data.map((server: any) => ({
@@ -39,6 +53,8 @@ export class LeaderboardComponent implements OnInit {
           points: server.points || 0,
           inputValue: 10
         })).sort((a, b) => b.points - a.points);
+        
+        // Timestamp is already loaded separately
         
         // Update selected server if it exists
         if (this.selectedServer) {
@@ -56,6 +72,8 @@ export class LeaderboardComponent implements OnInit {
     const newPoints = user.points + user.inputValue;
     this.supabase.updatePoints(user.id, newPoints).then(() => {
       user.points = newPoints;
+      this.lastUpdated = new Date();
+      this.supabase.updateLeaderboardTimestamp();
     });
   }
 
@@ -64,6 +82,8 @@ export class LeaderboardComponent implements OnInit {
     const newPoints = Math.max(0, user.points - user.inputValue);
     this.supabase.updatePoints(user.id, newPoints).then(() => {
       user.points = newPoints;
+      this.lastUpdated = new Date();
+      this.supabase.updateLeaderboardTimestamp();
     });
   }
 
@@ -73,6 +93,9 @@ export class LeaderboardComponent implements OnInit {
     );
     
     Promise.all(updates).then(() => {
+      this.lastUpdated = new Date();
+      this.supabase.updateLeaderboardTimestamp();
+      
       this.showSavedToast = true;
       this.isToastClosing = false;
       setTimeout(() => {
@@ -125,9 +148,26 @@ export class LeaderboardComponent implements OnInit {
       if (userIndex !== -1) {
         this.users[userIndex].points = newPoints;
         this.selectedServer.points = newPoints;
+        this.lastUpdated = new Date();
+        this.supabase.updateLeaderboardTimestamp();
       }
       
       // Show toast
+      this.showQuickToast = true;
+      this.isQuickToastClosing = false;
+      setTimeout(() => {
+        this.isQuickToastClosing = true;
+        setTimeout(() => {
+          this.showQuickToast = false;
+          this.isQuickToastClosing = false;
+        }, 300);
+      }, 2000);
+    });
+  }
+  
+  refreshTimestamp() {
+    this.lastUpdated = new Date();
+    this.supabase.updateLeaderboardTimestamp().then(() => {
       this.showQuickToast = true;
       this.isQuickToastClosing = false;
       setTimeout(() => {

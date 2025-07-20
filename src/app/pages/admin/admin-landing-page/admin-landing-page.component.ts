@@ -22,6 +22,7 @@ export class AdminLandingPageComponent implements OnInit {
   users: any[] = [];
   servers: any[] = [];
   groups: any[] = [];
+  attendanceRecords: number = 0;
   selectAll = false;
   showEditModal = false;
   selectedServer: any = null;
@@ -47,6 +48,7 @@ export class AdminLandingPageComponent implements OnInit {
       this.loadLeaderboard();
       this.loadServers();
       this.loadGroups();
+
     } else {
       this.passwordInput = '';
       setTimeout(() => {
@@ -222,4 +224,5 @@ export class AdminLandingPageComponent implements OnInit {
       }
     });
   }
+  
 }

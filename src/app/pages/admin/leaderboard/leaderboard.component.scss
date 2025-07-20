@@ -278,6 +278,58 @@ h1 {
   align-items: center;
 }
 
+.header-info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.5rem;
+}
+
+.last-updated-banner {
+  background: #f8f9fa;
+  border: 2px solid #28a745;
+  border-radius: 8px;
+  padding: 1rem 1.5rem;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  flex-wrap: wrap;
+}
+
+.refresh-btn {
+  background: #28a745;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+  margin-left: 0.5rem;
+}
+
+.refresh-btn:hover {
+  background: #218838;
+}
+
+.update-icon {
+  font-size: 1.8rem;
+  color: #28a745;
+}
+
+.update-text {
+  color: #212529;
+  font-size: 1.1rem;
+  font-weight: 500;
+}
+
+.update-text strong {
+  color: #212529;
+}
+
 h2 {
   color: #2c3e50;
   margin: 0;
@@ -482,6 +534,10 @@ h2 {
     flex-direction: column;
     text-align: center;
     gap: 0.5rem;
+  }
+  
+  .header-info {
+    align-items: center;
   }
   
   .section-actions {

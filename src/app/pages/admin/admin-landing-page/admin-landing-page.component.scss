@@ -112,6 +112,13 @@ h1 {
   margin: 0 2rem 2rem;
 }
 
+/* Ensure all cards in the grid are visible */
+.management-grid > .section-card {
+  display: block;
+  visibility: visible;
+  opacity: 1;
+}
+
 .section-card {
   background: white;
   border-radius: 16px;
