@@ -2,31 +2,17 @@
   <app-header></app-header>
   
   <main class="content">
-    <div class="schedule-layout">
-      <div class="mass-schedule-sidebar">
-        <h3>Mass Schedule</h3>
-        <div class="mass-day">
-          <h4>Sunday</h4>
-          <div class="mass-time malayalam">7:00 AM (Malayalam)</div>
-          <div class="mass-time malayalam">9:00 AM (Malayalam)</div>
-          <div class="mass-time english">11:00 AM (English)</div>
-        </div>
-        <div class="mass-day">
-          <h4>Monday - Thursday</h4>
-          <div class="mass-time malayalam">8:30 AM (Malayalam)</div>
-          <div class="mass-time english">7:00 PM (English)</div>
-        </div>
-        <div class="mass-day">
-          <h4>Friday</h4>
-          <div class="mass-time malayalam">8:30 AM (Malayalam)</div>
-          <div class="mass-time english">7:00 PM (English) - 2nd Friday</div>
-        </div>
-        <div class="mass-day">
-          <h4>Saturday</h4>
-          <div class="mass-time malayalam">8:30 AM (Malayalam)</div>
-        </div>
+    <div class="mass-schedule-top">
+      <h3>Mass Schedule</h3>
+      <div class="mass-times">
+        <div class="mass-item">Sunday: 7AM, 9AM (Malayalam) • 11AM (English)</div>
+        <div class="mass-item">Mon-Thu: 8:30AM (Malayalam) • 7PM (English)</div>
+        <div class="mass-item">Friday: 8:30AM (Malayalam) • 7PM (English - 2nd Friday)</div>
+        <div class="mass-item">Saturday: 8:30AM (Malayalam)</div>
       </div>
-      
+    </div>
+    
+    <div class="schedule-layout">
       <div class="calendar-container">
       <div class="calendar-header">
         <button class="nav-btn" (click)="previousMonth()">
@@ -83,30 +69,29 @@
   </main>
   
   <!-- Event Modal -->
-  @if (showEventModal) {
-    <div class="modal-overlay" (click)="closeEventModal()">
-      <div class="event-modal" (click)="$event.stopPropagation()">
-        <div class="modal-header">
-          <h3>{{ getSelectedDateString() }}</h3>
-          <button class="close-btn" (click)="closeEventModal()">×</button>
-        </div>
-        <div class="modal-content">
-          <div class="modal-custom-text" *ngIf="selectedDate?.customText">
-            <h4>Servers Scheduled</h4>
-            <div class="server-list">
-              <div class="server-name" *ngFor="let line of selectedDate!.customText!.split('\n'); track line">
-                • {{ line }}
-              </div>
+  <div class="modal-overlay" *ngIf="showEventModal" (click)="closeEventModal()">
+    <div class="event-modal" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h3>{{ getSelectedDateString() }}</h3>
+        <button class="close-btn" (click)="closeEventModal()">×</button>
+      </div>
+      <div class="modal-content">
+        <div class="modal-custom-text" *ngIf="selectedDateServerPoints.length > 0">
+          <h4>Servers Who Attended</h4>
+          <div class="server-list">
+            <div class="server-entry" *ngFor="let serverPoint of selectedDateServerPoints; trackBy: trackByName">
+              <span class="server-name">• {{ serverPoint?.name || 'Unknown' }}</span>
+              <span class="server-points">{{ serverPoint?.points || 0 }} pts</span>
             </div>
           </div>
-          
-          <div class="no-servers" *ngIf="!selectedDate?.customText">
-            <p>No servers scheduled for this day.</p>
-          </div>
+        </div>
+        
+        <div class="no-servers" *ngIf="selectedDateServerPoints.length === 0">
+          <p>No servers scheduled for this day.</p>
         </div>
       </div>
     </div>
-  }
+  </div>
   
   <app-footer></app-footer>
 </div>

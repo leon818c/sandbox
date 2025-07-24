@@ -44,8 +44,9 @@
                 {{ event.title }}
               </div>
               <div class="custom-text-list" *ngIf="date.customText">
-                <div class="custom-text-item" *ngFor="let line of date.customText.split('\n'); track line">
-                  {{ line }}
+                <div class="custom-text-item" *ngFor="let serverPoint of getServerPointsDisplay(date)">
+                  <span class="server-name">{{ serverPoint.name }}</span>
+                  <span class="server-points" *ngIf="serverPoint.points > 0">{{ serverPoint.points }}</span>
                 </div>
               </div>
             </div>
@@ -72,46 +73,36 @@
             <button class="close-btn" (click)="closeEventModal()">×</button>
           </div>
           <div class="modal-content">
-            <div class="server-search-section">
-              <h4>Quick Add Server</h4>
-              <div class="search-container">
-                <input 
-                  type="text" 
-                  class="search-input"
-                  placeholder="Start typing server name..."
-                  [(ngModel)]="searchQuery"
-                  (input)="filterServers()"
-                  (focus)="onInputFocus()"
-                  (blur)="onInputBlur()"
-                  (keydown)="onKeyDown($event)"
-                >
-                @if (showDropdown && filteredServers.length > 0) {
-                  <div class="dropdown">
-                    @for (server of filteredServers; track server.id; let i = $index) {
-                      <div 
-                        class="dropdown-item" 
-                        [class.highlighted]="i === highlightedIndex"
-                        (click)="addServerToText(server)"
-                      >
-                        {{ server.name }}
-                      </div>
-                    }
-                  </div>
-                }
-              </div>
-            </div>
-            
             <div class="custom-text-section">
               <h3>Add Servers & Points</h3>
               
               <div class="server-points-list">
                 <div class="server-point-item" *ngFor="let item of serverPointsList; let i = index">
-                  <input 
-                    type="text" 
-                    class="server-name-input"
-                    [(ngModel)]="item.name"
-                    placeholder="Server name"
-                  >
+                  <div class="server-input-container">
+                    <input 
+                      type="text" 
+                      class="server-name-input"
+                      [(ngModel)]="item.name"
+                      placeholder="Server name"
+                      (input)="onServerNameInput($event, i)"
+                      (focus)="onServerInputFocus(i)"
+                      (blur)="onServerInputBlur(i)"
+                      (keydown)="onServerKeyDown($event, i)"
+                    >
+                    @if (item.showDropdown && item.filteredServers && item.filteredServers.length > 0) {
+                      <div class="dropdown">
+                        @for (server of item.filteredServers; track server.id; let j = $index) {
+                          <div 
+                            class="dropdown-item" 
+                            [class.highlighted]="j === item.highlightedIndex"
+                            (click)="selectServerForInput(server, i)"
+                          >
+                            {{ server.name }}
+                          </div>
+                        }
+                      </div>
+                    }
+                  </div>
                   <input 
                     type="number" 
                     class="points-input-small"
@@ -124,7 +115,7 @@
               </div>
               
               <button class="add-server-btn" (click)="addServerPoint()">+ Add Server</button>
-              <button class="save-text-btn" (click)="saveCustomText()">Save & Award Points</button>
+              <button class="save-text-btn" (click)="saveCustomText()">Save</button>
             </div>
           </div>
         </div>

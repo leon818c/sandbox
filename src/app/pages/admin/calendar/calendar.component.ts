@@ -12,6 +12,7 @@ interface CalendarDate {
   events: CalendarEvent[];
   actualDate: Date;
   customText?: string;
+  serverPoints?: { name: string; points: number }[];
 }
 
 interface CalendarEvent {
@@ -46,7 +47,13 @@ export class CalendarComponent implements OnInit {
   filteredServers: any[] = [];
   showDropdown: boolean = false;
   highlightedIndex: number = -1;
-  serverPointsList: { name: string; points: number }[] = [];
+  serverPointsList: { 
+    name: string; 
+    points: number;
+    showDropdown?: boolean;
+    filteredServers?: any[];
+    highlightedIndex?: number;
+  }[] = [];
   
   eventTypes = [
     { value: 'sunday-mass', label: 'Sunday Mass' },
@@ -57,21 +64,23 @@ export class CalendarComponent implements OnInit {
   
   constructor(private supabase: SupabaseService, private calendarService: CalendarService) {}
 
-  ngOnInit() {
-    this.generateCalendar();
-    this.loadServers();
+  async ngOnInit() {
+    await this.loadServers();
+    // Subscribe to calendar data changes
+    this.calendarService.calendarData$.subscribe(() => {
+      this.generateCalendar();
+    });
   }
   
-  loadServers() {
-    this.supabase.getServers().then(({ data }) => {
-      if (data) {
-        this.servers = data.map((server: any) => ({
-          id: server.id,
-          name: server.full_name
-        }));
-        this.filteredServers = [...this.servers];
-      }
-    });
+  async loadServers() {
+    const { data } = await this.supabase.getServers();
+    if (data) {
+      this.servers = data.map((server: any) => ({
+        id: server.id,
+        name: server.full_name
+      }));
+      this.filteredServers = [...this.servers];
+    }
   }
   
   filterServers() {
@@ -106,6 +115,8 @@ export class CalendarComponent implements OnInit {
 
     this.calendarDates = [];
     const today = new Date();
+    const calendarData = this.calendarService.getCalendarData();
+    console.log('Admin calendar data:', calendarData);
     
     for (let i = 0; i < 42; i++) {
       const date = new Date(startDate);
@@ -115,14 +126,15 @@ export class CalendarComponent implements OnInit {
       const isToday = date.toDateString() === today.toDateString();
       
       const dateKey = this.calendarService.getDateKey(date);
-      const calendarData = this.calendarService.getCalendarData();
+      
       this.calendarDates.push({
         day: date.getDate(),
         isCurrentMonth,
         isToday,
         events: this.getEventsForDate(date),
         actualDate: new Date(date),
-        customText: calendarData[dateKey]
+        customText: calendarData[dateKey],
+        serverPoints: this.calendarService.getServerPoints(dateKey)
       });
     }
   }
@@ -149,15 +161,39 @@ export class CalendarComponent implements OnInit {
     this.highlightedIndex = -1;
     this.filteredServers = [...this.servers];
     
-    // Initialize serverPointsList from existing custom text
+    // Initialize serverPointsList from existing data
     this.serverPointsList = [];
-    if (date.customText) {
+    if (date.serverPoints && date.serverPoints.length > 0) {
+      // Load existing server points data
+      date.serverPoints.forEach(sp => {
+        this.serverPointsList.push({
+          name: sp.name,
+          points: sp.points,
+          showDropdown: false,
+          filteredServers: [...this.servers],
+          highlightedIndex: -1
+        });
+      });
+    } else if (date.customText) {
+      // Fallback to custom text with default points
       const names = date.customText.split('\n').filter(name => name.trim());
       names.forEach(name => {
-        this.serverPointsList.push({ name: name.trim(), points: 2 });
+        this.serverPointsList.push({ 
+          name: name.trim(), 
+          points: 2,
+          showDropdown: false,
+          filteredServers: [...this.servers],
+          highlightedIndex: -1
+        });
       });
     } else {
-      this.serverPointsList.push({ name: '', points: 2 });
+      this.serverPointsList.push({ 
+        name: '', 
+        points: 2,
+        showDropdown: false,
+        filteredServers: [...this.servers],
+        highlightedIndex: -1
+      });
     }
   }
 
@@ -268,6 +304,8 @@ export class CalendarComponent implements OnInit {
     }
   }
   
+
+
   closeServerModal() {
     this.showServerModal = false;
     this.selectedEventForServer = -1;
@@ -335,6 +373,7 @@ export class CalendarComponent implements OnInit {
   }
   
   async saveCustomText() {
+    console.log('Save button clicked!');
     if (this.selectedDate) {
       // Convert serverPointsList to custom text format
       const customText = this.serverPointsList
@@ -342,16 +381,24 @@ export class CalendarComponent implements OnInit {
         .map(item => item.name.trim())
         .join('\n');
       
-      this.selectedDate.customText = customText;
-      const dateKey = this.calendarService.getDateKey(this.selectedDate.actualDate);
-      await this.calendarService.updateCalendarData(dateKey, customText);
+      const serverPoints = this.serverPointsList
+        .filter(item => item.name.trim())
+        .map(item => ({ name: item.name.trim(), points: item.points }));
       
-      // Award individual points
-      await this.awardIndividualPoints();
+      console.log('Saving data:', { customText, serverPoints, dateKey: this.calendarService.getDateKey(this.selectedDate.actualDate) });
+      
+      try {
+        const dateKey = this.calendarService.getDateKey(this.selectedDate.actualDate);
+        const result = await this.calendarService.updateCalendarData(dateKey, customText, serverPoints);
+        console.log('Save result:', result);
+        
+        this.closeEventModal();
+      } catch (error) {
+        console.error('Error saving calendar data:', error);
+      }
+    } else {
+      console.log('No selected date!');
     }
-    // Update the calendar dates array to reflect changes
-    this.calendarDates = [...this.calendarDates];
-    this.closeEventModal();
   }
   
   private async awardIndividualPoints() {
@@ -367,11 +414,97 @@ export class CalendarComponent implements OnInit {
   }
   
   addServerPoint() {
-    this.serverPointsList.push({ name: '', points: 2 });
+    this.serverPointsList.push({ 
+      name: '', 
+      points: 2,
+      showDropdown: false,
+      filteredServers: [...this.servers],
+      highlightedIndex: -1
+    });
+  }
+  
+  onServerNameInput(event: any, index: number) {
+    const query = event.target.value.toLowerCase().trim();
+    const item = this.serverPointsList[index];
+    
+    if (!query) {
+      item.filteredServers = [...this.servers];
+      item.showDropdown = this.servers.length > 0;
+    } else {
+      item.filteredServers = this.servers.filter(server => 
+        server.name.toLowerCase().includes(query)
+      );
+      item.showDropdown = item.filteredServers.length > 0;
+    }
+    item.highlightedIndex = -1;
+  }
+  
+  onServerInputFocus(index: number) {
+    const item = this.serverPointsList[index];
+    item.showDropdown = true;
+    if (!item.name.trim()) {
+      item.filteredServers = [...this.servers];
+    }
+  }
+  
+  onServerInputBlur(index: number) {
+    setTimeout(() => {
+      this.serverPointsList[index].showDropdown = false;
+      this.serverPointsList[index].highlightedIndex = -1;
+    }, 200);
+  }
+  
+  onServerKeyDown(event: KeyboardEvent, index: number) {
+    const item = this.serverPointsList[index];
+    if (!item.showDropdown || !item.filteredServers || item.filteredServers.length === 0) return;
+    
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        item.highlightedIndex = Math.min((item.highlightedIndex || -1) + 1, item.filteredServers.length - 1);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        item.highlightedIndex = Math.max((item.highlightedIndex || 0) - 1, 0);
+        break;
+      case 'Enter':
+        event.preventDefault();
+        if (item.highlightedIndex !== undefined && item.highlightedIndex >= 0 && item.highlightedIndex < item.filteredServers.length) {
+          this.selectServerForInput(item.filteredServers[item.highlightedIndex], index);
+        }
+        break;
+      case 'Escape':
+        item.showDropdown = false;
+        item.highlightedIndex = -1;
+        break;
+    }
+  }
+  
+  selectServerForInput(server: any, index: number) {
+    this.serverPointsList[index].name = server.name;
+    this.serverPointsList[index].showDropdown = false;
+    this.serverPointsList[index].highlightedIndex = -1;
   }
   
   removeServerPoint(index: number) {
     this.serverPointsList.splice(index, 1);
+  }
+  
+  getServerPointsDisplay(date: CalendarDate): { name: string; points: number }[] {
+    console.log('Getting server points for date:', date.day, 'serverPoints:', date.serverPoints, 'customText:', date.customText);
+    
+    if (date.serverPoints && date.serverPoints.length > 0) {
+      console.log('Using serverPoints data:', date.serverPoints);
+      return date.serverPoints.filter(sp => sp && sp.name);
+    } else if (date.customText) {
+      console.log('Using customText fallback:', date.customText);
+      // Fallback for old entries without points data - show default points
+      return date.customText.split('\n')
+        .filter(name => name && name.trim())
+        .map(name => ({ name: name.trim(), points: 2 }));
+    }
+    console.log('No data found');
+    return [];
   }
   
 

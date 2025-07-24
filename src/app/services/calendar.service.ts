@@ -6,12 +6,18 @@ export interface CalendarData {
   [dateKey: string]: string;
 }
 
+export interface CalendarEntry {
+  customText: string;
+  serverPoints?: { name: string; points: number }[];
+}
+
 @Injectable({
   providedIn: 'root'
 })
 export class CalendarService {
   private calendarDataSubject = new BehaviorSubject<CalendarData>({});
   public calendarData$ = this.calendarDataSubject.asObservable();
+  private serverPointsData: { [dateKey: string]: { name: string; points: number }[] } = {};
 
   constructor(private supabase: SupabaseService) {
     this.loadCalendarData();
@@ -21,29 +27,48 @@ export class CalendarService {
     const { data } = await this.supabase.getCalendarEntries();
     
     const calendarData: CalendarData = {};
+    this.serverPointsData = {};
+    
     if (data) {
       data.forEach(entry => {
         if (entry.custom_text) {
           calendarData[entry.date_key] = entry.custom_text;
+        }
+        
+        if (entry.server_points) {
+          try {
+            this.serverPointsData[entry.date_key] = JSON.parse(entry.server_points);
+          } catch (error) {
+            console.error('Error parsing server_points for', entry.date_key, error);
+          }
         }
       });
     }
     this.calendarDataSubject.next(calendarData);
   }
 
-  async updateCalendarData(dateKey: string, text: string) {
+  async updateCalendarData(dateKey: string, text: string, serverPoints?: { name: string; points: number }[]) {
+    console.log('CalendarService: Updating data for', dateKey, { text, serverPoints });
+    
     if (text.trim()) {
-      await this.supabase.upsertCalendarEntry(dateKey, text);
+      const result = await this.supabase.upsertCalendarEntry(dateKey, text, serverPoints);
+      console.log('CalendarService: Upsert result:', result);
     } else {
       await this.supabase.deleteCalendarEntry(dateKey);
     }
     
     // Reload data to update the subject
+    console.log('CalendarService: Reloading calendar data...');
     await this.loadCalendarData();
+    console.log('CalendarService: Data reloaded');
   }
 
   getCalendarData(): CalendarData {
     return this.calendarDataSubject.value;
+  }
+  
+  getServerPoints(dateKey: string): { name: string; points: number }[] | undefined {
+    return this.serverPointsData[dateKey];
   }
 
   getDateKey(date: Date): string {

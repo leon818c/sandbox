@@ -11,11 +11,13 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
 })
 export class EuchMinComponent {
   ministers = [
-    { name: 'John Smith', image: '/assets/placeholder-minister.jpg' },
-    { name: 'Mary Johnson', image: '/assets/placeholder-minister.jpg' },
-    { name: 'David Wilson', image: '/assets/placeholder-minister.jpg' },
-    { name: 'Sarah Davis', image: '/assets/placeholder-minister.jpg' },
-    { name: 'Michael Brown', image: '/assets/placeholder-minister.jpg' },
-    { name: 'Lisa Garcia', image: '/assets/placeholder-minister.jpg' }
+    { name: 'Jacob Alappurathu', image: '/assets/placeholder-minister.jpg' },
+    { name: 'Tomy Cherian', image: '/assets/tcher.jpeg' },
+    { name: 'Joy Karimpal', image: '/assets/placeholder-minister.jpg' },
+    { name: 'Josey Joseph Thalachelloor', image: '/assets/jjth.jpeg' },
+    { name: 'Joy C. Varkey', image: '/assets/joyvarkey.jpeg' },
+    { name: 'Tom Thekkan', image: '/assets/tthekan.jpeg' },
+    { name: 'Santhosh Kurian', image: '/assets/placeholder-minister.jpg' },
+    { name: 'Roy Matthew', image: '/assets/placeholder-minister.jpg' }
   ];
 }

@@ -12,6 +12,7 @@ interface CalendarDate {
   events: CalendarEvent[];
   actualDate: Date;
   customText?: string;
+  serverPoints?: { name: string; points: number }[];
 }
 
 interface CalendarEvent {
@@ -34,6 +35,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   calendarDates: CalendarDate[] = [];
   showEventModal = false;
   selectedDate: CalendarDate | null = null;
+  selectedDateServerPoints: { name: string; points: number }[] = [];
   private calendarSubscription: Subscription = new Subscription();
 
   constructor(private calendarService: CalendarService) {}
@@ -75,14 +77,20 @@ export class ScheduleComponent implements OnInit, OnDestroy {
       
       const dateKey = this.calendarService.getDateKey(date);
       const calendarData = this.calendarService.getCalendarData();
+      
+      const serverPoints = this.calendarService.getServerPoints(dateKey);
+      
       this.calendarDates.push({
         day: date.getDate(),
         isCurrentMonth,
         isToday,
         events: this.getEventsForDate(date),
         actualDate: new Date(date),
-        customText: calendarData[dateKey]
+        customText: calendarData[dateKey],
+        serverPoints: serverPoints
       });
+      
+
     }
   }
 
@@ -101,7 +109,14 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   openEventModal(date: CalendarDate) {
+    console.log('Modal opened for date:', date.day);
+    console.log('customText:', date.customText);
+    console.log('serverPoints:', date.serverPoints);
+    
     this.selectedDate = date;
+    this.selectedDateServerPoints = this.getServerPointsDisplay(date);
+    
+    console.log('selectedDateServerPoints:', this.selectedDateServerPoints);
     this.showEventModal = true;
   }
 
@@ -114,5 +129,34 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   closeEventModal() {
     this.showEventModal = false;
     this.selectedDate = null;
+  }
+  
+  getServerPointsDisplay(date: CalendarDate): { name: string; points: number }[] {
+    console.log('getServerPointsDisplay - serverPoints:', date.serverPoints);
+    console.log('getServerPointsDisplay - customText:', date.customText);
+    
+    if (date.serverPoints && date.serverPoints.length > 0) {
+      console.log('Using serverPoints path');
+      const filtered = date.serverPoints.filter(sp => {
+        const isValid = sp && typeof sp === 'object' && sp.name && sp.name.trim() && typeof sp.points === 'number';
+        console.log('Filtering item:', sp, 'valid:', isValid);
+        return isValid;
+      });
+      console.log('Filtered serverPoints:', filtered);
+      return filtered;
+    } else if (date.customText) {
+      console.log('Using customText fallback');
+      const result = date.customText.split('\n')
+        .filter(name => name && name.trim())
+        .map(name => ({ name: name.trim(), points: 2 }));
+      console.log('CustomText result:', result);
+      return result;
+    }
+    console.log('No data found');
+    return [];
+  }
+  
+  trackByName(index: number, item: { name: string; points: number }): string {
+    return item?.name || index.toString();
   }
 }

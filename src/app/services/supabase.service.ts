@@ -162,16 +162,19 @@ export class SupabaseService {
   getCalendarEntries() {
     return this.supabase
       .from('calendar_entries')
-      .select('date_key, custom_text');
+      .select('date_key, custom_text, server_points');
   }
 
-  upsertCalendarEntry(dateKey: string, customText: string) {
+  upsertCalendarEntry(dateKey: string, customText: string, serverPoints?: any) {
     return this.supabase
       .from('calendar_entries')
       .upsert({ 
         date_key: dateKey, 
         custom_text: customText,
+        server_points: serverPoints ? JSON.stringify(serverPoints) : null,
         updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'date_key'
       });
   }
 

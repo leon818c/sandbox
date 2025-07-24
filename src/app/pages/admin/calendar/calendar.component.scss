@@ -553,13 +553,35 @@
     font-weight: 500;
     line-height: 1.2;
     margin-bottom: 1px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .server-name {
+    flex: 1;
     text-overflow: ellipsis;
     overflow: hidden;
     white-space: nowrap;
   }
   
+  .server-points {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: #4caf50;
+    margin-left: 4px;
+    flex-shrink: 0;
+  }
+  
   .custom-text-item:last-child {
     margin-bottom: 0;
+  }
+  
+  .points-badge {
+    font-size: 0.6rem;
+    color: #4caf50;
+    font-weight: 600;
+    margin-left: 4px;
   }
   
   .custom-text-section {
@@ -640,8 +662,13 @@
     margin-bottom: 10px;
   }
   
-  .server-name-input {
+  .server-input-container {
     flex: 1;
+    position: relative;
+  }
+  
+  .server-name-input {
+    width: 100%;
     padding: 8px;
     border: 1px solid #ddd;
     border-radius: 4px;
