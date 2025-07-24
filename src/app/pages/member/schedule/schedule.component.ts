@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from '../../../shared/header/header.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
+import { CalendarService } from '../../../services/calendar.service';
+import { Subscription } from 'rxjs';
 
 interface CalendarDate {
   day: number;
@@ -9,6 +11,7 @@ interface CalendarDate {
   isToday: boolean;
   events: CalendarEvent[];
   actualDate: Date;
+  customText?: string;
 }
 
 interface CalendarEvent {
@@ -24,16 +27,26 @@ interface CalendarEvent {
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.scss'
 })
-export class ScheduleComponent implements OnInit {
+export class ScheduleComponent implements OnInit, OnDestroy {
   currentDate = new Date();
   currentMonthYear = '';
   dayHeaders = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   calendarDates: CalendarDate[] = [];
   showEventModal = false;
   selectedDate: CalendarDate | null = null;
+  private calendarSubscription: Subscription = new Subscription();
+
+  constructor(private calendarService: CalendarService) {}
 
   ngOnInit() {
     this.generateCalendar();
+    this.calendarSubscription = this.calendarService.calendarData$.subscribe(() => {
+      this.generateCalendar();
+    });
+  }
+
+  ngOnDestroy() {
+    this.calendarSubscription.unsubscribe();
   }
 
   generateCalendar() {
@@ -60,55 +73,21 @@ export class ScheduleComponent implements OnInit {
       const isCurrentMonth = date.getMonth() === month;
       const isToday = date.toDateString() === today.toDateString();
       
+      const dateKey = this.calendarService.getDateKey(date);
+      const calendarData = this.calendarService.getCalendarData();
       this.calendarDates.push({
         day: date.getDate(),
         isCurrentMonth,
         isToday,
         events: this.getEventsForDate(date),
-        actualDate: new Date(date)
+        actualDate: new Date(date),
+        customText: calendarData[dateKey]
       });
     }
   }
 
   getEventsForDate(date: Date): CalendarEvent[] {
-    const events: CalendarEvent[] = [];
-    
-    // Sunday Masses
-    if (date.getDay() === 0) {
-      events.push({ title: '7:00 AM Mass (Mal)', type: 'malayalam-mass' });
-      events.push({ title: '9:00 AM Mass (Mal)', type: 'malayalam-mass' });
-      events.push({ title: '11:00 AM Mass (Eng)', type: 'sunday-mass' });
-    }
-    
-    // Monday - Thursday 7pm English Mass
-    if ([1, 2, 3, 4].includes(date.getDay())) {
-      events.push({ title: '8:30 AM Mass (Mal)', type: 'malayalam-mass' });
-      events.push({ title: '7:00 PM Mass (Eng)', type: 'weekday-mass' });
-    }
-    
-    // Friday
-    if (date.getDay() === 5) {
-      events.push({ title: '8:30 AM Mass (Mal)', type: 'malayalam-mass' });
-      
-      // Every second Friday 7pm English Mass
-      const firstFriday = new Date(date.getFullYear(), date.getMonth(), 1);
-      while (firstFriday.getDay() !== 5) {
-        firstFriday.setDate(firstFriday.getDate() + 1);
-      }
-      const secondFriday = new Date(firstFriday);
-      secondFriday.setDate(firstFriday.getDate() + 7);
-      
-      if (date.getDate() === secondFriday.getDate()) {
-        events.push({ title: '7:00 PM Mass (Eng)', type: 'weekday-mass' });
-      }
-    }
-    
-    // Saturday
-    if (date.getDay() === 6) {
-      events.push({ title: '8:30 AM Mass (Mal)', type: 'malayalam-mass' });
-    }
-    
-    return events;
+    return [];
   }
 
   previousMonth() {

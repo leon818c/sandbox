@@ -2,7 +2,32 @@
   <app-header></app-header>
   
   <main class="content">
-    <div class="calendar-container">
+    <div class="schedule-layout">
+      <div class="mass-schedule-sidebar">
+        <h3>Mass Schedule</h3>
+        <div class="mass-day">
+          <h4>Sunday</h4>
+          <div class="mass-time malayalam">7:00 AM (Malayalam)</div>
+          <div class="mass-time malayalam">9:00 AM (Malayalam)</div>
+          <div class="mass-time english">11:00 AM (English)</div>
+        </div>
+        <div class="mass-day">
+          <h4>Monday - Thursday</h4>
+          <div class="mass-time malayalam">8:30 AM (Malayalam)</div>
+          <div class="mass-time english">7:00 PM (English)</div>
+        </div>
+        <div class="mass-day">
+          <h4>Friday</h4>
+          <div class="mass-time malayalam">8:30 AM (Malayalam)</div>
+          <div class="mass-time english">7:00 PM (English) - 2nd Friday</div>
+        </div>
+        <div class="mass-day">
+          <h4>Saturday</h4>
+          <div class="mass-time malayalam">8:30 AM (Malayalam)</div>
+        </div>
+      </div>
+      
+      <div class="calendar-container">
       <div class="calendar-header">
         <button class="nav-btn" (click)="previousMonth()">
           <span class="arrow">‹</span>
@@ -21,8 +46,8 @@
           *ngFor="let date of calendarDates"
           [class.other-month]="!date.isCurrentMonth"
           [class.today]="date.isToday"
-          [class.has-events]="date.events.length > 0"
-          (click)="date.events.length > 0 ? openEventModal(date) : null"
+          [class.has-events]="date.events.length > 0 || date.customText"
+          (click)="(date.events.length > 0 || date.customText) ? openEventModal(date) : null"
         >
           <span class="date-number">{{ date.day }}</span>
           <div class="events desktop-events">
@@ -33,18 +58,27 @@
             >
               {{ event.title }}
             </div>
+            <div class="custom-text-list" *ngIf="date.customText">
+              <div class="custom-text-item" *ngFor="let line of date.customText.split('\n'); track line">
+                {{ line }}
+              </div>
+            </div>
           </div>
-          <div class="mobile-events" *ngIf="date.events.length > 0">
-            <div class="event-dots">
+          <div class="mobile-events" *ngIf="date.events.length > 0 || date.customText">
+            <div class="event-dots" *ngIf="date.events.length > 0">
               <span 
                 class="event-dot" 
                 *ngFor="let event of date.events" 
                 [class]="event.type"
               ></span>
             </div>
+            <div class="mobile-custom-text" *ngIf="date.customText">
+              <div class="mobile-text-indicator">👥</div>
+            </div>
           </div>
         </div>
       </div>
+    </div>
     </div>
   </main>
   
@@ -53,17 +87,21 @@
     <div class="modal-overlay" (click)="closeEventModal()">
       <div class="event-modal" (click)="$event.stopPropagation()">
         <div class="modal-header">
-          <h3>{{ getSelectedDateString() }} Events</h3>
+          <h3>{{ getSelectedDateString() }}</h3>
           <button class="close-btn" (click)="closeEventModal()">×</button>
         </div>
         <div class="modal-content">
-          <div 
-            class="modal-event" 
-            *ngFor="let event of selectedDate?.events"
-            [class]="event.type"
-          >
-            <div class="event-title">{{ event.title }}</div>
-            <div class="event-time" *ngIf="event.time">{{ event.time }}</div>
+          <div class="modal-custom-text" *ngIf="selectedDate?.customText">
+            <h4>Servers Scheduled</h4>
+            <div class="server-list">
+              <div class="server-name" *ngFor="let line of selectedDate!.customText!.split('\n'); track line">
+                • {{ line }}
+              </div>
+            </div>
+          </div>
+          
+          <div class="no-servers" *ngIf="!selectedDate?.customText">
+            <p>No servers scheduled for this day.</p>
           </div>
         </div>
       </div>

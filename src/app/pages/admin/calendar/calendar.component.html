@@ -31,8 +31,8 @@
             *ngFor="let date of calendarDates"
             [class.other-month]="!date.isCurrentMonth"
             [class.today]="date.isToday"
-            [class.has-events]="date.events.length > 0"
-            (click)="date.events.length > 0 ? openEventModal(date) : null"
+            [class.has-events]="date.events.length > 0 || date.customText"
+            (click)="openEventModal(date)"
           >
             <span class="date-number">{{ date.day }}</span>
             <div class="events desktop-events">
@@ -42,6 +42,11 @@
                 [class]="event.type"
               >
                 {{ event.title }}
+              </div>
+              <div class="custom-text-list" *ngIf="date.customText">
+                <div class="custom-text-item" *ngFor="let line of date.customText.split('\n'); track line">
+                  {{ line }}
+                </div>
               </div>
             </div>
             <div class="mobile-events" *ngIf="date.events.length > 0">
@@ -63,76 +68,48 @@
       <div class="modal-overlay" (click)="closeEventModal()">
         <div class="event-modal" (click)="$event.stopPropagation()">
           <div class="modal-header">
-            <h3>{{ getSelectedDateString() }} Events</h3>
+            <h3>{{ getSelectedDateString() }}</h3>
             <button class="close-btn" (click)="closeEventModal()">×</button>
           </div>
           <div class="modal-content">
-            <!-- View Mode -->
-            <div *ngIf="!isEditing">
-              <div 
-                class="modal-event" 
-                *ngFor="let event of selectedDate?.events; let i = index"
-                [class]="event.type"
-              >
-                <div class="event-title">{{ event.title }}</div>
-                <div class="event-time" *ngIf="event.time">{{ event.time }}</div>
-                <div class="event-actions">
-                  <button class="edit-btn" (click)="startEdit(event, i)">Edit</button>
-                  <button class="delete-btn" (click)="deleteEvent(i)">Delete</button>
-                </div>
-              </div>
-              
-              <!-- Servers Section -->
-              <div class="day-servers-section">
-                <h3>Servers</h3>
-                <div class="server-list">
-                  @for (event of selectedDate?.events; track event; let i = $index) {
-                    @if (event.servers && event.servers.length > 0) {
-                      <div class="event-servers">
-                        <h4>{{ event.title }}</h4>
-                        <div class="server-items">
-                          @for (server of event.servers; track server; let j = $index) {
-                            <div class="server-item">
-                              <span class="server-name">{{ server.name }}</span>
-                              <button class="remove-server-btn" (click)="removeServer(i, j)">×</button>
-                            </div>
-                          }
-                        </div>
+            <div class="server-search-section">
+              <h4>Quick Add Server</h4>
+              <div class="search-container">
+                <input 
+                  type="text" 
+                  class="search-input"
+                  placeholder="Start typing server name..."
+                  [(ngModel)]="searchQuery"
+                  (input)="filterServers()"
+                  (focus)="onInputFocus()"
+                  (blur)="onInputBlur()"
+                  (keydown)="onKeyDown($event)"
+                >
+                @if (showDropdown && filteredServers.length > 0) {
+                  <div class="dropdown">
+                    @for (server of filteredServers; track server.id; let i = $index) {
+                      <div 
+                        class="dropdown-item" 
+                        [class.highlighted]="i === highlightedIndex"
+                        (click)="addServerToText(server)"
+                      >
+                        {{ server.name }}
                       </div>
                     }
-                  }
-                </div>
-              </div>
-              
-              <div class="button-group">
-                <button class="add-btn" (click)="addNewEvent()">Add New Event</button>
-                <button class="servers-btn" (click)="insertServers()">Insert Servers</button>
+                  </div>
+                }
               </div>
             </div>
             
-            <!-- Edit Mode -->
-            <div *ngIf="isEditing && editingEvent" class="event-edit-form">
-              <div class="form-group">
-                <label for="event-title">Title:</label>
-                <input type="text" id="event-title" [(ngModel)]="editingEvent.title">
-              </div>
-              
-              <div class="form-group">
-                <label for="event-time">Time:</label>
-                <input type="text" id="event-time" [(ngModel)]="editingEvent.time">
-              </div>
-              
-              <div class="form-group">
-                <label for="event-type">Type:</label>
-                <select id="event-type" [(ngModel)]="editingEvent.type">
-                  <option *ngFor="let type of eventTypes" [value]="type.value">{{ type.label }}</option>
-                </select>
-              </div>
-              
-              <div class="form-actions">
-                <button class="save-btn" (click)="saveEdit()">Save</button>
-                <button class="cancel-btn" (click)="cancelEdit()">Cancel</button>
-              </div>
+            <div class="custom-text-section">
+              <h3>Add Names</h3>
+              <textarea 
+                class="custom-text-input" 
+                [(ngModel)]="selectedDate!.customText" 
+                placeholder="Enter names (one per line)..."
+                rows="5">
+              </textarea>
+              <button class="save-text-btn" (click)="saveCustomText()">Save</button>
             </div>
           </div>
         </div>

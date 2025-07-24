@@ -4,12 +4,12 @@ import { HeaderComponent } from '../../../shared/header/header.component';
 import { FooterComponent } from '../../../shared/footer/footer.component';
 
 @Component({
-  selector: 'app-homepage',
+  selector: 'app-events',
   standalone: true,
   imports: [RouterLink, HeaderComponent, FooterComponent],
-  templateUrl: './homepage.component.html',
-  styleUrl: './homepage.component.scss'
+  templateUrl: './events.component.html',
+  styleUrl: './events.component.scss'
 })
-export class HomepageComponent {
+export class EventsComponent {
 
 }

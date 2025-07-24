@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { ServerService, Server } from '../../../services/server.service';
+import { SupabaseService } from '../../../services/supabase.service';
+import { CalendarService } from '../../../services/calendar.service';
 
 interface CalendarDate {
   day: number;
@@ -10,6 +11,7 @@ interface CalendarDate {
   isToday: boolean;
   events: CalendarEvent[];
   actualDate: Date;
+  customText?: string;
 }
 
 interface CalendarEvent {
@@ -39,10 +41,11 @@ export class CalendarComponent implements OnInit {
   isEditing = false;
   selectedEventForServer: number = -1;
   selectedServer: any = null;
-  servers: Server[] = [];
+  servers: any[] = [];
   searchQuery: string = '';
-  filteredServers: Server[] = [];
+  filteredServers: any[] = [];
   showDropdown: boolean = false;
+  highlightedIndex: number = -1;
   
   eventTypes = [
     { value: 'sunday-mass', label: 'Sunday Mass' },
@@ -51,7 +54,7 @@ export class CalendarComponent implements OnInit {
     { value: 'special', label: 'Special Event' }
   ];
   
-  constructor(private serverService: ServerService) {}
+  constructor(private supabase: SupabaseService, private calendarService: CalendarService) {}
 
   ngOnInit() {
     this.generateCalendar();
@@ -59,15 +62,22 @@ export class CalendarComponent implements OnInit {
   }
   
   loadServers() {
-    this.serverService.getServers().subscribe(servers => {
-      this.servers = servers;
-      this.filteredServers = [...this.servers];
+    this.supabase.getServers().then(({ data }) => {
+      if (data) {
+        this.servers = data.map((server: any) => ({
+          id: server.id,
+          name: server.full_name
+        }));
+        this.filteredServers = [...this.servers];
+      }
     });
   }
   
   filterServers() {
     if (!this.searchQuery.trim()) {
       this.filteredServers = [...this.servers];
+      this.highlightedIndex = -1;
+      this.showDropdown = this.servers.length > 0;
       return;
     }
     
@@ -75,6 +85,8 @@ export class CalendarComponent implements OnInit {
     this.filteredServers = this.servers.filter(server => 
       server.name.toLowerCase().includes(query)
     );
+    this.highlightedIndex = -1;
+    this.showDropdown = this.filteredServers.length > 0;
   }
 
   generateCalendar() {
@@ -101,55 +113,21 @@ export class CalendarComponent implements OnInit {
       const isCurrentMonth = date.getMonth() === month;
       const isToday = date.toDateString() === today.toDateString();
       
+      const dateKey = this.calendarService.getDateKey(date);
+      const calendarData = this.calendarService.getCalendarData();
       this.calendarDates.push({
         day: date.getDate(),
         isCurrentMonth,
         isToday,
         events: this.getEventsForDate(date),
-        actualDate: new Date(date)
+        actualDate: new Date(date),
+        customText: calendarData[dateKey]
       });
     }
   }
 
   getEventsForDate(date: Date): CalendarEvent[] {
-    const events: CalendarEvent[] = [];
-    
-    // Sunday Masses
-    if (date.getDay() === 0) {
-      events.push({ title: '7:00 AM Mass (Mal)', type: 'malayalam-mass' });
-      events.push({ title: '9:00 AM Mass (Mal)', type: 'malayalam-mass' });
-      events.push({ title: '11:00 AM Mass (Eng)', type: 'sunday-mass' });
-    }
-    
-    // Monday - Thursday 7pm English Mass
-    if ([1, 2, 3, 4].includes(date.getDay())) {
-      events.push({ title: '8:30 AM Mass (Mal)', type: 'malayalam-mass' });
-      events.push({ title: '7:00 PM Mass (Eng)', type: 'weekday-mass' });
-    }
-    
-    // Friday
-    if (date.getDay() === 5) {
-      events.push({ title: '8:30 AM Mass (Mal)', type: 'malayalam-mass' });
-      
-      // Every second Friday 7pm English Mass
-      const firstFriday = new Date(date.getFullYear(), date.getMonth(), 1);
-      while (firstFriday.getDay() !== 5) {
-        firstFriday.setDate(firstFriday.getDate() + 1);
-      }
-      const secondFriday = new Date(firstFriday);
-      secondFriday.setDate(firstFriday.getDate() + 7);
-      
-      if (date.getDate() === secondFriday.getDate()) {
-        events.push({ title: '7:00 PM Mass (Eng)', type: 'weekday-mass' });
-      }
-    }
-    
-    // Saturday
-    if (date.getDay() === 6) {
-      events.push({ title: '8:30 AM Mass (Mal)', type: 'malayalam-mass' });
-    }
-    
-    return events;
+    return [];
   }
 
   previousMonth() {
@@ -165,6 +143,10 @@ export class CalendarComponent implements OnInit {
   openEventModal(date: CalendarDate) {
     this.selectedDate = date;
     this.showEventModal = true;
+    this.searchQuery = '';
+    this.showDropdown = false;
+    this.highlightedIndex = -1;
+    this.filteredServers = [...this.servers];
   }
 
   getSelectedDateString(): string {
@@ -282,9 +264,73 @@ export class CalendarComponent implements OnInit {
     this.showDropdown = false;
   }
   
-  selectServer(server: Server) {
+  selectServer(server: any) {
     this.selectedServer = server;
     this.searchQuery = server.name;
     this.showDropdown = false;
   }
+  
+  addServerToText(server: any) {
+    if (this.selectedDate) {
+      const currentText = this.selectedDate.customText || '';
+      const newText = currentText ? currentText + '\n' + server.name : server.name;
+      this.selectedDate.customText = newText;
+    }
+    this.searchQuery = '';
+    this.showDropdown = false;
+    this.highlightedIndex = -1;
+    this.filteredServers = [...this.servers];
+  }
+  
+  onInputFocus() {
+    this.showDropdown = true;
+    if (!this.searchQuery.trim()) {
+      this.filteredServers = [...this.servers];
+    }
+  }
+  
+  onInputBlur() {
+    // Delay hiding dropdown to allow click events on dropdown items
+    setTimeout(() => {
+      this.showDropdown = false;
+      this.highlightedIndex = -1;
+    }, 200);
+  }
+  
+  onKeyDown(event: KeyboardEvent) {
+    if (!this.showDropdown || this.filteredServers.length === 0) return;
+    
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        this.highlightedIndex = Math.min(this.highlightedIndex + 1, this.filteredServers.length - 1);
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        this.highlightedIndex = Math.max(this.highlightedIndex - 1, 0);
+        break;
+      case 'Enter':
+        event.preventDefault();
+        if (this.highlightedIndex >= 0 && this.highlightedIndex < this.filteredServers.length) {
+          this.addServerToText(this.filteredServers[this.highlightedIndex]);
+        }
+        break;
+      case 'Escape':
+        this.showDropdown = false;
+        this.highlightedIndex = -1;
+        break;
+    }
+  }
+  
+  saveCustomText() {
+    if (this.selectedDate) {
+      const dateKey = this.calendarService.getDateKey(this.selectedDate.actualDate);
+      this.calendarService.updateCalendarData(dateKey, this.selectedDate.customText || '');
+    }
+    // Update the calendar dates array to reflect changes
+    this.calendarDates = [...this.calendarDates];
+    this.closeEventModal();
+  }
+  
+
 }
