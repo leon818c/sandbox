@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DatePipe, NgIf, CommonModule } from '@angular/common';
@@ -25,6 +25,8 @@ export class LeaderboardComponent implements OnInit {
   showDropdown = false;
   showQuickToast = false;
   isQuickToastClosing = false;
+  
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -132,6 +134,7 @@ export class LeaderboardComponent implements OnInit {
     
     const newPoints = this.selectedServer.points + this.quickInputValue;
     this.updateQuickPoints(newPoints);
+    this.focusAndSelectSearchInput();
   }
   
   quickSubtractPoints() {
@@ -139,6 +142,16 @@ export class LeaderboardComponent implements OnInit {
     
     const newPoints = Math.max(0, this.selectedServer.points - this.quickInputValue);
     this.updateQuickPoints(newPoints);
+    this.focusAndSelectSearchInput();
+  }
+  
+  focusAndSelectSearchInput() {
+    setTimeout(() => {
+      if (this.searchInput && this.searchInput.nativeElement) {
+        this.searchInput.nativeElement.focus();
+        this.searchInput.nativeElement.select();
+      }
+    }, 100);
   }
   
   updateQuickPoints(newPoints: number) {

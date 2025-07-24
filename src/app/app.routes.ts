@@ -11,6 +11,7 @@ import { SingleLeaderboardComponent } from './pages/member/general-leaderboard/s
 import { GroupLeaderboardComponent } from './pages/member/general-leaderboard/group-leaderboard/group-leaderboard.component';
 import { GroupComponent } from './pages/admin/group/group.component';
 import { EuchMinComponent } from './pages/member/euch-min/euch-min.component';
+import { CalendarComponent } from './pages/admin/calendar/calendar.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -24,5 +25,6 @@ export const routes: Routes = [
   { path: 'admin/servers', component: ServerComponent },
   { path: 'admin/leaderboard', component: LeaderboardManagementComponent },
   { path: 'admin/groups', component: GroupComponent },
-  { path: 'euch-min', component: EuchMinComponent }
+  { path: 'euch-min', component: EuchMinComponent },
+  { path: 'admin/calendar', component: CalendarComponent }
 ];
