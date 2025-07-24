@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { SupabaseService } from './supabase.service';
 
 export interface CalendarData {
   [dateKey: string]: string;
@@ -12,25 +13,33 @@ export class CalendarService {
   private calendarDataSubject = new BehaviorSubject<CalendarData>({});
   public calendarData$ = this.calendarDataSubject.asObservable();
 
-  constructor() {
+  constructor(private supabase: SupabaseService) {
     this.loadCalendarData();
   }
 
-  private loadCalendarData() {
-    const saved = localStorage.getItem('calendarCustomText');
-    const data = saved ? JSON.parse(saved) : {};
-    this.calendarDataSubject.next(data);
+  private async loadCalendarData() {
+    const { data } = await this.supabase.getCalendarEntries();
+    
+    const calendarData: CalendarData = {};
+    if (data) {
+      data.forEach(entry => {
+        if (entry.custom_text) {
+          calendarData[entry.date_key] = entry.custom_text;
+        }
+      });
+    }
+    this.calendarDataSubject.next(calendarData);
   }
 
-  updateCalendarData(dateKey: string, text: string) {
-    const currentData = this.calendarDataSubject.value;
+  async updateCalendarData(dateKey: string, text: string) {
     if (text.trim()) {
-      currentData[dateKey] = text;
+      await this.supabase.upsertCalendarEntry(dateKey, text);
     } else {
-      delete currentData[dateKey];
+      await this.supabase.deleteCalendarEntry(dateKey);
     }
-    localStorage.setItem('calendarCustomText', JSON.stringify(currentData));
-    this.calendarDataSubject.next({ ...currentData });
+    
+    // Reload data to update the subject
+    await this.loadCalendarData();
   }
 
   getCalendarData(): CalendarData {

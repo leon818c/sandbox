@@ -322,10 +322,10 @@ export class CalendarComponent implements OnInit {
     }
   }
   
-  saveCustomText() {
+  async saveCustomText() {
     if (this.selectedDate) {
       const dateKey = this.calendarService.getDateKey(this.selectedDate.actualDate);
-      this.calendarService.updateCalendarData(dateKey, this.selectedDate.customText || '');
+      await this.calendarService.updateCalendarData(dateKey, this.selectedDate.customText || '');
     }
     // Update the calendar dates array to reflect changes
     this.calendarDates = [...this.calendarDates];

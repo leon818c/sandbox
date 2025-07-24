@@ -158,4 +158,27 @@ export class SupabaseService {
       .update({ points })
       .eq('id', groupId);
   }
+
+  getCalendarEntries() {
+    return this.supabase
+      .from('calendar_entries')
+      .select('date_key, custom_text');
+  }
+
+  upsertCalendarEntry(dateKey: string, customText: string) {
+    return this.supabase
+      .from('calendar_entries')
+      .upsert({ 
+        date_key: dateKey, 
+        custom_text: customText,
+        updated_at: new Date().toISOString()
+      });
+  }
+
+  deleteCalendarEntry(dateKey: string) {
+    return this.supabase
+      .from('calendar_entries')
+      .delete()
+      .eq('date_key', dateKey);
+  }
 }
