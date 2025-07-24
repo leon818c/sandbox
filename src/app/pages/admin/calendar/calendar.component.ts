@@ -46,6 +46,7 @@ export class CalendarComponent implements OnInit {
   filteredServers: any[] = [];
   showDropdown: boolean = false;
   highlightedIndex: number = -1;
+  serverPointsList: { name: string; points: number }[] = [];
   
   eventTypes = [
     { value: 'sunday-mass', label: 'Sunday Mass' },
@@ -147,6 +148,17 @@ export class CalendarComponent implements OnInit {
     this.showDropdown = false;
     this.highlightedIndex = -1;
     this.filteredServers = [...this.servers];
+    
+    // Initialize serverPointsList from existing custom text
+    this.serverPointsList = [];
+    if (date.customText) {
+      const names = date.customText.split('\n').filter(name => name.trim());
+      names.forEach(name => {
+        this.serverPointsList.push({ name: name.trim(), points: 2 });
+      });
+    } else {
+      this.serverPointsList.push({ name: '', points: 2 });
+    }
   }
 
   getSelectedDateString(): string {
@@ -324,12 +336,42 @@ export class CalendarComponent implements OnInit {
   
   async saveCustomText() {
     if (this.selectedDate) {
+      // Convert serverPointsList to custom text format
+      const customText = this.serverPointsList
+        .filter(item => item.name.trim())
+        .map(item => item.name.trim())
+        .join('\n');
+      
+      this.selectedDate.customText = customText;
       const dateKey = this.calendarService.getDateKey(this.selectedDate.actualDate);
-      await this.calendarService.updateCalendarData(dateKey, this.selectedDate.customText || '');
+      await this.calendarService.updateCalendarData(dateKey, customText);
+      
+      // Award individual points
+      await this.awardIndividualPoints();
     }
     // Update the calendar dates array to reflect changes
     this.calendarDates = [...this.calendarDates];
     this.closeEventModal();
+  }
+  
+  private async awardIndividualPoints() {
+    for (const item of this.serverPointsList) {
+      if (item.name.trim() && item.points > 0) {
+        const server = this.servers.find(s => s.name === item.name.trim());
+        if (server) {
+          const newPoints = (server.points || 0) + item.points;
+          await this.supabase.updatePoints(server.id, newPoints);
+        }
+      }
+    }
+  }
+  
+  addServerPoint() {
+    this.serverPointsList.push({ name: '', points: 2 });
+  }
+  
+  removeServerPoint(index: number) {
+    this.serverPointsList.splice(index, 1);
   }
   
 

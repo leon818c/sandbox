@@ -102,14 +102,29 @@
             </div>
             
             <div class="custom-text-section">
-              <h3>Add Names</h3>
-              <textarea 
-                class="custom-text-input" 
-                [(ngModel)]="selectedDate!.customText" 
-                placeholder="Enter names (one per line)..."
-                rows="5">
-              </textarea>
-              <button class="save-text-btn" (click)="saveCustomText()">Save</button>
+              <h3>Add Servers & Points</h3>
+              
+              <div class="server-points-list">
+                <div class="server-point-item" *ngFor="let item of serverPointsList; let i = index">
+                  <input 
+                    type="text" 
+                    class="server-name-input"
+                    [(ngModel)]="item.name"
+                    placeholder="Server name"
+                  >
+                  <input 
+                    type="number" 
+                    class="points-input-small"
+                    [(ngModel)]="item.points"
+                    min="0"
+                    placeholder="Points"
+                  >
+                  <button class="remove-btn" (click)="removeServerPoint(i)">×</button>
+                </div>
+              </div>
+              
+              <button class="add-server-btn" (click)="addServerPoint()">+ Add Server</button>
+              <button class="save-text-btn" (click)="saveCustomText()">Save & Award Points</button>
             </div>
           </div>
         </div>
