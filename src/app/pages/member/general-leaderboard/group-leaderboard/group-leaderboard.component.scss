@@ -22,7 +22,7 @@
 }
 
 .leaderboard-container h1 {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
   color: white;
   margin: 0;
   padding: 2rem;
@@ -73,7 +73,7 @@ td {
 .rank {
   font-weight: 700;
   font-size: 1.2rem;
-  color: #667eea;
+  color: #1565c0;
   text-align: center;
   width: 80px;
 }
@@ -98,7 +98,7 @@ td {
 }
 
 .group-name:hover {
-  color: #667eea;
+  color: #1565c0;
 }
 
 .member-tooltip {
@@ -164,8 +164,8 @@ td {
   font-family: 'Arial Black', Arial, sans-serif;
   letter-spacing: 0.2em;
   color: transparent;
-  -webkit-text-stroke: 3px #667eea;
-  text-stroke: 3px #667eea;
+  -webkit-text-stroke: 3px #1565c0;
+  text-stroke: 3px #1565c0;
   position: relative;
 }
 
@@ -176,7 +176,7 @@ td {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
   background-clip: text;
   -webkit-background-clip: text;
   color: transparent;

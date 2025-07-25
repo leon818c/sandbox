@@ -12,7 +12,7 @@ interface CalendarDate {
   events: CalendarEvent[];
   actualDate: Date;
   customText?: string;
-  serverPoints?: { name: string; points: number }[];
+  serverPoints?: { name: string; points: number; color?: string }[];
 }
 
 interface CalendarEvent {
@@ -35,7 +35,7 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   calendarDates: CalendarDate[] = [];
   showEventModal = false;
   selectedDate: CalendarDate | null = null;
-  selectedDateServerPoints: { name: string; points: number }[] = [];
+  selectedDateServerPoints: { name: string; points: number; color?: string }[] = [];
   private calendarSubscription: Subscription = new Subscription();
 
   constructor(private calendarService: CalendarService) {}
@@ -61,41 +61,29 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     });
 
     const firstDay = new Date(year, month, 1);
-    const lastDay = new Date(year, month + 1, 0);
     const startDate = new Date(firstDay);
     startDate.setDate(startDate.getDate() - firstDay.getDay());
 
     this.calendarDates = [];
     const today = new Date();
+    const calendarData = this.calendarService.getCalendarData();
     
     for (let i = 0; i < 42; i++) {
       const date = new Date(startDate);
       date.setDate(startDate.getDate() + i);
       
-      const isCurrentMonth = date.getMonth() === month;
-      const isToday = date.toDateString() === today.toDateString();
-      
       const dateKey = this.calendarService.getDateKey(date);
-      const calendarData = this.calendarService.getCalendarData();
-      
-      const serverPoints = this.calendarService.getServerPoints(dateKey);
       
       this.calendarDates.push({
         day: date.getDate(),
-        isCurrentMonth,
-        isToday,
-        events: this.getEventsForDate(date),
+        isCurrentMonth: date.getMonth() === month,
+        isToday: date.toDateString() === today.toDateString(),
+        events: [],
         actualDate: new Date(date),
         customText: calendarData[dateKey],
-        serverPoints: serverPoints
+        serverPoints: this.calendarService.getServerPoints(dateKey)
       });
-      
-
     }
-  }
-
-  getEventsForDate(date: Date): CalendarEvent[] {
-    return [];
   }
 
   previousMonth() {
@@ -109,14 +97,8 @@ export class ScheduleComponent implements OnInit, OnDestroy {
   }
 
   openEventModal(date: CalendarDate) {
-    console.log('Modal opened for date:', date.day);
-    console.log('customText:', date.customText);
-    console.log('serverPoints:', date.serverPoints);
-    
     this.selectedDate = date;
     this.selectedDateServerPoints = this.getServerPointsDisplay(date);
-    
-    console.log('selectedDateServerPoints:', this.selectedDateServerPoints);
     this.showEventModal = true;
   }
 
@@ -131,32 +113,22 @@ export class ScheduleComponent implements OnInit, OnDestroy {
     this.selectedDate = null;
   }
   
-  getServerPointsDisplay(date: CalendarDate): { name: string; points: number }[] {
-    console.log('getServerPointsDisplay - serverPoints:', date.serverPoints);
-    console.log('getServerPointsDisplay - customText:', date.customText);
-    
+  getServerPointsDisplay(date: CalendarDate): { name: string; points: number; color?: string }[] {
     if (date.serverPoints && date.serverPoints.length > 0) {
-      console.log('Using serverPoints path');
-      const filtered = date.serverPoints.filter(sp => {
-        const isValid = sp && typeof sp === 'object' && sp.name && sp.name.trim() && typeof sp.points === 'number';
-        console.log('Filtering item:', sp, 'valid:', isValid);
-        return isValid;
-      });
-      console.log('Filtered serverPoints:', filtered);
-      return filtered;
+      return date.serverPoints.filter(sp => sp && sp.name && sp.name.trim());
     } else if (date.customText) {
-      console.log('Using customText fallback');
-      const result = date.customText.split('\n')
+      return date.customText.split('\n')
         .filter(name => name && name.trim())
         .map(name => ({ name: name.trim(), points: 2 }));
-      console.log('CustomText result:', result);
-      return result;
     }
-    console.log('No data found');
     return [];
   }
   
-  trackByName(index: number, item: { name: string; points: number }): string {
+  trackByName(index: number, item: { name: string; points: number; color?: string }): string {
     return item?.name || index.toString();
+  }
+  
+  getServerColor(serverPoint: { name: string; points: number; color?: string }): string {
+    return serverPoint.color || '';
   }
 }

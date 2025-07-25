@@ -45,7 +45,7 @@
               </div>
               <div class="custom-text-list" *ngIf="date.customText">
                 <div class="custom-text-item" *ngFor="let serverPoint of getServerPointsDisplay(date)">
-                  <span class="server-name">{{ serverPoint.name }}</span>
+                  <span class="server-name" [class]="'highlight-' + (serverPoint.color || '')">{{ serverPoint.name }}</span>
                   <span class="server-points" *ngIf="serverPoint.points > 0">{{ serverPoint.points }}</span>
                 </div>
               </div>
@@ -110,6 +110,11 @@
                     min="0"
                     placeholder="Points"
                   >
+                  <select class="color-select" [(ngModel)]="item.color">
+                    <option value="">No Color</option>
+                    <option value="red">Reading</option>
+                    <option value="purple">Incense</option>
+                  </select>
                   <button class="remove-btn" (click)="removeServerPoint(i)">×</button>
                 </div>
               </div>

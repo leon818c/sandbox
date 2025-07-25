@@ -13,6 +13,14 @@
     </div>
     
     <div class="schedule-layout">
+      <div class="mass-tracker-sidebar">
+        <h4>Mass Tracker</h4>
+        <div class="tracker-items">
+          <div class="tracker-item">Points Awarded Is On The Right</div>
+          <div class="tracker-item">Red Highlighted Means Reading</div>
+          <div class="tracker-item">Purple Highlighted Means Incense</div>
+        </div>
+      </div>
       <div class="calendar-container">
       <div class="calendar-header">
         <button class="nav-btn" (click)="previousMonth()">
@@ -45,8 +53,12 @@
               {{ event.title }}
             </div>
             <div class="custom-text-list" *ngIf="date.customText">
-              <div class="custom-text-item" *ngFor="let line of date.customText.split('\n'); track line">
-                {{ line }}
+              <div class="custom-text-item" *ngFor="let serverPoint of getServerPointsDisplay(date)">
+                <span 
+                  class="server-name" 
+                  [class]="'highlight-' + getServerColor(serverPoint)"
+                >{{ serverPoint.name }}</span>
+                <span class="server-points" *ngIf="serverPoint.points > 0">{{ serverPoint.points }}</span>
               </div>
             </div>
           </div>
@@ -80,7 +92,10 @@
           <h4>Servers Who Attended</h4>
           <div class="server-list">
             <div class="server-entry" *ngFor="let serverPoint of selectedDateServerPoints; trackBy: trackByName">
-              <span class="server-name">• {{ serverPoint?.name || 'Unknown' }}</span>
+              <span 
+                class="server-name" 
+                [class]="'highlight-' + getServerColor(serverPoint)"
+              >• {{ serverPoint?.name || 'Unknown' }}</span>
               <span class="server-points">{{ serverPoint?.points || 0 }} pts</span>
             </div>
           </div>

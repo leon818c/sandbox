@@ -12,7 +12,7 @@ interface CalendarDate {
   events: CalendarEvent[];
   actualDate: Date;
   customText?: string;
-  serverPoints?: { name: string; points: number }[];
+  serverPoints?: { name: string; points: number; color?: string }[];
 }
 
 interface CalendarEvent {
@@ -50,6 +50,7 @@ export class CalendarComponent implements OnInit {
   serverPointsList: { 
     name: string; 
     points: number;
+    color?: string;
     showDropdown?: boolean;
     filteredServers?: any[];
     highlightedIndex?: number;
@@ -169,6 +170,7 @@ export class CalendarComponent implements OnInit {
         this.serverPointsList.push({
           name: sp.name,
           points: sp.points,
+          color: sp.color,
           showDropdown: false,
           filteredServers: [...this.servers],
           highlightedIndex: -1
@@ -181,6 +183,7 @@ export class CalendarComponent implements OnInit {
         this.serverPointsList.push({ 
           name: name.trim(), 
           points: 2,
+          color: '',
           showDropdown: false,
           filteredServers: [...this.servers],
           highlightedIndex: -1
@@ -190,6 +193,7 @@ export class CalendarComponent implements OnInit {
       this.serverPointsList.push({ 
         name: '', 
         points: 2,
+        color: '',
         showDropdown: false,
         filteredServers: [...this.servers],
         highlightedIndex: -1
@@ -383,7 +387,7 @@ export class CalendarComponent implements OnInit {
       
       const serverPoints = this.serverPointsList
         .filter(item => item.name.trim())
-        .map(item => ({ name: item.name.trim(), points: item.points }));
+        .map(item => ({ name: item.name.trim(), points: item.points, color: item.color }));
       
       console.log('Saving data:', { customText, serverPoints, dateKey: this.calendarService.getDateKey(this.selectedDate.actualDate) });
       
@@ -417,6 +421,7 @@ export class CalendarComponent implements OnInit {
     this.serverPointsList.push({ 
       name: '', 
       points: 2,
+      color: '',
       showDropdown: false,
       filteredServers: [...this.servers],
       highlightedIndex: -1
@@ -490,7 +495,7 @@ export class CalendarComponent implements OnInit {
     this.serverPointsList.splice(index, 1);
   }
   
-  getServerPointsDisplay(date: CalendarDate): { name: string; points: number }[] {
+  getServerPointsDisplay(date: CalendarDate): { name: string; points: number; color?: string }[] {
     console.log('Getting server points for date:', date.day, 'serverPoints:', date.serverPoints, 'customText:', date.customText);
     
     if (date.serverPoints && date.serverPoints.length > 0) {
@@ -501,7 +506,7 @@ export class CalendarComponent implements OnInit {
       // Fallback for old entries without points data - show default points
       return date.customText.split('\n')
         .filter(name => name && name.trim())
-        .map(name => ({ name: name.trim(), points: 2 }));
+        .map(name => ({ name: name.trim(), points: 2, color: undefined }));
     }
     console.log('No data found');
     return [];
