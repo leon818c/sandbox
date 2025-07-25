@@ -62,6 +62,8 @@ export class AddServerComponent {
       this.phone_number = '';
       this.parent_email_1 = '';
       this.parent_email_2 = '';
+      this.parent_number_1 = '';
+      this.parent_number_2 = '';
       this.server_since = '';
     }
   }

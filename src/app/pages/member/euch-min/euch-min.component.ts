@@ -11,13 +11,13 @@ import { FooterComponent } from '../../../shared/footer/footer.component';
 })
 export class EuchMinComponent {
   ministers = [
-    { name: 'Jacob Alappurathu', image: '/assets/placeholder-minister.jpg' },
+    { name: 'Jacob Alappurathu', image: '/assets/jalla.jpeg' },
     { name: 'Tomy Cherian', image: '/assets/tcher.jpeg' },
-    { name: 'Joy Karimpal', image: '/assets/placeholder-minister.jpg' },
+    { name: 'Joy Karimpal', image: '/assets/jkar.jpeg' },
     { name: 'Josey Joseph Thalachelloor', image: '/assets/jjth.jpeg' },
     { name: 'Joy C. Varkey', image: '/assets/joyvarkey.jpeg' },
     { name: 'Tom Thekkan', image: '/assets/tthekan.jpeg' },
-    { name: 'Santhosh Kurian', image: '/assets/placeholder-minister.jpg' },
+    { name: 'Santhosh Kurian', image: '/assets/skurian.jpeg' },
     { name: 'Roy Matthew', image: '/assets/placeholder-minister.jpg' }
   ];
 }
