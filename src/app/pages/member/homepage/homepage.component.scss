@@ -53,6 +53,188 @@
   background: #f1f1f1;
 }
 
+.priests-section {
+  background: linear-gradient(135deg, #7b1fa2 0%, #ab47bc 100%);
+  color: white;
+  padding: 4rem 2rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.priests-section .priest-floating-1 {
+  position: absolute;
+  top: 15%;
+  left: 20%;
+  font-size: 1.8rem;
+  color: rgba(255, 255, 255, 0.1);
+  animation: float1 18s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-2 {
+  position: absolute;
+  top: 35%;
+  right: 25%;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.08);
+  animation: float2 22s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-3 {
+  position: absolute;
+  bottom: 30%;
+  left: 30%;
+  font-size: 1.7rem;
+  color: rgba(255, 255, 255, 0.09);
+  animation: float3 16s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-4 {
+  position: absolute;
+  top: 55%;
+  right: 15%;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.07);
+  animation: float4 20s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-5 {
+  position: absolute;
+  top: 10%;
+  right: 40%;
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.06);
+  animation: float5 24s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-6 {
+  position: absolute;
+  bottom: 15%;
+  left: 10%;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.08);
+  animation: float6 19s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-7 {
+  position: absolute;
+  top: 70%;
+  left: 45%;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.05);
+  animation: float7 26s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-8 {
+  position: absolute;
+  top: 25%;
+  left: 60%;
+  font-size: 1.7rem;
+  color: rgba(255, 255, 255, 0.09);
+  animation: float8 17s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-9 {
+  position: absolute;
+  bottom: 45%;
+  right: 35%;
+  font-size: 1.5rem;
+  color: rgba(255, 255, 255, 0.07);
+  animation: float9 21s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-10 {
+  position: absolute;
+  top: 45%;
+  left: 5%;
+  font-size: 1.4rem;
+  color: rgba(255, 255, 255, 0.06);
+  animation: float10 23s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-11 {
+  position: absolute;
+  bottom: 60%;
+  right: 50%;
+  font-size: 1.6rem;
+  color: rgba(255, 255, 255, 0.08);
+  animation: float11 18s ease-in-out infinite;
+}
+
+.priests-section .priest-floating-12 {
+  position: absolute;
+  top: 80%;
+  left: 75%;
+  font-size: 1.3rem;
+  color: rgba(255, 255, 255, 0.05);
+  animation: float12 25s ease-in-out infinite;
+}
+
+.priests-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  z-index: 1;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.priests-text h2 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+.priests-text p {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 500px;
+}
+
+.priests-gallery {
+  display: flex;
+  gap: 2rem;
+  align-items: center;
+}
+
+.priest-card {
+  background: rgba(255, 255, 255, 0.1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 1.5rem;
+  text-align: center;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.priest-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+.priest-image {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 1rem;
+  border: 3px solid rgba(255, 255, 255, 0.3);
+}
+
+.priest-card h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.priest-card p {
+  font-size: 0.9rem;
+  opacity: 0.8;
+  color: white;
+}
+
 .euch-min-section {
   background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
   color: white;
@@ -328,6 +510,34 @@
 }
 
 @media (max-width: 768px) {
+  .priests-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 2rem;
+  }
+  
+  .priests-text h2 {
+    font-size: 2rem;
+  }
+  
+  .priests-text p {
+    font-size: 1rem;
+  }
+  
+  .priests-section {
+    padding: 3rem 1rem;
+  }
+  
+  .priests-gallery {
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+  
+  .priest-image {
+    width: 100px;
+    height: 100px;
+  }
+  
   .euch-min-content {
     flex-direction: column;
     text-align: center;
@@ -382,6 +592,17 @@
 
 .feature-card:hover {
   transform: translateY(-5px);
+}
+
+.feature-card.clickable {
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.feature-card.clickable:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  background: #f8f9ff;
 }
 
 .feature-card h3 {
