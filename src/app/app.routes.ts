@@ -13,6 +13,7 @@ import { GroupComponent } from './pages/admin/group/group.component';
 import { EuchMinComponent } from './pages/member/euch-min/euch-min.component';
 import { CalendarComponent } from './pages/admin/calendar/calendar.component';
 import { EventsComponent } from './pages/member/events/events.component';
+import { WinnersComponent } from './pages/member/general-leaderboard/winners/winners.component';
 
 export const routes: Routes = [
   { path: '', component: HomepageComponent },
@@ -28,5 +29,6 @@ export const routes: Routes = [
   { path: 'admin/groups', component: GroupComponent },
   { path: 'euch-min', component: EuchMinComponent },
   { path: 'admin/calendar', component: CalendarComponent },
+  { path: 'winners', component: WinnersComponent},
   { path: 'events', component: EventsComponent}
 ];

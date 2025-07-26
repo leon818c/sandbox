@@ -24,62 +24,270 @@
   margin-right: auto;
 }
 
-.leaderboard-container h1 {
+.header-section {
   background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
   color: white;
-  margin: 0;
   padding: 2rem;
-  text-align: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header-section h1 {
+  margin: 0;
   font-size: 2.5rem;
   font-weight: 700;
 }
 
-.points-key {
-  background: #f8f9fa;
-  padding: 2rem;
-  border-bottom: 1px solid #e9ecef;
+.points-info-btn {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  backdrop-filter: blur(10px);
 }
 
-.points-key h3 {
+.points-info-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.5);
+  transform: translateY(-2px);
+}
+
+.btn-icon {
+  font-size: 1.2rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  backdrop-filter: blur(5px);
+}
+
+.modal-overlay.show {
+  display: flex;
+}
+
+.modal-content {
+  background: white;
+  border-radius: 20px;
+  max-width: 900px;
+  width: 90vw;
+  max-height: 85vh;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+  animation: modalSlideIn 0.3s ease-out;
+  overflow: hidden;
+}
+
+@keyframes modalSlideIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.modal-header {
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+  color: white;
+  padding: 1.5rem 2rem;
+  border-radius: 20px 20px 0 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.close-btn {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  cursor: pointer;
+  padding: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.close-btn:hover {
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.4);
+  transform: scale(1.05);
+}
+
+.close-btn svg {
+  width: 18px;
+  height: 18px;
+}
+
+.points-system {
+  padding: 1.5rem;
+  max-height: calc(85vh - 120px);
+  overflow-y: auto;
+}
+
+.points-system::-webkit-scrollbar {
+  width: 6px;
+}
+
+.points-system::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.points-system::-webkit-scrollbar-thumb {
+  background: rgba(21, 101, 192, 0.3);
+  border-radius: 3px;
+}
+
+.points-system::-webkit-scrollbar-thumb:hover {
+  background: rgba(21, 101, 192, 0.5);
+}
+
+.points-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.points-icon {
+  font-size: 3rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.points-header h3 {
   color: #2c3e50;
-  margin-bottom: 1.5rem;
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 0.5rem 0;
+}
+
+.points-header p {
+  color: #6c757d;
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.points-categories {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+}
+
+.category-section h4 {
+  color: #2c3e50;
   font-size: 1.3rem;
   font-weight: 600;
+  margin-bottom: 1rem;
   text-align: center;
+  position: relative;
 }
 
-.key-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+.category-section h4::after {
+  content: '';
+  position: absolute;
+  bottom: -0.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50px;
+  height: 3px;
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+  border-radius: 2px;
+}
+
+.points-cards {
+  display: flex;
+  flex-direction: column;
   gap: 1rem;
 }
 
-.key-item {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  padding: 1rem;
+.point-card {
   background: white;
-  border-radius: 8px;
-  border-left: 4px solid #1565c0;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+  position: relative;
+  overflow: hidden;
 }
 
-.key-item .points {
+.point-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
   background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
-  color: white;
-  padding: 0.4rem 0.8rem;
-  border-radius: 20px;
-  font-weight: 600;
-  font-size: 0.9rem;
-  min-width: 40px;
-  text-align: center;
 }
 
-.key-item .description {
+.point-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15);
+  border-color: rgba(21, 101, 192, 0.2);
+}
+
+.point-card.base::before {
+  background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+}
+
+.point-card.bonus::before {
+  background: linear-gradient(135deg, #fd7e14 0%, #ffc107 100%);
+}
+
+.point-card.multiplier::before {
+  background: linear-gradient(135deg, #dc3545 0%, #e83e8c 100%);
+}
+
+.point-value {
+  font-size: 2rem;
+  font-weight: 800;
   color: #2c3e50;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.point-label {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #495057;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.point-desc {
   font-size: 0.9rem;
-  font-weight: 500;
+  color: #6c757d;
+  text-align: center;
+  line-height: 1.4;
 }
 
 .leaderboard-table {
@@ -228,17 +436,49 @@ td {
     padding-top: 6rem;
   }
   
-  .leaderboard-container h1 {
+  .header-section {
+    flex-direction: column;
+    gap: 1rem;
+    text-align: center;
+    padding: 1.5rem;
+  }
+  
+  .header-section h1 {
     font-size: 2rem;
-    padding: 1.5rem;
   }
   
-  .points-key {
-    padding: 1.5rem;
+  .modal-content {
+    max-width: 95vw;
+    margin: 1rem;
   }
   
-  .key-grid {
+  .points-system {
+    padding: 1.5rem 1rem;
+  }
+  
+  .modal-header {
+    padding: 1rem 1.5rem;
+  }
+  
+  .modal-header h2 {
+    font-size: 1.5rem;
+  }
+  
+  .points-categories {
     grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .points-header h3 {
+    font-size: 1.5rem;
+  }
+  
+  .point-card {
+    padding: 1rem;
+  }
+  
+  .point-value {
+    font-size: 1.5rem;
   }
   
   th, td {

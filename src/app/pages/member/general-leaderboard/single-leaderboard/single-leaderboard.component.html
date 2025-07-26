@@ -8,33 +8,13 @@
       </div>
     } @else {
       <div class="leaderboard-container">
-      <h1>Single Leaderboard</h1>
-      
-      <div class="points-key">
-        <h3>Points System</h3>
-        <div class="key-grid">
-          <div class="key-item">
-            <span class="points">2</span>
-            <span class="description">Base points for serving</span>
-          </div>
-          <div class="key-item">
-            <span class="points">+1</span>
-            <span class="description">Reading during Mass</span>
-          </div>
-          <div class="key-item">
-            <span class="points">+4</span>
-            <span class="description">Incensing during Mass</span>
-          </div>
-          <div class="key-item">
-            <span class="points">×2</span>
-            <span class="description">Perfect Mass (double points)</span>
-          </div>
-          <div class="key-item">
-            <span class="points">×2</span>
-            <span class="description">Weekday Mass (double points) (summer only)</span>
-          </div>
+        <div class="header-section">
+          <h1>Single Leaderboard</h1>
+          <button class="points-info-btn" (click)="togglePointsModal()">
+            <span class="btn-icon">ℹ️</span>
+            Points System
+          </button>
         </div>
-      </div>
       
       <div class="leaderboard-table">
         <table>
@@ -58,6 +38,78 @@
       </div>
       </div>
     }
+    
+    <!-- Points System Modal -->
+    <div class="modal-overlay" [class.show]="showPointsModal" (click)="closePointsModal()">
+      <div class="modal-content" (click)="$event.stopPropagation()">
+        <div class="modal-header">
+          <h2>Points System</h2>
+          <button class="close-btn" (click)="closePointsModal()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+        
+        <div class="points-system">
+          <div class="points-header">
+            <div class="points-icon">🏆</div>
+            <h3>How Points Are Earned</h3>
+            <p>Understanding the scoring system</p>
+          </div>
+          
+          <div class="points-categories">
+            <div class="category-section">
+              <h4>Base Points</h4>
+              <div class="points-cards">
+                <div class="point-card base">
+                  <div class="point-value">2</div>
+                  <div class="point-label">Serving</div>
+                  <div class="point-desc">Base points for altar serving</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="category-section">
+              <h4>Bonus Actions</h4>
+              <div class="points-cards">
+                <div class="point-card bonus">
+                  <div class="point-value">+1</div>
+                  <div class="point-label">Reading</div>
+                  <div class="point-desc">Scripture reading during Mass</div>
+                </div>
+                <div class="point-card bonus">
+                  <div class="point-value">+4</div>
+                  <div class="point-label">Incensing</div>
+                  <div class="point-desc">Incense duties during Mass</div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="category-section">
+              <h4>Multipliers</h4>
+              <div class="points-cards">
+                <div class="point-card multiplier">
+                  <div class="point-value">×2</div>
+                  <div class="point-label">Perfect Mass</div>
+                  <div class="point-desc">Flawless service performance</div>
+                </div>
+                <div class="point-card multiplier">
+                  <div class="point-value">×2</div>
+                  <div class="point-label">Weekday</div>
+                  <div class="point-desc">Summer weekday Mass bonus</div>
+                </div>
+                <div class="point-card multiplier">
+                  <div class="point-value">×2</div>
+                  <div class="point-label">Group Unity</div>
+                  <div class="point-desc">Entire group serves together</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </main>
   
   <app-footer></app-footer>

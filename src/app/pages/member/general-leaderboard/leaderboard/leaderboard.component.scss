@@ -1,7 +1,52 @@
+.leaderboard-container {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 100px);
+  margin-top: 0;
+  padding-top: 60px;
+}
+
+.top-button {
+  height: 33.33%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #8e24aa 0%, #ab47bc 100%);
+  color: white;
+}
+
+.top-button:hover {
+  filter: brightness(1.1);
+}
+
+.top-button .circle {
+  width: 120px;
+  height: 120px;
+}
+
+.top-button:hover .circle {
+  transform: scale(1.15);
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.top-button .icon {
+  font-size: 2.5rem;
+}
+
+.top-button h2 {
+  font-size: 1.8rem;
+}
+
 .leaderboard-split {
   display: flex;
-  height: 100vh;
-  margin-top: 0;
+  height: 66.67%;
 }
 
 .half-button {
@@ -40,7 +85,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 2rem;
+  margin-bottom: 0.5rem;
   transition: all 0.3s ease;
   backdrop-filter: blur(10px);
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -64,11 +109,19 @@ h2 {
 }
 
 @media (max-width: 768px) {
+  .leaderboard-container {
+    height: calc(100vh - 140px);
+    padding-top: 100px;
+    box-sizing: border-box;
+  }
+  
   .leaderboard-split {
     flex-direction: column;
-    height: 100vh;
-    padding-top: 70px;
-    box-sizing: border-box;
+    height: 70%;
+  }
+  
+  .top-button {
+    height: 30%;
   }
   
   .circle {

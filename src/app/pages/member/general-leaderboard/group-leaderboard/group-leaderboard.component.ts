@@ -24,6 +24,7 @@ export class GroupLeaderboardComponent implements OnInit {
   hoveredGroup: GroupLeaderboard | null = null;
   clickedGroup: GroupLeaderboard | null = null;
   isLoading = true;
+  showPointsModal = false;
 
   constructor(private supabase: SupabaseService) {}
 
@@ -103,5 +104,13 @@ export class GroupLeaderboardComponent implements OnInit {
   closeTooltip() {
     this.clickedGroup = null;
     this.hoveredGroup = null;
+  }
+
+  togglePointsModal(): void {
+    this.showPointsModal = !this.showPointsModal;
+  }
+
+  closePointsModal(): void {
+    this.showPointsModal = false;
   }
 }

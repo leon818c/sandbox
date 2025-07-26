@@ -15,6 +15,7 @@ import { FooterComponent } from '../../../../shared/footer/footer.component';
 export class SingleLeaderboardComponent implements OnInit, OnDestroy {
   leaderboard: any[] = [];
   isLoading = true;
+  showPointsModal = false;
   private subscription: any;
 
   constructor(private supabase: SupabaseService) {}
@@ -46,5 +47,13 @@ export class SingleLeaderboardComponent implements OnInit, OnDestroy {
     setTimeout(() => {
       this.isLoading = false;
     }, 1000);
+  }
+
+  togglePointsModal(): void {
+    this.showPointsModal = !this.showPointsModal;
+  }
+
+  closePointsModal(): void {
+    this.showPointsModal = false;
   }
 }

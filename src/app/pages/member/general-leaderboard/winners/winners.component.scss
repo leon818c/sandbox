@@ -1,0 +1,272 @@
+.winners-container {
+  min-height: 100vh;
+  padding: 4rem 2rem 2rem 2rem;
+  background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+}
+
+.winners-header {
+  text-align: center;
+  margin: 2rem 0 3rem 0;
+  color: white;
+  padding-top: 1rem;
+}
+
+.winners-header h1 {
+  font-size: 3rem;
+  margin-bottom: 0.5rem;
+  font-weight: 700;
+}
+
+.winners-header p {
+  font-size: 1.2rem;
+  opacity: 0.9;
+}
+
+.quarters-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  justify-items: center;
+}
+
+.quarter-card:nth-child(3) {
+  grid-column: 1 / -1;
+  width: 100%;
+  max-width: 500px;
+  justify-self: center;
+}
+
+.quarter-card {
+  background: white;
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease;
+  width: 100%;
+  max-width: 550px;
+  min-height: 450px;
+}
+
+
+
+.quarter-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 2px solid #f0f0f0;
+}
+
+.quarter-header h2 {
+  font-size: 1.8rem;
+  color: #333;
+  margin: 0;
+  font-weight: 600;
+}
+
+.podium {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  gap: 0.2rem;
+  margin-top: 1rem;
+  padding: 0;
+  width: 100%;
+  overflow: visible;
+}
+
+.winner-position {
+  text-align: center;
+  padding: 0.8rem 0.3rem;
+  border-radius: 15px;
+  color: white;
+  min-width: 70px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  max-width: 90px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.winner-position:hover {
+  transform: scale(1.05) translateY(-5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+  filter: brightness(1.1);
+}
+
+.tooltip {
+  position: absolute;
+  bottom: -40px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.winner-position:hover .tooltip {
+  opacity: 1;
+  visibility: visible;
+  bottom: -35px;
+}
+
+.position-1 {
+  background: linear-gradient(135deg, #ffd700 0%, #ffb300 100%);
+  height: 250px;
+  order: 3;
+}
+
+.position-2 {
+  background: linear-gradient(135deg, #c0c0c0 0%, #a8a8a8 100%);
+  height: 220px;
+  order: 2;
+}
+
+.position-3 {
+  background: linear-gradient(135deg, #cd7f32 0%, #b8860b 100%);
+  height: 200px;
+  order: 4;
+}
+
+.position-4 {
+  background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+  height: 190px;
+  order: 1;
+}
+
+.position-5 {
+  background: linear-gradient(135deg, #6f42c1 0%, #5a2d91 100%);
+  height: 180px;
+  order: 5;
+}
+
+.position-medal {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3rem;
+}
+
+.position-2 .position-medal,
+.position-3 .position-medal {
+  margin-top: 0.5rem;
+}
+
+.position-4 .position-medal,
+.position-5 .position-medal {
+  margin-bottom: 0.3rem;
+  font-size: 1.5rem;
+  font-weight: bold;
+  height: 2rem;
+}
+
+.winner-name {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  word-break: break-word;
+  line-height: 1.2;
+  overflow-wrap: break-word;
+}
+
+.winner-points {
+  font-size: 1rem;
+  opacity: 0.9;
+  font-weight: 600;
+}
+
+@media (max-width: 768px) {
+  .winners-container {
+    padding: 5rem 0.5rem 0.5rem 0.5rem;
+    box-sizing: border-box;
+    width: 100vw;
+    overflow-x: hidden;
+  }
+  
+  .winners-header {
+    margin: 1rem 0 2rem 0;
+    padding-top: 1.5rem;
+  }
+  
+  .winners-header h1 {
+    font-size: 2rem;
+  }
+  
+  .quarters-grid {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    width: 100%;
+    box-sizing: border-box;
+    max-width: 100vw;
+  }
+  
+  .quarter-card {
+    padding: 1rem;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
+    min-height: auto;
+  }
+  
+  .quarter-card:nth-child(3) {
+    grid-column: 1;
+    max-width: 100%;
+  }
+  
+  .podium {
+    gap: 0.1rem;
+    padding: 0;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+  }
+  
+  .winner-position {
+    min-width: 60px;
+    max-width: 70px;
+    padding: 0.5rem 0.2rem;
+  }
+  
+  .winner-name {
+    font-size: 0.8rem;
+  }
+  
+  .winner-points {
+    font-size: 0.8rem;
+  }
+  
+  .position-1 {
+    height: 200px;
+  }
+  
+  .position-2 {
+    height: 180px;
+  }
+  
+  .position-3 {
+    height: 160px;
+  }
+  
+  .position-4 {
+    height: 140px;
+  }
+  
+  .position-5 {
+    height: 120px;
+  }
+}

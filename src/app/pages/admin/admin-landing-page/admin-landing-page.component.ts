@@ -1,24 +1,27 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 import { SupabaseService } from '../../../services/supabase.service';
 import { EditServerComponent } from '../../../shared/edit-server/edit-server.component';
 
 @Component({
   selector: 'app-admin-landing-page',
   standalone: true,
-  imports: [RouterLink, FormsModule, EditServerComponent],
+  imports: [RouterLink, FormsModule, CommonModule, EditServerComponent],
   templateUrl: './admin-landing-page.component.html',
   styleUrl: './admin-landing-page.component.scss'
 })
 export class AdminLandingPageComponent implements OnInit {
   isAuthenticated = false;
+  usernameInput = '';
   passwordInput = '';
   hasPasswordError = false;
   isLoggingIn = false;
   isLoggingOut = false;
   showSuccessAnimation = false;
-  private adminPassword = 'admin123'; // Change this to your desired password
+  private adminUsername = 'adm1n';
+  private adminPassword = 'H0lySp1ritDev3l0ps#'; // Change this to your desired password
 
   constructor(private supabase: SupabaseService) {}
 
@@ -43,8 +46,8 @@ export class AdminLandingPageComponent implements OnInit {
     }
   }
 
-  checkPassword(): void {
-    if (this.passwordInput === this.adminPassword) {
+  checkCredentials(): void {
+    if (this.usernameInput === this.adminUsername && this.passwordInput === this.adminPassword) {
       this.showSuccessAnimation = true;
       this.hasPasswordError = false;
       
@@ -62,6 +65,7 @@ export class AdminLandingPageComponent implements OnInit {
         }, 800);
       }, 1000);
     } else {
+      this.usernameInput = '';
       this.passwordInput = '';
       setTimeout(() => {
         this.hasPasswordError = true;
@@ -234,8 +238,14 @@ export class AdminLandingPageComponent implements OnInit {
   }
   
   logout(): void {
-    this.isAuthenticated = false;
-    this.passwordInput = '';
-    localStorage.removeItem('adminAuth');
+    this.isLoggingOut = true;
+    
+    setTimeout(() => {
+      this.isAuthenticated = false;
+      this.isLoggingOut = false;
+      this.usernameInput = '';
+      this.passwordInput = '';
+      localStorage.removeItem('adminAuth');
+    }, 800);
   }
 }

@@ -68,6 +68,7 @@
   font-size: 1.8rem;
   color: rgba(255, 255, 255, 0.1);
   animation: float1 18s ease-in-out infinite;
+  transition: transform 0.1s ease-out;
 }
 
 .priests-section .priest-floating-2 {
@@ -261,6 +262,7 @@
   font-size: 1.6rem;
   color: rgba(255, 255, 255, 0.08);
   animation: float2 22s ease-in-out infinite;
+  transition: transform 0.1s ease-out;
 }
 
 .euch-min-section .floating-2 {
@@ -641,4 +643,9 @@
   .euch-min-section {
     padding: 3rem 1rem;
   }
+}
+
+[class*="floating-"],
+[class*="priest-floating-"] {
+  transition: transform 0.1s ease-out !important;
 }

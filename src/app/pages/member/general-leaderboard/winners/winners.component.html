@@ -1,0 +1,30 @@
+<app-header></app-header>
+
+<div class="winners-container">
+  <div class="winners-header">
+    <h1>🏆 Quarterly Winners</h1>
+    <p>Celebrating our top performers each quarter</p>
+    <p>Hover or click on each person to see what they won!</p>
+  </div>
+
+  <div class="quarters-grid">
+    <div class="quarter-card" *ngFor="let quarter of quarters">
+      <div class="quarter-header">
+        <h2>{{ quarter.name }}</h2>
+      </div>
+      
+      <div class="podium">
+        <div class="winner-position" *ngFor="let winner of quarter.winners" [class]="'position-' + winner.position">
+          <div class="position-medal">
+            {{ winner.position === 1 ? '🥇' : winner.position === 2 ? '🥈' : winner.position === 3 ? '🥉' : winner.position }}
+          </div>
+          <div class="winner-name">{{ winner.name }}</div>
+          <div class="winner-points">{{ winner.points }} pts</div>
+          <div class="tooltip">{{ winner.prize }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

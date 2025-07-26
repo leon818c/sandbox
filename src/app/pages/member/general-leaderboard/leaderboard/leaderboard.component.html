@@ -1,19 +1,28 @@
 <app-header></app-header>
 
-<div class="leaderboard-split">
-  <button class="half-button single-half" routerLink="/single-leaderboard">
+<div class="leaderboard-container">
+  <button class="top-button" routerLink="/winners">
     <div class="circle">
-      <div class="icon">👤</div>
+      <div class="icon">🏆</div>
     </div>
-    <h2>Single</h2>
+    <h2>Winners</h2>
   </button>
   
-  <button class="half-button group-half" routerLink="/group-leaderboard">
-    <div class="circle">
-      <div class="icon">👥</div>
-    </div>
-    <h2>Group</h2>
-  </button>
+  <div class="leaderboard-split">
+    <button class="half-button single-half" routerLink="/single-leaderboard">
+      <div class="circle">
+        <div class="icon">👤</div>
+      </div>
+      <h2>Single</h2>
+    </button>
+    
+    <button class="half-button group-half" routerLink="/group-leaderboard">
+      <div class="circle">
+        <div class="icon">👥</div>
+      </div>
+      <h2>Group</h2>
+    </button>
+  </div>
 </div>
 
 <app-footer></app-footer>

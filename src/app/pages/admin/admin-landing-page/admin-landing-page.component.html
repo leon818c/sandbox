@@ -6,29 +6,65 @@
     }
   </header>
   
-  <div class="auth-section" [class.show]="!isAuthenticated" [class.fade-in]="!isLoggingIn && !isAuthenticated">
-    <div class="auth-card" [class.fade-out]="isLoggingIn">
-      <h1>Admin Access</h1>
-      <p>Please enter your admin password to continue</p>
-      <div class="password-input">
-        <input 
-          type="password" 
-          [(ngModel)]="passwordInput" 
-          placeholder="Enter admin password"
-          (keyup.enter)="checkPassword()"
-          [class.error]="hasPasswordError"
-          [class.success]="showSuccessAnimation"
-          (input)="hasPasswordError = false"
-          [disabled]="isLoggingIn || showSuccessAnimation"
-        >
-        <button (click)="checkPassword()" [disabled]="isLoggingIn || showSuccessAnimation">
-          {{ showSuccessAnimation ? 'Success!' : (isLoggingIn ? 'Logging in...' : 'Login') }}
-        </button>
+  <div class="auth-section" [class.show]="!isAuthenticated || isLoggingOut">
+    <div class="login-container">
+      <div class="login-card">
+        <div class="login-header">
+          <div class="admin-icon">🔐</div>
+          <h1>Admin Portal</h1>
+          <p>Secure access to dashboard</p>
+        </div>
+        
+        <form class="login-form" (ngSubmit)="checkCredentials()">
+          <div class="input-group">
+            <div class="input-wrapper">
+              <span class="input-icon">👤</span>
+              <input 
+                type="text" 
+                [(ngModel)]="usernameInput" 
+                name="username"
+                placeholder="Username"
+                [class.error]="hasPasswordError"
+                [disabled]="isLoggingIn || showSuccessAnimation"
+                (input)="hasPasswordError = false"
+              >
+            </div>
+            
+            <div class="input-wrapper">
+              <span class="input-icon">🔒</span>
+              <input 
+                type="password" 
+                [(ngModel)]="passwordInput" 
+                name="password"
+                placeholder="Password"
+                [class.error]="hasPasswordError"
+                [disabled]="isLoggingIn || showSuccessAnimation"
+                (input)="hasPasswordError = false"
+              >
+            </div>
+          </div>
+          
+          <button 
+            type="submit" 
+            class="login-btn"
+            [disabled]="isLoggingIn || showSuccessAnimation"
+            [class.loading]="isLoggingIn"
+            [class.success]="showSuccessAnimation"
+          >
+            <span *ngIf="!isLoggingIn && !showSuccessAnimation">Sign In</span>
+            <span *ngIf="isLoggingIn">Authenticating...</span>
+            <span *ngIf="showSuccessAnimation">✓ Success!</span>
+          </button>
+          
+          <div class="error-message" [class.show]="hasPasswordError">
+            Invalid credentials. Please try again.
+          </div>
+        </form>
       </div>
     </div>
   </div>
   
-  <div class="dashboard-content" [class.show]="isAuthenticated">
+  <div class="dashboard-content" [class.show]="isAuthenticated" [class.fade-out]="isLoggingOut">
       <div class="dashboard-header">
         <h1>Admin Dashboard</h1>
         <p>Manage servers and leaderboard points</p>

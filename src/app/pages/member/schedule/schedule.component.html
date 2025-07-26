@@ -85,7 +85,11 @@
     <div class="event-modal" (click)="$event.stopPropagation()">
       <div class="modal-header">
         <h3>{{ getSelectedDateString() }}</h3>
-        <button class="close-btn" (click)="closeEventModal()">×</button>
+        <button class="close-btn" (click)="closeEventModal()">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M18 6L6 18M6 6L18 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
       </div>
       <div class="modal-content">
         <div class="modal-custom-text" *ngIf="selectedDateServerPoints.length > 0">
