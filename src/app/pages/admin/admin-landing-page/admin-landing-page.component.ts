@@ -15,6 +15,9 @@ export class AdminLandingPageComponent implements OnInit {
   isAuthenticated = false;
   passwordInput = '';
   hasPasswordError = false;
+  isLoggingIn = false;
+  isLoggingOut = false;
+  showSuccessAnimation = false;
   private adminPassword = 'admin123'; // Change this to your desired password
 
   constructor(private supabase: SupabaseService) {}
@@ -42,13 +45,22 @@ export class AdminLandingPageComponent implements OnInit {
 
   checkPassword(): void {
     if (this.passwordInput === this.adminPassword) {
-      this.isAuthenticated = true;
+      this.showSuccessAnimation = true;
       this.hasPasswordError = false;
-      this.storeAuth();
-      this.loadLeaderboard();
-      this.loadServers();
-      this.loadGroups();
-
+      
+      setTimeout(() => {
+        this.isLoggingIn = true;
+        this.showSuccessAnimation = false;
+        
+        setTimeout(() => {
+          this.isAuthenticated = true;
+          this.isLoggingIn = false;
+          this.storeAuth();
+          this.loadLeaderboard();
+          this.loadServers();
+          this.loadGroups();
+        }, 800);
+      }, 1000);
     } else {
       this.passwordInput = '';
       setTimeout(() => {
@@ -99,9 +111,7 @@ export class AdminLandingPageComponent implements OnInit {
   addPoints(index: number) {
     const user = this.users[index];
     const newPoints = user.points + user.inputValue;
-    console.log('Updating points for user:', user.id, 'to:', newPoints);
     this.supabase.updatePoints(user.id, newPoints).then((result) => {
-      console.log('Update result:', result);
       user.points = newPoints;
     })
   }
@@ -110,9 +120,7 @@ export class AdminLandingPageComponent implements OnInit {
   subtractPoints(index: number) {
     const user = this.users[index];
     const newPoints = Math.max(0, user.points - user.inputValue);
-    console.log('Updating points for user:', user.id, 'to:', newPoints);
     this.supabase.updatePoints(user.id, newPoints).then((result) => {
-      console.log('Update result:', result);
       user.points = newPoints;
     })
   }
@@ -225,4 +233,9 @@ export class AdminLandingPageComponent implements OnInit {
     });
   }
   
+  logout(): void {
+    this.isAuthenticated = false;
+    this.passwordInput = '';
+    localStorage.removeItem('adminAuth');
+  }
 }

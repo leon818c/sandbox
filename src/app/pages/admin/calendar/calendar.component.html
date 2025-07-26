@@ -50,13 +50,16 @@
                 </div>
               </div>
             </div>
-            <div class="mobile-events" *ngIf="date.events.length > 0">
+            <div class="mobile-events" *ngIf="date.events.length > 0 || date.customText">
               <div class="event-dots">
                 <span 
                   class="event-dot" 
                   *ngFor="let event of date.events" 
                   [class]="event.type"
                 ></span>
+              </div>
+              <div class="mobile-servers" *ngIf="date.customText">
+                <div class="server-count">{{ getServerPointsDisplay(date).length }} servers</div>
               </div>
             </div>
           </div>

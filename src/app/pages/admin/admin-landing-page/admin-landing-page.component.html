@@ -1,33 +1,40 @@
 <div class="admin-container">
   <header class="admin-header">
     <button class="home-btn" routerLink="/">← Back to Home</button>
+    @if (isAuthenticated) {
+      <button class="logout-btn" (click)="logout()">Logout</button>
+    }
   </header>
   
-  @if (!isAuthenticated) {
-    <div class="auth-section">
-      <div class="auth-card">
-        <h1>Admin Access</h1>
-        <p>Please enter your admin password to continue</p>
-        <div class="password-input">
-          <input 
-            type="password" 
-            [(ngModel)]="passwordInput" 
-            placeholder="Enter admin password"
-            (keyup.enter)="checkPassword()"
-            [class.error]="hasPasswordError"
-            (input)="hasPasswordError = false"
-          >
-          <button (click)="checkPassword()">Login</button>
-        </div>
+  <div class="auth-section" [class.show]="!isAuthenticated" [class.fade-in]="!isLoggingIn && !isAuthenticated">
+    <div class="auth-card" [class.fade-out]="isLoggingIn">
+      <h1>Admin Access</h1>
+      <p>Please enter your admin password to continue</p>
+      <div class="password-input">
+        <input 
+          type="password" 
+          [(ngModel)]="passwordInput" 
+          placeholder="Enter admin password"
+          (keyup.enter)="checkPassword()"
+          [class.error]="hasPasswordError"
+          [class.success]="showSuccessAnimation"
+          (input)="hasPasswordError = false"
+          [disabled]="isLoggingIn || showSuccessAnimation"
+        >
+        <button (click)="checkPassword()" [disabled]="isLoggingIn || showSuccessAnimation">
+          {{ showSuccessAnimation ? 'Success!' : (isLoggingIn ? 'Logging in...' : 'Login') }}
+        </button>
       </div>
     </div>
-  } @else {
-    <div class="dashboard-header">
-      <h1>Admin Dashboard</h1>
-      <p>Manage servers and leaderboard points</p>
-    </div>
-    
-    <div class="management-grid">
+  </div>
+  
+  <div class="dashboard-content" [class.show]="isAuthenticated">
+      <div class="dashboard-header">
+        <h1>Admin Dashboard</h1>
+        <p>Manage servers and leaderboard points</p>
+      </div>
+      
+      <div class="management-grid">
       <div class="section-card">
         <div class="section-header">
           <h2>Server Management</h2>
@@ -79,7 +86,7 @@
         </div>
       </div>
     </div>
-  }
+  </div>
   
   <app-edit-server 
     [server]="selectedServer" 

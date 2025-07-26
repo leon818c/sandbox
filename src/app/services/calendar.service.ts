@@ -48,19 +48,15 @@ export class CalendarService {
   }
 
   async updateCalendarData(dateKey: string, text: string, serverPoints?: { name: string; points: number }[]) {
-    console.log('CalendarService: Updating data for', dateKey, { text, serverPoints });
     
     if (text.trim()) {
       const result = await this.supabase.upsertCalendarEntry(dateKey, text, serverPoints);
-      console.log('CalendarService: Upsert result:', result);
     } else {
       await this.supabase.deleteCalendarEntry(dateKey);
     }
     
     // Reload data to update the subject
-    console.log('CalendarService: Reloading calendar data...');
     await this.loadCalendarData();
-    console.log('CalendarService: Data reloaded');
   }
 
   getCalendarData(): CalendarData {

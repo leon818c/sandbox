@@ -79,13 +79,11 @@ export class SupabaseService {
   }
   
   updateLeaderboardTimestamp() {
-    console.log('Updating leaderboard timestamp to:', new Date().toISOString());
     return this.supabase
       .from('leaderboard_updates')
       .upsert({ id: 1, updated_at: new Date().toISOString() })
       .select()
       .then(result => {
-        console.log('Timestamp update result:', result);
         return result;
       });
   }
@@ -104,7 +102,6 @@ export class SupabaseService {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'leaderboard' },
         (payload) => {
-          console.log('Leaderboard change detected:', payload);
           callback(payload);
         }
       )
@@ -118,7 +115,6 @@ export class SupabaseService {
         'postgres_changes',
         { event: '*', schema: 'public', table: 'servers' },
         (payload) => {
-          console.log('Servers change detected:', payload);
           callback(payload);
         }
       )

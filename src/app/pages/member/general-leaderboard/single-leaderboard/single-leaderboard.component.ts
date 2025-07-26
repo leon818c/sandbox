@@ -22,7 +22,6 @@ export class SingleLeaderboardComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loadLeaderboard();
     this.subscription = this.supabase.listenToServers(() => {
-      console.log('Servers update received');
       this.loadLeaderboard();
     });
   }

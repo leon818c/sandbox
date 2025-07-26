@@ -117,7 +117,6 @@ export class CalendarComponent implements OnInit {
     this.calendarDates = [];
     const today = new Date();
     const calendarData = this.calendarService.getCalendarData();
-    console.log('Admin calendar data:', calendarData);
     
     for (let i = 0; i < 42; i++) {
       const date = new Date(startDate);
@@ -377,7 +376,6 @@ export class CalendarComponent implements OnInit {
   }
   
   async saveCustomText() {
-    console.log('Save button clicked!');
     if (this.selectedDate) {
       // Convert serverPointsList to custom text format
       const customText = this.serverPointsList
@@ -389,19 +387,16 @@ export class CalendarComponent implements OnInit {
         .filter(item => item.name.trim())
         .map(item => ({ name: item.name.trim(), points: item.points, color: item.color }));
       
-      console.log('Saving data:', { customText, serverPoints, dateKey: this.calendarService.getDateKey(this.selectedDate.actualDate) });
       
       try {
         const dateKey = this.calendarService.getDateKey(this.selectedDate.actualDate);
         const result = await this.calendarService.updateCalendarData(dateKey, customText, serverPoints);
-        console.log('Save result:', result);
         
         this.closeEventModal();
       } catch (error) {
         console.error('Error saving calendar data:', error);
       }
     } else {
-      console.log('No selected date!');
     }
   }
   
@@ -496,19 +491,15 @@ export class CalendarComponent implements OnInit {
   }
   
   getServerPointsDisplay(date: CalendarDate): { name: string; points: number; color?: string }[] {
-    console.log('Getting server points for date:', date.day, 'serverPoints:', date.serverPoints, 'customText:', date.customText);
     
     if (date.serverPoints && date.serverPoints.length > 0) {
-      console.log('Using serverPoints data:', date.serverPoints);
       return date.serverPoints.filter(sp => sp && sp.name);
     } else if (date.customText) {
-      console.log('Using customText fallback:', date.customText);
       // Fallback for old entries without points data - show default points
       return date.customText.split('\n')
         .filter(name => name && name.trim())
         .map(name => ({ name: name.trim(), points: 2, color: undefined }));
     }
-    console.log('No data found');
     return [];
   }
   

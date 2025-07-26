@@ -39,10 +39,8 @@ export class LeaderboardComponent implements OnInit {
     this.supabase.getLastLeaderboardUpdate().then(({ data: updateData }) => {
       if (updateData && updateData.length > 0) {
         this.lastUpdated = new Date(updateData[0].updated_at);
-        console.log('Retrieved timestamp from database:', this.lastUpdated);
       } else {
         this.lastUpdated = null;
-        console.log('No timestamp found in database');
       }
     });
     

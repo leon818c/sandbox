@@ -76,7 +76,6 @@ export class GroupComponent implements OnInit {
 
   loadGroups() {
     this.supabase.getGroups().then((response) => {
-      console.log('Load groups response:', response);
       if (response.data) {
         this.groups = response.data.map((group: any) => {
           const members = this.availableServers.filter(server => 
@@ -96,10 +95,8 @@ export class GroupComponent implements OnInit {
             inputValue: 10
           };
         });
-        console.log('Loaded groups:', this.groups);
-        console.log('Groups count:', this.groups.length);
       }
-    })
+    });
   }
 
   closeModal() {
@@ -198,27 +195,19 @@ export class GroupComponent implements OnInit {
       return;
     }
     
-    console.log('Adding group with data:', {
-      name: this.newGroupName,
-      member_ids: this.selectedMemberIds
-    });
-    
     const groupData = {
       name: this.newGroupName,
       member_ids: this.selectedMemberIds
     };
     
     this.supabase.addGroup(groupData).then((response: any) => {
-      console.log('Add group response:', response);
       if (response.error) {
-        console.error('Error adding group:', response.error);
         alert('Error adding group: ' + response.error.message);
         return;
       }
-      console.log('Group added successfully, reloading groups...');
       this.loadGroups();
       this.closeModal();
-    })
+    });
   }
 
   editGroup(group: Group) {
